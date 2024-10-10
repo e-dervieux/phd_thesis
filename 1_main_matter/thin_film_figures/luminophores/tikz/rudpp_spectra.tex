@@ -1,0 +1,36 @@
+\documentclass[tikz, usenames, dvipsnames]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=8cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{amsmath}
+
+
+\begin{document}
+	\begin{tikzpicture}		
+		%\draw[draw=black] (-0.7,-1) rectangle ++(14.5cm,7cm);
+		\begin{axis}[
+			legend cell align={left},
+			tick align=outside,
+			tick pos=left,
+			xlabel={Wavelength (nm)},
+			xmin=350, xmax=700,
+			xtick style={color=black},
+			ylabel={Normalised intensity (A.U.)},
+			ymin=0, ymax=1.05,
+			ytick style={color=black},
+			legend style={fill opacity=1, draw opacity=1, text opacity=1, anchor=south west,xshift=-0.2pt, yshift=-0.2pt, cells={align=left}, at={(0, 0.)}}
+			]
+			
+			\addplot[draw=red, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/rudpp_normalised/abs.csv};
+			\addplot[draw=red, very thick, smooth, line join=round, densely dashdotted] table[col sep=comma, ]{CSVs/rudpp_normalised/em.csv};
+			
+			\addlegendentry{Excitation}
+			\addlegendentry{Emission}
+			
+		\end{axis}
+		
+	\end{tikzpicture}
+	
+\end{document}

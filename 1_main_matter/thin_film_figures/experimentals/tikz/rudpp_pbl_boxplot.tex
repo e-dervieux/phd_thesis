@@ -1,0 +1,325 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=13cm, height=6.8cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage[outline]{contour}
+\contournumber{64}% default is 16, star form uses 32
+\contourlength{.09em}% default is 0.03em
+\usetikzlibrary {arrows.meta}
+\usepackage{gensymb}
+\usetikzlibrary {shadows} 
+
+\begin{document}
+
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+	
+	\definecolor{darkgray176}{RGB}{176,176,176}
+	\definecolor{darkorange25512714}{RGB}{0,0,0} % who needs color anyway, PAINT IT BLACK! BLACK AS NIGHT!
+	
+	\begin{axis}[
+		tick align=outside,
+		tick pos=left,
+		ymajorgrids,
+		x grid style={darkgray176},
+		xmin=0.5, xmax=8.5,
+		xtick style={color=black},
+		xticklabel style={rotate=45, anchor=north east},
+		xtick={1,2,3,4,5,6,7,8},
+		xticklabels={
+			PAN	air (1.64\%),
+			PAN	void (1.11\%),
+			HPMC air (2.08\%),
+			HPMC void (2.36\%),
+			PAN	air (6.61\%),
+			PAN	void (7.80\%),
+			HPMC air (3.07\%),
+			HPMC void (4.25\%)},
+		y grid style={darkgray176},
+		ytick={0,4,8,12},
+		ylabel={Rel. intensity decrease (\%.h$^{-1}$)},
+		ymin=-0.5, ymax=14,
+		ytick style={color=black}
+		]
+		\node[anchor=east, align=right] at (4.5-0.2,10) {$\leftarrow$\\In dry N$_2$};
+		\node[anchor=west, align=left] at (4.5+0.2,10) {$\rightarrow$\\In 38\% RH air};
+		\addplot[very thick, densely dashed, black] table{
+		4.5 -1
+		4.5 14
+		};
+		\addplot [black]
+		table {%
+			0.75 1.37894758058822
+			1.25 1.37894758058822
+			1.25 1.80174159900757
+			0.75 1.80174159900757
+			0.75 1.37894758058822
+		};
+		\addplot [black]
+		table {%
+			1 1.37894758058822
+			1 1.14886769343488
+		};
+		\addplot [black]
+		table {%
+			1 1.80174159900757
+			1 1.84678154126182
+		};
+		\addplot [black]
+		table {%
+			0.875 1.14886769343488
+			1.125 1.14886769343488
+		};
+		\addplot [black]
+		table {%
+			0.875 1.84678154126182
+			1.125 1.84678154126182
+		};
+		
+		\addplot [black]
+		table {%
+			1.75 0.987353105558254
+			2.25 0.987353105558254
+			2.25 1.33495504641925
+			1.75 1.33495504641925
+			1.75 0.987353105558254
+		};
+		\addplot [black]
+		table {%
+			2 0.987353105558254
+			2 0.955782373181995
+		};
+		\addplot [black]
+		table {%
+			2 1.33495504641925
+			2 1.42856704232674
+		};
+		\addplot [black]
+		table {%
+			1.875 0.955782373181995
+			2.125 0.955782373181995
+		};
+		\addplot [black]
+		table {%
+			1.875 1.42856704232674
+			2.125 1.42856704232674
+		};
+		\addplot [black]
+		table {%
+			2.75 1.91687643159298
+			3.25 1.91687643159298
+			3.25 2.91170979845039
+			2.75 2.91170979845039
+			2.75 1.91687643159298
+		};
+		\addplot [black]
+		table {%
+			3 1.91687643159298
+			3 1.65343498553219
+		};
+		\addplot [black]
+		table {%
+			3 2.91170979845039
+			3 4.20368990655977
+		};
+		\addplot [black]
+		table {%
+			2.875 1.65343498553219
+			3.125 1.65343498553219
+		};
+		\addplot [black]
+		table {%
+			2.875 4.20368990655977
+			3.125 4.20368990655977
+		};
+		\addplot [black]
+		table {%
+			3.75 2.15709003541493
+			4.25 2.15709003541493
+			4.25 2.70787005871601
+			3.75 2.70787005871601
+			3.75 2.15709003541493
+		};
+		\addplot [black]
+		table {%
+			4 2.15709003541493
+			4 2.07022869198835
+		};
+		\addplot [black]
+		table {%
+			4 2.70787005871601
+			4 3.18416884397564
+		};
+		\addplot [black]
+		table {%
+			3.875 2.07022869198835
+			4.125 2.07022869198835
+		};
+		\addplot [black]
+		table {%
+			3.875 3.18416884397564
+			4.125 3.18416884397564
+		};
+		\addplot [black]
+		table {%
+			4.75 6.08569573840427
+			5.25 6.08569573840427
+			5.25 7.2190365254983
+			4.75 7.2190365254983
+			4.75 6.08569573840427
+		};
+		\addplot [black]
+		table {%
+			5 6.08569573840427
+			5 5.8124817344505
+		};
+		\addplot [black]
+		table {%
+			5 7.2190365254983
+			5 7.37163407976634
+		};
+		\addplot [black]
+		table {%
+			4.875 5.8124817344505
+			5.125 5.8124817344505
+		};
+		\addplot [black]
+		table {%
+			4.875 7.37163407976634
+			5.125 7.37163407976634
+		};
+		\addplot [black, mark=o, mark size=3, mark options={solid,fill opacity=0}, only marks]
+		table {%
+			5 12.8528941720852
+		};
+		\addplot [black]
+		table {%
+			5.75 7.47727110948682
+			6.25 7.47727110948682
+			6.25 7.90441168840804
+			5.75 7.90441168840804
+			5.75 7.47727110948682
+		};
+		\addplot [black]
+		table {%
+			6 7.47727110948682
+			6 6.92418981657227
+		};
+		\addplot [black]
+		table {%
+			6 7.90441168840804
+			6 8.0889827838875
+		};
+		\addplot [black]
+		table {%
+			5.875 6.92418981657227
+			6.125 6.92418981657227
+		};
+		\addplot [black]
+		table {%
+			5.875 8.0889827838875
+			6.125 8.0889827838875
+		};
+		\addplot [black]
+		table {%
+			6.75 1.97931511842224
+			7.25 1.97931511842224
+			7.25 4.05770409814282
+			6.75 4.05770409814282
+			6.75 1.97931511842224
+		};
+		\addplot [black]
+		table {%
+			7 1.97931511842224
+			7 -0.219407716872499
+		};
+		\addplot [black]
+		table {%
+			7 4.05770409814282
+			7 4.97972132263066
+		};
+		\addplot [black]
+		table {%
+			6.875 -0.219407716872499
+			7.125 -0.219407716872499
+		};
+		\addplot [black]
+		table {%
+			6.875 4.97972132263066
+			7.125 4.97972132263066
+		};
+		\addplot [black]
+		table {%
+			7.75 3.17416265043357
+			8.25 3.17416265043357
+			8.25 5.00498369905535
+			7.75 5.00498369905535
+			7.75 3.17416265043357
+		};
+		\addplot [black]
+		table {%
+			8 3.17416265043357
+			8 2.8180478389275
+		};
+		\addplot [black]
+		table {%
+			8 5.00498369905535
+			8 5.96502404698662
+		};
+		\addplot [black]
+		table {%
+			7.875 2.8180478389275
+			8.125 2.8180478389275
+		};
+		\addplot [black]
+		table {%
+			7.875 5.96502404698662
+			8.125 5.96502404698662
+		};
+		\addplot [darkorange25512714]
+		table {%
+			0.75 1.64333423626119
+			1.25 1.64333423626119
+		};
+		\addplot [darkorange25512714]
+		table {%
+			1.75 1.10546769484817
+			2.25 1.10546769484817
+		};
+		\addplot [darkorange25512714]
+		table {%
+			2.75 2.08420442126522
+			3.25 2.08420442126522
+		};
+		\addplot [darkorange25512714]
+		table {%
+			3.75 2.36244775955068
+			4.25 2.36244775955068
+		};
+		\addplot [darkorange25512714]
+		table {%
+			4.75 6.61410842019297
+			5.25 6.61410842019297
+		};
+		\addplot [darkorange25512714]
+		table {%
+			5.75 7.79868904008809
+			6.25 7.79868904008809
+		};
+		\addplot [darkorange25512714]
+		table {%
+			6.75 3.06668989844657
+			7.25 3.06668989844657
+		};
+		\addplot [darkorange25512714]
+		table {%
+			7.75 4.25420254046127
+			8.25 4.25420254046127
+		};
+		\end{axis}
+	
+\end{tikzpicture}
+
+\end{document}

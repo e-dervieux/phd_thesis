@@ -1,0 +1,491 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=14.cm, height=9cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+
+\begin{document}
+	
+	% This file was created with tikzplotlib v0.10.1.
+	\begin{tikzpicture}
+		
+		\definecolor{blue00245}{RGB}{0,0,245}
+		\definecolor{blue012255}{RGB}{0,12,255}
+		\definecolor{blue048255}{RGB}{0,48,255}
+		\definecolor{cyan0224250}{RGB}{0,224,250}
+		\definecolor{cyan24255221}{RGB}{24,255,221}
+		\definecolor{darkblue00163}{RGB}{0,0,163}
+		\definecolor{darkgray176}{RGB}{176,176,176}
+		\definecolor{darkorange}{RGB}{255,140,0}
+		\definecolor{darkorange2551070}{RGB}{255,107,0}
+		\definecolor{darkred16300}{RGB}{163,0,0}
+		\definecolor{deepskyblue0188255}{RGB}{0,188,255}
+		\definecolor{dodgerblue0116255}{RGB}{0,116,255}
+		\definecolor{dodgerblue0152255}{RGB}{0,152,255}
+		\definecolor{dodgerblue080255}{RGB}{0,80,255}
+		\definecolor{gold2552070}{RGB}{255,207,0}
+		\definecolor{greenyellow16625579}{RGB}{166,255,79}
+		\definecolor{greenyellow19525550}{RGB}{195,255,50}
+		\definecolor{lightgreen108255137}{RGB}{108,255,137}
+		\definecolor{lightgreen137255108}{RGB}{137,255,108}
+		\definecolor{maroon12700}{RGB}{127,0,0}
+		\definecolor{mediumblue00204}{RGB}{0,0,204}
+		\definecolor{navy00127}{RGB}{0,0,127}
+		\definecolor{orange2551740}{RGB}{255,174,0}
+		\definecolor{orangered255440}{RGB}{255,44,0}
+		\definecolor{orangered255770}{RGB}{255,77,0}
+		\definecolor{red20400}{RGB}{204,0,0}
+		\definecolor{red245110}{RGB}{245,11,0}
+		\definecolor{turquoise50255195}{RGB}{50,255,195}
+		\definecolor{turquoise79255166}{RGB}{79,255,166}
+		\definecolor{yellow22125524}{RGB}{221,255,24}
+		\definecolor{yellow2502400}{RGB}{250,240,0}
+		
+		\begin{groupplot}[group style={group size=2 by 1}, height=7cm,width=7.5cm]
+			\nextgroupplot[
+			tick align=outside,
+			tick pos=left,
+			xlabel={Outlier removal epoch},
+			xmin=0, xmax=11.5,
+			xtick style={color=black},
+			ylabel={Number of survivors},
+			ymin=0, ymax=30,
+			ytick style={color=black}
+			]
+			\addplot [semithick, maroon12700]
+			table {%
+				0 30
+				1 27
+				2 16
+				3 6
+				4 1
+			};
+			\addplot [semithick, darkred16300]
+			table {%
+				0 30
+				1 27
+				2 21
+				3 17
+				4 12
+				5 3
+				6 3
+			};
+			\addplot [semithick, red20400]
+			table {%
+				0 30
+				1 27
+				2 21
+				3 17
+				4 12
+				5 3
+				6 3
+			};
+			\addplot [semithick, red245110]
+			table {%
+				0 30
+				1 28
+				2 24
+				3 17
+				4 14
+				5 10
+				6 6
+				7 4
+				8 4
+			};
+			\addplot [semithick, orangered255440]
+			table {%
+				0 30
+				1 28
+				2 24
+				3 19
+				4 16
+				5 12
+				6 10
+				7 6
+				8 5
+				9 5
+			};
+			\addplot [semithick, orangered255770]
+			table {%
+				0 30
+				1 29
+				2 25
+				3 21
+				4 18
+				5 16
+				6 13
+				7 11
+				8 9
+				9 8
+				10 7
+				11 7
+			};
+			\addplot [semithick, darkorange2551070]
+			table {%
+				0 30
+				1 29
+				2 26
+				3 23
+				4 19
+				5 17
+				6 15
+				7 13
+				8 12
+				9 12
+			};
+			\addplot [semithick, darkorange]
+			table {%
+				0 30
+				1 29
+				2 27
+				3 25
+				4 22
+				5 18
+				6 16
+				7 14
+				8 13
+				9 12
+				10 12
+			};
+			\addplot [semithick, orange2551740]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 26
+				4 25
+				5 22
+				6 20
+				7 17
+				8 16
+				9 16
+			};
+			\addplot [semithick, gold2552070]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 26
+				4 25
+				5 23
+				6 21
+				7 21
+			};
+			\addplot [semithick, yellow2502400]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 26
+				4 25
+				5 24
+				6 22
+				7 21
+				8 21
+			};
+			\addplot [semithick, yellow22125524]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 27
+				4 26
+				5 25
+				6 24
+				7 24
+			};
+			\addplot [semithick, greenyellow19525550]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 27
+				4 26
+				5 25
+				6 24
+				7 24
+			};
+			\addplot [semithick, greenyellow16625579]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 28
+			};
+			\addplot [semithick, lightgreen137255108]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 28
+			};
+			\addplot [semithick, lightgreen108255137]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 28
+			};
+			\addplot [semithick, turquoise79255166]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 28
+			};
+			\addplot [semithick, turquoise50255195]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 28
+			};
+			\addplot [semithick, cyan24255221]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 28
+			};
+			\addplot [semithick, cyan0224250]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 28
+			};
+			\addplot [semithick, deepskyblue0188255]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 28
+			};
+			\addplot [semithick, dodgerblue0152255]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 28
+			};
+			\addplot [semithick, dodgerblue0116255]
+			table {%
+				0 30
+				1 29
+				2 28
+				3 28
+			};
+			\addplot [semithick, dodgerblue080255]
+			table {%
+				0 30
+				1 29
+				2 29
+			};
+			\addplot [semithick, blue048255]
+			table {%
+				0 30
+				1 29
+				2 29
+			};
+			\addplot [semithick, blue012255]
+			table {%
+				0 30
+				1 29
+				2 29
+			};
+			\addplot [semithick, blue00245]
+			table {%
+				0 30
+				1 29
+				2 29
+			};
+			\addplot [semithick, mediumblue00204]
+			table {%
+				0 30
+				1 29
+				2 29
+			};
+			\addplot [semithick, darkblue00163]
+			table {%
+				0 30
+				1 29
+				2 29
+			};
+			\addplot [semithick, navy00127]
+			table {%
+				0 30
+				1 29
+				2 29
+			};
+			
+			\nextgroupplot[
+			tick align=outside,
+			tick pos=left,
+			xlabel={Threshold value (in S.D.)},
+			xmin=1.5, xmax=5,
+			xtick style={color=black},
+			ymin=0, ymax=30,
+			ytick style={color=black}
+			]
+			\addplot [semithick, black, mark=x, mark size=3, mark options={solid}]
+			table {%
+				1.5 1
+				1.62068965517241 3
+				1.74137931034483 3
+				1.86206896551724 4
+				1.98275862068966 5
+				2.10344827586207 7
+				2.22413793103448 12
+				2.3448275862069 12
+				2.46551724137931 16
+				2.58620689655172 21
+				2.70689655172414 21
+				2.82758620689655 24
+				2.94827586206897 24
+				3.06896551724138 28
+				3.18965517241379 28
+				3.31034482758621 28
+				3.43103448275862 28
+				3.55172413793103 28
+				3.67241379310345 28
+				3.79310344827586 28
+				3.91379310344828 28
+				4.03448275862069 28
+				4.1551724137931 28
+				4.27586206896552 29
+				4.39655172413793 29
+				4.51724137931035 29
+				4.63793103448276 29
+				4.75862068965517 29
+				4.87931034482759 29
+				5 29
+			};
+			\addplot [semithick, maroon12700, mark=x, mark size=3, mark options={solid}]
+			table {%
+				1.5 1
+			};
+			\addplot [semithick, darkred16300, mark=x, mark size=3, mark options={solid}]
+			table {%
+				1.62068965517241 3
+			};
+			\addplot [semithick, red20400, mark=x, mark size=3, mark options={solid}]
+			table {%
+				1.74137931034483 3
+			};
+			\addplot [semithick, red245110, mark=x, mark size=3, mark options={solid}]
+			table {%
+				1.86206896551724 4
+			};
+			\addplot [semithick, orangered255440, mark=x, mark size=3, mark options={solid}]
+			table {%
+				1.98275862068966 5
+			};
+			\addplot [semithick, orangered255770, mark=x, mark size=3, mark options={solid}]
+			table {%
+				2.10344827586207 7
+			};
+			\addplot [semithick, darkorange2551070, mark=x, mark size=3, mark options={solid}]
+			table {%
+				2.22413793103448 12
+			};
+			\addplot [semithick, darkorange, mark=x, mark size=3, mark options={solid}]
+			table {%
+				2.3448275862069 12
+			};
+			\addplot [semithick, orange2551740, mark=x, mark size=3, mark options={solid}]
+			table {%
+				2.46551724137931 16
+			};
+			\addplot [semithick, gold2552070, mark=x, mark size=3, mark options={solid}]
+			table {%
+				2.58620689655172 21
+			};
+			\addplot [semithick, yellow2502400, mark=x, mark size=3, mark options={solid}]
+			table {%
+				2.70689655172414 21
+			};
+			\addplot [semithick, yellow22125524, mark=x, mark size=3, mark options={solid}]
+			table {%
+				2.82758620689655 24
+			};
+			\addplot [semithick, greenyellow19525550, mark=x, mark size=3, mark options={solid}]
+			table {%
+				2.94827586206897 24
+			};
+			\addplot [semithick, greenyellow16625579, mark=x, mark size=3, mark options={solid}]
+			table {%
+				3.06896551724138 28
+			};
+			\addplot [semithick, lightgreen137255108, mark=x, mark size=3, mark options={solid}]
+			table {%
+				3.18965517241379 28
+			};
+			\addplot [semithick, lightgreen108255137, mark=x, mark size=3, mark options={solid}]
+			table {%
+				3.31034482758621 28
+			};
+			\addplot [semithick, turquoise79255166, mark=x, mark size=3, mark options={solid}]
+			table {%
+				3.43103448275862 28
+			};
+			\addplot [semithick, turquoise50255195, mark=x, mark size=3, mark options={solid}]
+			table {%
+				3.55172413793103 28
+			};
+			\addplot [semithick, cyan24255221, mark=x, mark size=3, mark options={solid}]
+			table {%
+				3.67241379310345 28
+			};
+			\addplot [semithick, cyan0224250, mark=x, mark size=3, mark options={solid}]
+			table {%
+				3.79310344827586 28
+			};
+			\addplot [semithick, deepskyblue0188255, mark=x, mark size=3, mark options={solid}]
+			table {%
+				3.91379310344828 28
+			};
+			\addplot [semithick, dodgerblue0152255, mark=x, mark size=3, mark options={solid}]
+			table {%
+				4.03448275862069 28
+			};
+			\addplot [semithick, dodgerblue0116255, mark=x, mark size=3, mark options={solid}]
+			table {%
+				4.1551724137931 28
+			};
+			\addplot [semithick, dodgerblue080255, mark=x, mark size=3, mark options={solid}]
+			table {%
+				4.27586206896552 29
+			};
+			\addplot [semithick, blue048255, mark=x, mark size=3, mark options={solid}]
+			table {%
+				4.39655172413793 29
+			};
+			\addplot [semithick, blue012255, mark=x, mark size=3, mark options={solid}]
+			table {%
+				4.51724137931035 29
+			};
+			\addplot [semithick, blue00245, mark=x, mark size=3, mark options={solid}]
+			table {%
+				4.63793103448276 29
+			};
+			\addplot [semithick, mediumblue00204, mark=x, mark size=3, mark options={solid}]
+			table {%
+				4.75862068965517 29
+			};
+			\addplot [semithick, darkblue00163, mark=x, mark size=3, mark options={solid}]
+			table {%
+				4.87931034482759 29
+			};
+			\addplot [semithick, navy00127, mark=x, mark size=3, mark options={solid}]
+			table {%
+				5 29
+			};
+		\end{groupplot}
+		
+	\end{tikzpicture}
+	
+	
+\end{document}

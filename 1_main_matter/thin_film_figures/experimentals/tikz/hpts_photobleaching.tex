@@ -1,0 +1,58 @@
+\documentclass[tikz, usenames, dvipsnames]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{height=7.11cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usetikzlibrary{decorations.pathreplacing, calligraphy}
+
+\def\myline{very thick}
+
+\begin{document}
+	\begin{tikzpicture}
+
+\begin{axis}[
+tick align=outside,
+tick pos=left,
+width=13cm,
+xlabel={Time (s)},
+xmin=0, xmax=3100,
+xtick style={color=black},
+xtick = {0, 500, 1000, 1500, 2000, 2500, 3000},
+ylabel={Relative fluorescence intensity (\%)},
+ymin=89.5, ymax=100.5,
+ytick style={color=black},
+legend cell align=left,
+legend style={
+	fill opacity=1,
+	draw opacity=1,
+	text opacity=1,
+	at={(1, 1)},
+	anchor=north east,
+	legend columns=1,
+	xshift=+0.2pt,
+	yshift=+0.2pt,
+	draw=black,
+	cells={align=left},
+},
+]
+
+\addplot [semithick, black] table[col sep=comma] {CSVs/hpts_photobleaching_data.csv};
+
+\addplot [\myline, red, densely dashdotted] table[col sep=comma] {CSVs/hpts_photobleaching_model.csv};
+
+\addlegendentry{Measured data};
+\addlegendentry{Exponential fit:};
+
+\addplot [draw opacity=0] (0, 0);
+\addlegendentry{
+	$y = e^{-\frac{t}{\tau_\text{\sc{PBL}}}}$\\
+	$\tau_\text{\sc{PBL}} \approx 8.37~\text{h}$\\
+	$R^2 \approx 0.997$
+	};
+
+\end{axis}
+
+\end{tikzpicture}
+\end{document}

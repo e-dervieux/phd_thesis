@@ -1,0 +1,19 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=14.cm, height=9cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+
+\begin{document}
+\begin{tikzpicture}[every node/.style={inner sep=0,outer sep=0}]
+\node[draw=none,fill=none, anchor=south west] at (0,0){\includegraphics[height=7cm]{../g1.pdf}};
+\node[anchor=west] at (2.0,5.8) {tcpCO$_2$ monitor};
+\node[anchor=west, align=left] at (2.1,4.8) {Rate sensor \textnumero{}1\\(with Doppler)};
+\node[anchor=west, align=left] at (1.8,1.9) {Rate sensor \textnumero{}2\\(without Doppler)};
+\node[draw=none,fill=none, anchor=south west] at (5.0,0){\includegraphics[height=7cm]{../g2.pdf}};
+\end{tikzpicture}
+\end{document}

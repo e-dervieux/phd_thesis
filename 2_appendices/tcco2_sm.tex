@@ -1,0 +1,122 @@
+\chapter{Technical Information on the Transcutaneous \texorpdfstring{CO$_\textbf{2}$}{CO2} Conductivity Measurements}\label{app:tcco2_sm}
+
+\begin{appbox}
+	Back to Section~\ref{subsect:tcco2:mat_sensor}\hfill \hyperref[chapter:toc]{Main Table Of Content (TOC)}
+\end{appbox}
+
+\section{Sensor Design}
+
+\subsection{Mechanical Drawings}
+
+Complete mechanical drawings of the sensor's aluminium body are given at the end of the present document, in page \pageref{annapp:al_body_drawing}. Aluminium was chosen for its high thermal conductivity---134~W.m$^{-1}$.K$^{-1}$---as well as its low density---2.79\cite{euralliage2017a}. The choice of pure copper was also considered, as it has a higher thermal conductivity than aluminium---401~W.m$^{-1}$.K$^{-1}$---but it is alas also much denser---with a density of 8.9\cite{davis2001_copper}. As it seemed desirable to make the sensor as lightweight as possible in order to minimise skin blood flow perturbations, aluminium was ultimately chosen. Indeed, several works indicate that even a mild---\ie{} above 10~mmHg / 1.3~kPa---local cutaneous pressure can significantly impact local blood flow\cite{daly1976, sacks1988, anosov2020}. Besides, aluminium does not oxidise as copper does, and can be considered safe for skin contact, as further discussed in Section \ref{annsect:dermato}.
+
+\subsection{Power and Supply Block}
+
+The power and supply block is illustrated in Figure \ref{annfig:photo_jig}, Left. It consists in:
+
+\begin{enumerate}
+	\item[--] an interfacing \gls{pcb} similar to that used on top of the sensor, which enables connection with the latter by mean of an eight-pins microfit Molex cable,
+	\item[--] a thermostat board (XH-W1209, Shenzhen Global Technology, China) allowing for the temperature regulation of the sensor's aluminium body,% yes this means dirt-chip noname 3€/board Aliexpress stuff!
+	\item[--] a \gls{usb} to \gls{uart} converter (CP2102, Silicon Labs, USA), which enables connection between the \gls{co2} sensor---through \gls{uart}---and the computer---through \gls{usb},
+	\item[--] a 230~V-AC to 12~V-DC / 10~A switching power supply onto which the afore-mentioned elements are affixed by mean of a 3D-printed contraption (black plate in Figure \ref{annfig:photo_jig}),
+	\item[--] a 3D-printed cover (not shown) that prevents contact with any exposed electrical conductor, while allowing the \gls{usb} and Molex cables to be plugged, and the temperature to be adjusted.
+\end{enumerate}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{2_appendices/figures/photo_jig_comp}
+	\caption[Power and supply block and adhesive mounting jig.]{\textbf{Left:} the power and supply block. \textbf{Right:} the adhesive mounting jig with---from top to bottom---the sensor, the centring layer, the adhesive stuck onto its release liner, and the chassis.}\label{annfig:photo_jig}
+\end{figure}
+
+\subsection{Adhesive Tooling}
+
+A custom mounting jig was developed to ensure an accurate and reproducible positioning of the laser-cut, double-sided, clinical-grade tape (1567, 3M, USA) onto the sensor's sole. It is represented in Figure \ref{annfig:photo_jig}, Right, and allows the user to: \Circled{1} put a release liner---with the adhesive stuck on it---onto a chassis, positioning it by means of the four steel studs integrated into the latter, \Circled{2} add a centring layer above the liner, and \Circled{3} stick the sensor onto the adhesive, with the centring of the former being ensured by an appropriate cut made into the centring layer. Finally, when \Circled{4} the user removes the sensor, the adhesive remains stuck onto it, precisely aligned, and the release liner remains onto the chassis. The sensor is then ready to be applied on a subject's skin.
+
+\subsection{Safety Issues}\label{annsect:safety_issue}
+
+Three distinct safety concerns have been identified regarding the application of the sensor on the skin of human subjects: thermal injury hazard, dermatological reaction hazard, and electric shock hazard.
+
+\subsubsection{Thermal Injury Hazard}\label{annsect:temp_harm}
+
+Given the relatively low thermal power of the heating wire (6.1~W), the temperature of the sensor cannot reach excessive values within minutes, even in case of thermostat malfunction. Would the latter occur, both the investigator and the subject would notice it thanks to the external reference thermometer, and cutaneous sensation, respectively. In addition, the enamelled resistive wire is covered by two quad rings, guaranteeing that neither the subject nor the investigator may touch it directly during the experimentations.
+
+The only relevant source of thermal injury is thus long term burn. Literature on the topic suggests a maximum long-term skin temperature of 42{\degree}C, but higher temperatures can be used for a limited amount of time---up to 45{\degree}C for a few minutes for instance\cite{lawrence1976}, or up to several hours depending on the study\cite{moritz1947}. In the medical practice of \gls{ptco2} monitoring, temperatures up to 45$\degree$C were used for up to one hour\cite{wimberley1985a} or 42{\degree}C for eight hours\cite{bendjelid2005}. Temperatures in the 40--44{\degree}C are also often encountered, since temperatures above 42{\degree}C yield the most accurate \gls{ptco2} measurements\cite{conway2018}. Legally speaking, the \gls{fda} guidance for \gls{ptco2} monitors recommends not to exceed 44{\degree}C for more than four hours\cite{fda_transcut}. Consequently, since the sensor will not be used for more than 90~min on each subject, a highest temperature set-point of 44{\degree}C was deemed safe.
+
+\subsubsection{Dermatological Reaction Hazard}\label{annsect:dermato}
+
+The body of the sensor is made out of solid aluminium, which is vastly inert towards the skin. Indeed, most allergic reactions related to aluminium come from aluminium ions used in vaccines and not from solid metal\cite{flint1998, hindsen2018}. Although some rare case of reaction to thin solid aluminium particles have been reported, they concern factory workers being exposed daily to aluminium dust for months---if not years---prior to sensitisation\cite{hall1944, peters1998}. Thus, it was considered most unlikely that the subjects exhibit any reaction to the aluminium sensor's body.
+
+Then, the other parts of the sensor that may be in close contact with the skin are the Doppler probe and double-sided adhesive. Since both the latter were designed for skin application and are medical-grade products, any adversarial reaction with the skin is also highly unlikely to happen.
+
+Finally, for hygienic reasons, the sensor was also cleaned with a disposable paper towel soaked in a 70\% isopropyl alcohol / 30\% water mixture prior to measurements, which is standard medical practice for disinfection.
+
+\subsubsection{Electric Shock Hazard}
+
+The supply block is designed so that no bare high voltage conductor is exposed. Additionally, all the electrical connections to and from the sensor itself are only raised to low voltage---12~V at most---ensuring that no electric shock can possibly happen, even if the insulation of one or several wires were to fail.
+
+\section{\texorpdfstring{\gls{ptco2}}{tcpCO2} Extraction}
+
+The subject's capnia was monitored using a clinical grade transcutaneous capnometer (TCM4, Radiometer, Denmark), which recorded \gls{ptco2} at a sampling rate of 1~min$^{-1}$. In order to get only one \gls{ptco2} value per temperature window---as required for $K$ calculations---the raw \gls{ptco2} signal was processed as follows:
+
+\begin{itemize}
+	\item[--] the first ten minutes of the acquisition were truncated to allow the sensor to stabilise,
+	\item[--] the remaining acquisition was split in five segments, each segment corresponding to a temperature window---\gls{nh}, 35, 38, 41 and 44{\degree}C,
+	\item[--] for each segment, the measured \gls{ptco2} was then averaged to yield a single value, which was then used to compute $K$, as described in the companion paper.
+\end{itemize}
+
+This approach was deemed appropriate since \gls{ptco2} in healthy resting subjects was fairly stable (mean / median standard deviation on all acquisitions: 0.92 / 0.78~mmHg).
+
+\section{Box-Plot Descriptive Statistics}
+
+Mean, ranges, and SD of $K$ and nSkBF$_{90}$ measurements are given in Table \ref{anntable:ks_values} and \ref{anntable:nskbf_values}, respectively.
+
+\def\arraystretch{1.25}
+\begin{table}
+	\centering
+	\begin{minipage}{.5\linewidth}
+		\centering
+		\begin{tabular}{c|c|c|c}
+			{Arm} & Mean & Range & SD \\ \hline
+			NH & 4.03 & 1.18--10.40 & 2.03\\
+			35{\degree}C & 6.58 & 2.46--12.50 & 2.26 \\
+			38{\degree}C & 7.17 & 3.07--13.60 & 2.19 \\
+			41{\degree}C & 7.95 & 3.98--15.30 & 2.24 \\
+			44{\degree}C & 8.88 & 5.42--15.90 & 2.28
+		\end{tabular}	
+	\end{minipage}%
+	\begin{minipage}{.5\linewidth}
+		\centering
+		\begin{tabular}{c|c|c|c}
+			{Wrist} & Mean & Range & SD \\ \hline
+			NH & 2.94 & 1.24--6.36 & 1.11 \\
+			35{\degree}C & 5.08 & 1.44--10.90 & 1.89 \\
+			38{\degree}C & 5.93 & 1.37--12.30 & 2.15 \\
+			41{\degree}C & 7.06 & 1.82--13.80 & 2.39 \\
+			44{\degree}C & 8.11 & 2.37--15.20 & 2.37
+		\end{tabular}	
+	\end{minipage}
+	\caption{Measured skin conductivities $K$ at the arm and wrist, expressed in $\times 10^7$m$\cdot$s$^{-1}$.}\label{anntable:ks_values}
+\end{table}
+
+\def\arraystretch{1.25}
+\begin{table}
+	\centering
+	\begin{tabular}{c|c|c|c}
+		{} & Mean & Range & SD \\ \hline
+		NH & 9.11 & 3.34--32.51 & 4.77\\
+		35{\degree}C & 18.77 & 7.39--55.88 & 8.89 \\
+		38{\degree}C & 37.87 & 16.55--80.59 & 13.38 \\
+		41{\degree}C & 69.01 & 42.93--96.27 & 12.02
+	\end{tabular}	
+	\caption{nSkBF$_{90}$ as measured at the arm, expressed in percentages (arbitrary unit).}\label{anntable:nskbf_values}
+\end{table}
+
+\begin{appbox}
+	Back to Section~\ref{subsect:tcco2:mat_sensor}\hfill \hyperref[chapter:toc]{Main Table Of Content (TOC)}
+\end{appbox}
+
+\clearpage
+% \appendix
+\global\pdfpageattr\expandafter{\the\pdfpageattr/Rotate 90}
+\includepdf[angle=90, addtotoc={1,section,1,Aluminium Block Drawing,annapp:al_body_drawing}]{2_appendices/figures/sensor_body.pdf}
+\global\pdfpageattr\expandafter{\the\pdfpageattr/Rotate 0}

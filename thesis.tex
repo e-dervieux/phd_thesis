@@ -1,0 +1,65 @@
+% !TeX program = lualatex
+% !TeX TXS-program:bibliography = txs:///biber
+% !TeX encoding = utf8
+% !TeX spellcheck = en_GB
+
+\input{preamble.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\includeonly{1_main_matter/4_choosing_techno.tex}
+%\includeonly{1_main_matter/5_thin_film.tex}
+%\includeonly{1_main_matter/6_conclusion.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+	
+	% Frontpage
+	\includepdf[pages={1}]{0_front_matter/0_front_page.pdf}\label{frontpage}
+	\hphantom{The Headless Horseman}\thispagestyle{empty}
+	\vfill \hrule \vspace{3mm} \noindent This thesis is under CC BY 4.0 license. \hfill \today{}
+	
+	% Unused
+	\title{Non-Invasive Transcutaneous Characterisation of Blood Carbon Dioxide (CO2) Content}
+	\author{Emmanuel DERVIEUX}
+	\date{\today}
+	
+	% Front matter and ToC, ToF, ToT, Glossaries
+	\frontmatter
+	\include{0_front_matter/1_foreword.tex}
+	\include{0_front_matter/2_acknowledgements.tex}
+	\tableofcontents\label{chapter:toc}
+	\listoffigures
+	\listoftables
+	\printglossaries
+	\glsresetall
+	
+	% Main Matter
+	\mainmatter
+	\include{1_main_matter/1_intro.tex}
+	\include{1_main_matter/2_co2hb.tex}
+	\include{1_main_matter/3_tcco2.tex}
+	\include{1_main_matter/4_choosing_techno.tex}
+	\include{1_main_matter/5_thin_film.tex}
+	\include{1_main_matter/6_conclusion.tex}
+	
+	% ↓ Removes "belle page" for appendices
+	\cleardoublepage\makeatletter\@openrightfalse\makeatother
+	
+	% Appendices
+	\appendix
+	\include{2_appendices/tonometer.tex}
+	\include{2_appendices/spectrum_pruning_algorithm.tex}
+	\include{2_appendices/self_quenching.tex}
+	\include{2_appendices/tcco2_sm.tex}
+	\include{2_appendices/optical_design.tex}
+	\include{2_appendices/screen_printing.tex}
+	
+	% Back Matter
+	\backmatter
+	\include{3_back_matter/biblio.tex}
+	\include{3_back_matter/add_ack.tex}
+	
+	\begin{titlepage}
+		\includepdf[pages={1}]{3_back_matter/last_page.pdf}
+	\end{titlepage}
+\end{document}

@@ -1,0 +1,345 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=13cm, height=6.8cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{gensymb}
+
+\begin{document}
+
+\begin{tikzpicture}
+	% Tikzplotlib made this, yeah! I guess.
+	\definecolor{darkgray176}{RGB}{176,176,176}
+	\definecolor{darkorange25512714}{RGB}{0,0,0} % Black is the new orange
+	
+	\begin{axis}[
+		tick align=outside,
+		%tick pos=left,
+		%ymajorgrids,
+		x grid style={darkgray176},
+		xmin=0.5, xmax=8.5,
+		xtick style={color=black},
+		xticklabel style={rotate=45, anchor=north east},
+		xtick={},
+		xticklabels={},
+		ytick={-52,-50,-48, -46},
+		yticklabels={4.07, 3.79, 3.54, 3.30},
+		y grid style={darkgray176},
+		ymin=-52.5, ymax=-45,
+		ytick style={color=black},
+		axis y line*=right,
+		axis x line=none,
+		ylabel={$\tau_\text{R}$ (\textmu{}s)},
+		]
+	\end{axis}
+	
+	\begin{axis}[
+		tick align=outside,
+		tick pos=left,
+		ymajorgrids,
+		x grid style={darkgray176},
+		xmin=0.5, xmax=8.5,
+		xtick style={color=black},
+		xticklabel style={rotate=45, anchor=north east},
+		xtick={1,2,3,4,5,6,7,8},
+		xticklabels={
+			PAN	air (-51.45{\degree}),
+			PAN	void (-51.67{\degree}),
+			HPMC air (-50.71{\degree}),
+			HPMC void (-50.57{\degree}),
+			PAN	air (-51.16{\degree}),
+			PAN	void (-51.20{\degree}),
+			HPMC air (-47.86{\degree}),
+			HPMC void (-47.58{\degree})},
+		ytick={-52, -50, -48, -46},
+		y grid style={darkgray176},
+		ylabel={$\varphi_\text{mes}$ (\degree)},
+		ymin=-52.5, ymax=-45,
+		ytick style={color=black}
+		]
+		\node[anchor=east, align=right] at (4.5-0.2,-47) {$\leftarrow$\\In dry N$_2$};
+		\node[anchor=west, align=left] at (4.5+0.2,-47) {$\rightarrow$\\In 38\% RH air};
+		\addplot[very thick, densely dashed, black] table{
+		4.5 -53
+		4.5 -40
+		};
+		\addplot [black]
+		table {%
+			0.75 -51.8376112789424
+			1.25 -51.8376112789424
+			1.25 -51.3244388204008
+			0.75 -51.3244388204008
+			0.75 -51.8376112789424
+		};
+		\addplot [black]
+		table {%
+			1 -51.8376112789424
+			1 -52.0280257993131
+		};
+		\addplot [black]
+		table {%
+			1 -51.3244388204008
+			1 -51.2053815828674
+		};
+		\addplot [black]
+		table {%
+			0.875 -52.0280257993131
+			1.125 -52.0280257993131
+		};
+		\addplot [black]
+		table {%
+			0.875 -51.2053815828674
+			1.125 -51.2053815828674
+		};
+		\addplot [black]
+		table {%
+			1.75 -51.71354138941
+			2.25 -51.71354138941
+			2.25 -51.6271024019925
+			1.75 -51.6271024019925
+			1.75 -51.71354138941
+		};
+		\addplot [black]
+		table {%
+			2 -51.71354138941
+			2 -51.7718271979835
+		};
+		\addplot [black]
+		table {%
+			2 -51.6271024019925
+			2 -51.5426619466825
+		};
+		\addplot [black]
+		table {%
+			1.875 -51.7718271979835
+			2.125 -51.7718271979835
+		};
+		\addplot [black]
+		table {%
+			1.875 -51.5426619466825
+			2.125 -51.5426619466825
+		};
+		\addplot [black]
+		table {%
+			2.75 -51.1149929358946
+			3.25 -51.1149929358946
+			3.25 -50.6843293066208
+			2.75 -50.6843293066208
+			2.75 -51.1149929358946
+		};
+		\addplot [black]
+		table {%
+			3 -51.1149929358946
+			3 -51.3198751979468
+		};
+		\addplot [black]
+		table {%
+			3 -50.6843293066208
+			3 -50.659517256312
+		};
+		\addplot [black]
+		table {%
+			2.875 -51.3198751979468
+			3.125 -51.3198751979468
+		};
+		\addplot [black]
+		table {%
+			2.875 -50.659517256312
+			3.125 -50.659517256312
+		};
+		\addplot [black]
+		table {%
+			3.75 -50.7070277678586
+			4.25 -50.7070277678586
+			4.25 -50.4619135973864
+			3.75 -50.4619135973864
+			3.75 -50.7070277678586
+		};
+		\addplot [black]
+		table {%
+			4 -50.7070277678586
+			4 -50.8726544983335
+		};
+		\addplot [black]
+		table {%
+			4 -50.4619135973864
+			4 -50.4359218566523
+		};
+		\addplot [black]
+		table {%
+			3.875 -50.8726544983335
+			4.125 -50.8726544983335
+		};
+		\addplot [black]
+		table {%
+			3.875 -50.4359218566523
+			4.125 -50.4359218566523
+		};
+		\addplot [black]
+		table {%
+			4.75 -51.3064937909205
+			5.25 -51.3064937909205
+			5.25 -51.0758629857709
+			4.75 -51.0758629857709
+			4.75 -51.3064937909205
+		};
+		\addplot [black]
+		table {%
+			5 -51.3064937909205
+			5 -51.4714751904902
+		};
+		\addplot [black]
+		table {%
+			5 -51.0758629857709
+			5 -50.7793457786929
+		};
+		\addplot [black]
+		table {%
+			4.875 -51.4714751904902
+			5.125 -51.4714751904902
+		};
+		\addplot [black]
+		table {%
+			4.875 -50.7793457786929
+			5.125 -50.7793457786929
+		};
+		\addplot [black]
+		table {%
+			5.75 -51.2493886091559
+			6.25 -51.2493886091559
+			6.25 -51.1389369074655
+			5.75 -51.1389369074655
+			5.75 -51.2493886091559
+		};
+		\addplot [black]
+		table {%
+			6 -51.2493886091559
+			6 -51.2695257453094
+		};
+		\addplot [black]
+		table {%
+			6 -51.1389369074655
+			6 -51.1176152958903
+		};
+		\addplot [black]
+		table {%
+			5.875 -51.2695257453094
+			6.125 -51.2695257453094
+		};
+		\addplot [black]
+		table {%
+			5.875 -51.1176152958903
+			6.125 -51.1176152958903
+		};
+		\addplot [black]
+		table {%
+			6.75 -48.0704405316527
+			7.25 -48.0704405316527
+			7.25 -47.6708829128293
+			6.75 -47.6708829128293
+			6.75 -48.0704405316527
+		};
+		\addplot [black]
+		table {%
+			7 -48.0704405316527
+			7 -48.1256963858673
+		};
+		\addplot [black]
+		table {%
+			7 -47.6708829128293
+			7 -47.4016908173555
+		};
+		\addplot [black]
+		table {%
+			6.875 -48.1256963858673
+			7.125 -48.1256963858673
+		};
+		\addplot [black]
+		table {%
+			6.875 -47.4016908173555
+			7.125 -47.4016908173555
+		};
+		\addplot [black, mark=o, mark size=3, mark options={solid,fill opacity=0}, only marks]
+		table {%
+			7 -48.7205965051231
+		};
+		\addplot [black]
+		table {%
+			7.75 -47.7318812621547
+			8.25 -47.7318812621547
+			8.25 -47.4315132824196
+			7.75 -47.4315132824196
+			7.75 -47.7318812621547
+		};
+		\addplot [black]
+		table {%
+			8 -47.7318812621547
+			8 -47.7404064455079
+		};
+		\addplot [black]
+		table {%
+			8 -47.4315132824196
+			8 -47.4252203295316
+		};
+		\addplot [black]
+		table {%
+			7.875 -47.7404064455079
+			8.125 -47.7404064455079
+		};
+		\addplot [black]
+		table {%
+			7.875 -47.4252203295316
+			8.125 -47.4252203295316
+		};
+		\addplot [black, mark=o, mark size=3, mark options={solid,fill opacity=0}, only marks]
+		table {%
+			8 -48.3682093464489
+			8 -46.192143360792
+		};
+		\addplot [darkorange25512714]
+		table {%
+			0.75 -51.4477433175024
+			1.25 -51.4477433175024
+		};
+		\addplot [darkorange25512714]
+		table {%
+			1.75 -51.6736654203697
+			2.25 -51.6736654203697
+		};
+		\addplot [darkorange25512714]
+		table {%
+			2.75 -50.71409518549
+			3.25 -50.71409518549
+		};
+		\addplot [darkorange25512714]
+		table {%
+			3.75 -50.5717580496944
+			4.25 -50.5717580496944
+		};
+		\addplot [darkorange25512714]
+		table {%
+			4.75 -51.1572879082175
+			5.25 -51.1572879082175
+		};
+		\addplot [darkorange25512714]
+		table {%
+			5.75 -51.1983298665709
+			6.25 -51.1983298665709
+		};
+		\addplot [darkorange25512714]
+		table {%
+			6.75 -47.8628824081929
+			7.25 -47.8628824081929
+		};
+		\addplot [darkorange25512714]
+		table {%
+			7.75 -47.5783489265895
+			8.25 -47.5783489265895
+		};
+		\end{axis}
+	
+	
+\end{tikzpicture}
+
+\end{document}

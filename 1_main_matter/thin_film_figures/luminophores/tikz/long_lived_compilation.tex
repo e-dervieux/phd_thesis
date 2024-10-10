@@ -1,0 +1,195 @@
+\documentclass[tikz, usenames, dvipsnames]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=12.cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usepgfplotslibrary{fillbetween}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+\DeclareMathSymbol{\cdot}{\mathord}{symbols}{"01} % shortens space around cdot
+
+\begin{document}
+	
+	\begin{tikzpicture}
+		\begin{groupplot}[
+			group style={
+				group size= 1 by 2,
+				group name=abs_group,
+				x descriptions at=edge bottom,
+				y descriptions at=edge left,
+			},
+			xmin=210, xmax=800,
+			]
+			
+			\nextgroupplot[
+			tick align=outside,
+			tick pos=left,
+			height=5cm,
+			x grid style={darkgray176},
+			xmin=210, xmax=700,
+			xtick style={color=black},
+			y grid style={darkgray176},
+			scaled y ticks=false,
+			ytick={5e4, 1E5, 1.5E5, 2e5, 2.5E5},
+			yticklabels={5,10,15,20,25},
+			ymin=3e4, ymax=2.7e5,
+			ytick style={color=black},
+			]
+			
+			% PtOEP
+			\addplot[draw=Maroon, very thick, smooth, line join=round] table[col sep=comma, skip first n=1]{CSVs/long_lived/PtOEP_abs.csv};
+			\addplot[draw=Maroon, very thick, smooth, line join=round, densely dashed] table[col sep=comma, skip first n=1]{CSVs/long_lived/PtOEP_em.csv};
+			
+			% Pyrene
+			\addplot[draw=blue, very thick, smooth, line join=round] table[col sep=comma, skip first n=1]{CSVs/long_lived/Pyrene_abs.csv};
+			\addplot[draw=blue, very thick, smooth, line join=round, densely dashed] table[col sep=comma, skip first n=1]{CSVs/long_lived/Pyrene_em.csv};
+			
+			% Ru-bpy
+			\addplot[draw=Rhodamine, very thick, smooth, line join=round] table[col sep=comma, skip first n=1]{CSVs/long_lived/Ru-bpy_abs.csv};
+			\addplot[draw=Rhodamine, very thick, smooth, line join=round, densely dashed] table[col sep=comma, skip first n=1]{CSVs/long_lived/Ru-bpy_em.csv};
+			
+			\nextgroupplot[
+			legend cell align={left},
+			legend style={fill opacity=1, draw opacity=1, text opacity=1, draw=black, anchor=south,xshift=-0.0pt, yshift=+0.0pt, cells={align=left}, legend columns=2, transpose legend},
+			tick align=outside,
+			tick pos=left,
+			x grid style={darkgray176},
+			xlabel={Wavelength (nm)},
+			xmin=210, xmax=700,
+			xtick style={color=black},
+			y grid style={darkgray176},
+			scaled y ticks=false,
+			ytick={0, 1E4, 2E4, 3E4},
+			yticklabels={0,1,2,3},
+			ymin=0., ymax=30000.,
+			ytick style={color=black},
+			yshift=1cm,
+			legend to name=mylegend,
+			]
+			\addplot[draw=black, solid, very thick] coordinates {
+				(600, -1e-3)
+				(700, -1e-3)};
+			\addlegendentry{Absorption}
+			\addplot[draw=black, densely dashed, very thick] coordinates {
+				(600, -1e-3)
+				(700, -1e-3)};
+			\addlegendentry{Emission}
+			\addplot[draw=Green, fill=Green, area legend] (1,1);
+			\addlegendentry{HPTS}
+			\addplot[draw=Maroon, fill=Maroon, area legend] (1,1);
+			\addlegendentry{PtOEP}
+			\addplot[draw=blue, fill=blue, area legend] (1,1);
+			\addlegendentry{Pyrene}
+			\addplot[draw=Rhodamine, fill=Rhodamine, area legend] (1,1);
+			\addlegendentry{Ru-bpy}
+			\addplot[draw=red, fill=red, area legend] (1,1);
+			\addlegendentry{Ru-dpp}
+			\addplot[draw=orange, fill=orange, area legend] (1,1);
+			\addlegendentry{Ru-pn}
+			
+			\addplot[draw=none, name path=xabs] coordinates {
+				(210, -1e-3)
+				(600, -1e-3)};
+			\addplot[draw=none, name path=xem] coordinates {
+				(450, -1e-3)
+				(650, -1e-3)};
+			
+			% HPTS
+			\addplot[draw=Green, very thick, smooth, line join=round, name path=hptsabs] table[col sep=comma, skip first n=1]{CSVs/photochemcad/hpts_abs.csv};
+			\addplot[draw=Green, very thick, smooth, line join=round, densely dashed, name path=hptsem] table[col sep=comma, skip first n=1]{CSVs/photochemcad/hpts_em.csv};
+			\addplot[Green!30] fill between[of=hptsabs and xabs];
+			\addplot[Green!30] fill between[of=hptsem and xem];
+			
+			% PtOEP
+			\addplot[draw=Maroon, very thick, smooth, line join=round] table[col sep=comma, skip first n=1]{CSVs/long_lived/PtOEP_abs.csv};
+			\addplot[draw=Maroon, very thick, smooth, line join=round, densely dashed] table[col sep=comma, skip first n=1]{CSVs/long_lived/PtOEP_em.csv};
+			
+			% Pyrene
+			\addplot[draw=blue, very thick, smooth, line join=round] table[col sep=comma, skip first n=1]{CSVs/long_lived/Pyrene_abs.csv};
+			\addplot[draw=blue, very thick, smooth, line join=round, densely dashed] table[col sep=comma, skip first n=1]{CSVs/long_lived/Pyrene_em.csv};
+			
+			% Ru-bpy
+			\addplot[draw=Rhodamine, very thick, smooth, line join=round] table[col sep=comma, skip first n=1]{CSVs/long_lived/Ru-bpy_abs.csv};
+			\addplot[draw=Rhodamine, very thick, smooth, line join=round, densely dashed] table[col sep=comma, skip first n=1]{CSVs/long_lived/Ru-bpy_em.csv};
+			
+			% Ru-dpp
+			\addplot[draw=red, very thick, smooth, line join=round] table[col sep=comma, skip first n=1]{CSVs/long_lived/Ru-dpp_abs.csv};
+			\addplot[draw=red, very thick, smooth, line join=round, densely dashed] table[col sep=comma, skip first n=1]{CSVs/long_lived/Ru-dpp_em.csv};
+			
+			% Ru-pn
+			\addplot[draw=orange, very thick, smooth, line join=round] table[col sep=comma, skip first n=1]{CSVs/long_lived/Ru-pn_abs.csv};
+			\addplot[draw=orange, very thick, smooth, line join=round, densely dashed] table[col sep=comma, skip first n=1]{CSVs/long_lived/Ru-pn_em.csv};
+			
+		\end{groupplot}
+		
+		\node [right=-13.5mm,anchor=north, rotate=90] at
+		($(abs_group c1r1.north west)!0.5!(abs_group c1r2.south west)$)
+		{Absorption $\varepsilon$ ($10^4$.cm$^{-1}$.M$^{-1}$)};
+		
+		
+		%%%%%%%%%%%%%%%
+		% Emission plot
+		%%%%%%%%%%%%%%%
+		
+		\begin{groupplot}[
+			group style={
+				group size= 1 by 2,
+				group name=em_group,
+				x descriptions at=edge bottom,
+				y descriptions at=edge left,
+			},
+			xmin=210, xmax=800,
+			]
+			
+			\nextgroupplot[
+			height=5cm,
+			axis y line*=right,
+			axis x line=none,
+			tick align=outside,
+			xmin=210, xmax=700,
+			scaled y ticks=false,
+			ytick={5e4, 10E4, 15E4, 20E4, 25E4},
+			yticklabels={5,10,15,20,25},
+			ymin=3e4, ymax=2.7e5,
+			ytick style={color=black},
+			]
+			
+			\addplot coordinates{
+				(600,-1e-3)
+				(600,-1e-3)
+			};
+			
+			\nextgroupplot[
+			axis y line*=right,
+			axis x line=none,
+			tick align=outside,
+			xmin=210, xmax=700,
+			scaled y ticks=false,
+			ytick={0, 1E4, 2E4, 3E4},
+			yticklabels={0,1,2,3},
+			ymin=0., ymax=3e4,
+			ytick style={color=black},
+			yshift=1cm,
+			]
+			\addplot[draw=black, solid, very thick] coordinates {
+				(600, -1e-3)
+				(700, -1e-3)};
+			
+		\end{groupplot}
+		
+		\node [right=+7.5mm,anchor=north, rotate=90] at
+		($(em_group c1r1.north east)!0.5!(abs_group c1r2.south east)$)
+		{Emission $\varepsilon \cdot \Phi_\mathrm{F}$ (A.U.)};
+		
+		\node [right=0mm,anchor=south] at
+		($(abs_group c1r1.north west)!0.5!(abs_group c1r1.north east)$)
+		{\pgfplotslegendfromname{mylegend}};
+		
+		\pgfresetboundingbox
+		\path(-1.3,4.6) rectangle + (13.,-11.15);
+		% Fo unkwnown reasons, the "fill between" command creates some whitespace below, and "clip" does not work either. There is surely a very good reason to this state of affair, but I can't help banging my head on my keyboard, cursing the devs who made this happen.
+		%\clip (-1.3,4.6) rectangle + (13.,-11.15);
+	\end{tikzpicture}
+\end{document}

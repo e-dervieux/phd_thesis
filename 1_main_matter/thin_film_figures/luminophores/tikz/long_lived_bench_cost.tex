@@ -1,0 +1,82 @@
+\documentclass[tikz, usenames, dvipsnames]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=13.5cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usepackage{eurosym}
+\usepgfplotslibrary{fillbetween}
+ \usepgflibrary {shadings} 
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+
+% Also weird as hell, but if the shaded areas are given a "Green" fill they appear "green" and not "Green", thus I created my own "mygrn" color from RGB, which corresponds to dvipsnames "Green". Kill me please.
+\definecolor{mygrn}{RGB}{0,166,80}
+
+\begin{document}
+	
+	\begin{tikzpicture}	
+	\begin{axis}[
+	legend cell align={left},
+	legend style={fill opacity=1, draw opacity=1, text opacity=1, draw=black, anchor=north east,xshift=+0.2pt, yshift=+0.2pt, cells={align=left}, legend columns=3, at={(1, 1)}},
+	tick align=outside,
+	tick pos=left,
+	axis on top,
+	x grid style={darkgray176},
+	xlabel={Excitation wavelength $\lambda_\mathrm{ex}$ (nm)},
+	ylabel={Collected light / \euro{} (A.U.)},
+	xmin=220, xmax=500,
+	xtick style={color=black},
+	y grid style={darkgray176},
+	scaled y ticks=false,
+	ymode=log,
+	ymin=2.5e-5, ymax=1.1,
+	ytick style={color=black},
+	yshift=1cm,
+	]
+	
+	% LED / No LED
+	\addplot[very thick, gray, forget plot, fill=gray!30] coordinates {(275, 1e-5) (275, 10) (200, 10) (200, 1e-5)};
+	\node[anchor=east] at (axis cs:275-2,5e-5) {No LEDs};
+	\node[anchor=west] at (axis cs:275+2,5e-5) {Affordable LEDs};
+	
+	% HPTS fill under
+	\addplot[line join=round, draw=none, forget plot, left color=white, right color=white, middle color=mygrn!70] table[col sep=comma]{CSVs/cost/HPTS_clip_short.csv};
+	\addplot[line join=round, draw=none, forget plot, left color=white, right color=mygrn!70] table[col sep=comma]{CSVs/cost/HPTS_clip_long.csv};
+	\addplot[line join=round, draw=none, forget plot, fill=mygrn!70] table[col sep=comma]{CSVs/cost/HPTS_clip_longer.csv};
+	
+	% HPTS isoem
+	\addplot[very thick, Green, forget plot, mark=*] coordinates {(417, 0.06222)};
+	\addplot[very thick, Green, forget plot, densely dashdotted] coordinates {(417, 1e-5) (417, 0.06222)};
+	\node[anchor=east, Green] at (axis cs:417,0.085) {Isoem. (417~nm)};
+	
+	% HPTS
+	\addplot[draw=Green, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/cost/hpts_cost.csv};
+	
+	% PtOEP
+	\addplot[draw=Maroon, very thick, smooth, line join=round] table[col sep=comma]{CSVs/cost/PtOEP_cost.csv};
+	
+	% Pyrene
+	\addplot[draw=blue, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/cost/Pyrene_cost.csv};
+	
+	% Ru-bpy
+	\addplot[draw=Rhodamine, very thick, smooth, line join=round] table[col sep=comma]{CSVs/cost/Ru-bpy_cost.csv};
+	
+	% Ru-dpp
+	\addplot[draw=red, very thick, smooth, line join=round] table[col sep=comma]{CSVs/cost/Ru-dpp_cost.csv};
+	
+	% Ru-pn
+	\addplot[draw=orange, very thick, smooth, line join=round] table[col sep=comma]{CSVs/cost/Ru-pn_cost.csv};
+	
+	\addlegendentry{HPTS}
+	\addlegendentry{PtOEP}
+	\addlegendentry{Pyrene}
+	\addlegendentry{Ru-bpy}
+	\addlegendentry{Ru-dpp}
+	\addlegendentry{Ru-pn}
+			
+	\end{axis}
+	
+	\end{tikzpicture}
+\end{document}

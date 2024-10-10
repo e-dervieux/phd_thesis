@@ -1,0 +1,57 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=13.5cm, height=8cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{green01780}{RGB}{0,178,0}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+\begin{axis}[
+legend style={at={(1,1)},anchor=north east, xshift=+0.2pt, yshift=+0.2pt,
+},
+legend cell align=left,
+log basis y={10},
+tick align=outside,
+tick pos=left,
+xlabel={Wavelength (nm)},
+xmin=235, xmax=1000,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={Absorbance (a.u.)},
+ymin=0.03, ymax=1.38,
+ymode=log,
+ytick style={color=black},
+]
+\addplot [thick, red]
+table[col sep=comma, ]{CSVs/hb_arb_scale/o2hb_uv_vis.csv};
+\addplot [thick, blue]
+table[col sep=comma, ]{CSVs/hb_arb_scale/n2hb_uv_vis.csv};
+\addplot [thick, green01780]
+table[col sep=comma, ]{CSVs/hb_arb_scale/co2hb_uv_vis.csv};
+\addplot [thick, red, forget plot]
+table[col sep=comma, ]{CSVs/hb_arb_scale/o2hb_vis_ir.csv};
+\addplot [thick, blue, forget plot]
+table[col sep=comma, ]{CSVs/hb_arb_scale/n2hb_vis_ir.csv};
+\addplot [thick, green01780, forget plot]
+table[col sep=comma, ]{CSVs/hb_arb_scale/co2hb_vis_ir.csv};
+\addplot [thick, black, densely dotted, forget plot]
+table {%
+585 0.037
+608 0.0464
+};
+\addplot [thick, black, densely dotted, forget plot]
+table {%
+585 1.121
+608 1.121
+};
+\legend{O$_2$Hb (Air),HHb (N$_2$),CO$_2$Hb (CO$_2$)}
+\end{axis}
+\end{tikzpicture}
+
+\end{document}

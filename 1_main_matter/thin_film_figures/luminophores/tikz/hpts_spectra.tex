@@ -1,0 +1,124 @@
+\documentclass[tikz, usenames, dvipsnames]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=6.25cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{amsmath}
+
+\definecolor{mc1}{rgb}{0.050383, 0.029803, 0.527975}
+\definecolor{mc2}{rgb}{0.299855, 0.009561, 0.631624}
+\definecolor{mc3}{rgb}{0.494877, 0.01199, 0.657865}
+\definecolor{mc4}{rgb}{0.665129, 0.138566, 0.585582}
+\definecolor{mc5}{rgb}{0.798216, 0.280197, 0.469538}
+\definecolor{mc6}{rgb}{0.901807, 0.425087, 0.359688}
+\definecolor{mc7}{rgb}{0.973416, 0.585761, 0.25154}
+\definecolor{mc8}{rgb}{0.993033, 0.77172, 0.154808}
+
+\usetikzlibrary{positioning}
+\makeatletter
+\tikzset{
+	block filldraw/.style={% only the fill and draw styles
+		draw, fill=yellow!20},
+	block rect/.style={% fill, draw + rectangle (without measurements)
+		block filldraw, rectangle},
+	block/.style={% fill, draw, rectangle + minimum measurements
+		block rect, minimum height=0.8cm, minimum width=6em},
+	from/.style args={#1 to #2}{% without transformations
+		above right={0cm of #1},% needs positioning library
+		/utils/exec=\pgfpointdiff
+		{\tikz@scan@one@point\pgfutil@firstofone(#1)\relax}
+		{\tikz@scan@one@point\pgfutil@firstofone(#2)\relax},
+		minimum width/.expanded=\the\pgf@x,
+		minimum height/.expanded=\the\pgf@y}}
+\makeatother
+
+\begin{document}
+	\begin{tikzpicture}		
+		%\draw[draw=black] (-0.7,-1) rectangle ++(14.5cm,7cm);
+		\begin{groupplot}[group style={group size=2 by 1, horizontal sep=2.6cm}]
+			%
+			\nextgroupplot[
+			legend cell align={left},
+			tick align=outside,
+			tick pos=left,
+			xlabel={Wavelength (nm)},
+			xmin=350, xmax=500,
+			xtick style={color=black},
+			ylabel={Absorbance (A.U.)},
+			ylabel shift=-0.5cm,
+			ytick={0,0.5},
+			yticklabels={0,},
+			ymin=0, ymax=0.5,
+			ytick style={color=black},
+			legend style={fill opacity=1, draw opacity=1, text opacity=1, draw=none, anchor=west,xshift=+0.2pt, yshift=+0.0pt, cells={align=left}, at={(1, 0.5)}}
+			]
+			
+			\addplot[transparent, very thick, smooth, line join=round] coordinates {(350,-1)};
+			\addplot[draw=mc1, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/abs/pH_1.0.csv};
+			\addplot[draw=mc2, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/abs/pH_6.36.csv};
+			\addplot[draw=mc3, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/abs/pH_6.94.csv};
+			\addplot[draw=mc4, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/abs/pH_7.24.csv};
+			\addplot[draw=mc5, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/abs/pH_7.64.csv};
+			\addplot[draw=mc6, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/abs/pH_7.97.csv};
+			\addplot[draw=mc7, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/abs/pH_8.37.csv};
+			\addplot[draw=mc8, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/abs/pH_13.0.csv};
+			
+			\addlegendentry{\hspace{-.3cm}pH:}
+			\addlegendentry{1.0}
+			\addlegendentry{6.36}
+			\addlegendentry{6.94}
+			\addlegendentry{7.24}
+			\addlegendentry{7.64}
+			\addlegendentry{7.97}
+			\addlegendentry{8.37}
+			\addlegendentry{13.0}
+			
+			\coordinate (topl) at (axis cs:500,0);
+			\coordinate (botl) at (axis cs:555,0.5);
+			
+			\nextgroupplot[
+			legend cell align={left},
+			tick align=outside,
+			tick pos=left,
+			xlabel={Wavelength (nm)},
+			xtick style={color=black},
+			xmin=450, xmax=600,
+			ylabel={Fluorescence intensity (A.U.)},
+			ytick={0,10},
+			yticklabels={0,},
+			ylabel shift=-0.5cm,
+			ymin=0, ymax=10,
+			ytick style={color=black},
+			legend style={fill opacity=1, draw opacity=1, text opacity=1, draw=none, anchor=west,xshift=+0.2pt, yshift=+0.0pt, cells={align=left}, at={(1, 0.5)}}
+			]
+			
+			\addplot[transparent, very thick, smooth, line join=round] coordinates {(350,-1)};
+			\addplot[draw=mc1, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/em/pH_3.44.csv};
+			\addplot[draw=mc2, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/em/pH_6.61.csv};
+			\addplot[draw=mc3, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/em/pH_7.04.csv};
+			\addplot[draw=mc4, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/em/pH_7.30.csv};
+			\addplot[draw=mc5, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/em/pH_7.60.csv};
+			\addplot[draw=mc6, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/em/pH_8.26.csv};
+			\addplot[draw=mc7, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/wolfbeis1983_csv/em/pH_10.92.csv};
+			
+			\addlegendentry{\hspace{-.3cm}pH:}
+			\addlegendentry{3.44}
+			\addlegendentry{6.61}
+			\addlegendentry{7.04}
+			\addlegendentry{7.30}
+			\addlegendentry{7.60}
+			\addlegendentry{8.26}
+			\addlegendentry{10.92}
+			
+			\coordinate (topr) at (axis cs:600,0);
+			\coordinate (botr) at (axis cs:659,10);
+			
+		\end{groupplot}
+		
+		\node[block rect, from={topl to botl}, fill opacity=0, draw=black, xshift=-0.2pt, yshift=-0.2pt] {};
+		\node[block rect, from={topr to botr}, fill opacity=0, draw=black, xshift=-0.2pt, yshift=-0.2pt] {};
+		
+	\end{tikzpicture}
+	
+\end{document}

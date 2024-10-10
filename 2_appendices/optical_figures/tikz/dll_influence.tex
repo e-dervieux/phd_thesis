@@ -1,0 +1,45 @@
+\documentclass[tikz, usenames, dvipsnames]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{width=12.cm, height=6cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{amsmath}
+\definecolor{darkgray176}{RGB}{176,176,176}
+
+\begin{document}
+
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+\begin{axis}[
+legend cell align={left},
+legend style={at={(1,0)}, xshift=+0.2pt, yshift=-0.2pt, anchor=south east},
+tick align=outside,
+tick pos=left,
+axis on top,
+xlabel={$d_{LL}$ (mm)},
+xmin=0, xmax=100,
+xtick style={color=black},
+ylabel={Relative power $E_P$ (\%)},
+ymin=3.8, ymax=6.1,
+ytick style={color=black}
+]
+
+\addplot [very thick, Green, line join=round, smooth]
+table[col sep=comma] {CSVs/dll_influence_sl_18_lp_20.csv};
+\addplot [very thick, blue, line join=round, smooth, densely dashed]
+table[col sep=comma] {CSVs/dll_influence_sl_20_lp_18.csv};
+\addplot [very thick, red, line join=round, smooth, dashdotted]
+table[col sep=comma] {CSVs/dll_influence_sl_20_lp_20.csv};
+\addplot [very thick, orange, line join=round, smooth, densely dotted]
+table[col sep=comma] {CSVs/dll_influence_sl_20_lp_22.csv};
+\addplot [very thick, violet, line join=round, smooth, dashed]
+table[col sep=comma] {CSVs/dll_influence_sl_22_lp_20.csv};
+
+\addlegendentry{$d_{SL} = 18$~mm, $d_{LP} = 20$~mm}
+\addlegendentry{$d_{SL} = 20$~mm, $d_{LP} = 18$~mm}
+\addlegendentry{$d_{SL} = 20$~mm, $d_{LP} = 20$~mm}
+\addlegendentry{$d_{SL} = 20$~mm, $d_{LP} = 22$~mm}
+\addlegendentry{$d_{SL} = 22$~mm, $d_{LP} = 20$~mm}
+
+\end{axis}
+\end{tikzpicture}
+\end{document}

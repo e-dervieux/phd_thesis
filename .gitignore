@@ -1,0 +1,8 @@
+out/*
+versions/*
+**/.idea
+bib_src
+**/.DS_Store
+**/out/**
+*.doc
+*.docx

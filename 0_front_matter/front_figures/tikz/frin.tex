@@ -1,0 +1,22 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+\usepackage{fontspec}
+\usetikzlibrary{decorations.text}
+
+\begin{document}
+	\begin{tikzpicture}
+		\node[rotate=45, anchor=mid west] at (0.1,0.1) {further};
+		\begin{scope}[cm={1,0,0,1,(1.3,1.3)}]
+		\path[
+		decorate,
+		rotate = 224,
+		decoration={text along path,
+			text={research {\,} is {\,} needed},
+			text align=center,
+		}
+		] (0,0) circle (0.6cm);
+	\end{scope}
+	\pgfresetboundingbox % useful to respect the bounding box exactly
+	\useasboundingbox (0,0) rectangle (2,2);
+	\end{tikzpicture}
+\end{document}

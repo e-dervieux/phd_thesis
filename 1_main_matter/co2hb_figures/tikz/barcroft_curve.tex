@@ -1,0 +1,44 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=10cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{amsmath}
+
+\begin{document}
+	
+	\begin{tikzpicture}
+		
+		
+		\begin{axis}[
+			tick align=outside,
+			tick pos=left,
+			x grid style={black},
+			xlabel={pO$_2$ (mmHg)},
+			xmin=0, xmax=150,
+			xtick style={color=black},
+			y grid style={black},
+			ylabel={oxygen saturation (\%)},
+			ymin=0.0, ymax=105,
+			ytick style={color=black},
+			]
+			\addplot [draw=red, thick, smooth]
+			table[col sep=semicolon]{CSVs/severinghaus1966.csv};
+			% NOTE about the code below :
+			% Actually, we can't really do this because this curve is not the same for the arterial and veinous blood, due to pH changes caused by more CO2. See Nunn's Respiratory Physiology chapter 7.
+			%\draw[red, radius=1.2, fill=red, anchor=center] (axis cs:100,97.5) circle node[below]{$A$}; % Arterial
+			%\draw[red, radius=1.2, fill=red, anchor=center] (axis cs:40,74.3) circle node[left]{$V$}; % Veinous
+			%
+		\end{axis}
+		\begin{axis}[
+			axis x line* = top,
+			axis y line = none,
+			xtick align=outside,
+			xmin=0, xmax= 150/760*100,
+			xlabel={pO$_2$ (kPa)}]
+			\addplot[opacity=0,domain=2.5:7.5] {x};
+		\end{axis}
+	\end{tikzpicture}
+	
+\end{document}

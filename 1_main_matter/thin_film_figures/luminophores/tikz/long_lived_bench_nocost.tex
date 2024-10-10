@@ -1,0 +1,61 @@
+\documentclass[tikz, usenames, dvipsnames]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=13.5cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usepgfplotslibrary{fillbetween}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+\DeclareMathSymbol{\cdot}{\mathord}{symbols}{"01} % shortens space around cdot
+
+\begin{document}
+	
+	\begin{tikzpicture}	
+	\begin{axis}[
+	legend cell align={left},
+	legend style={fill opacity=1, draw opacity=1, text opacity=1, draw=black, anchor=north west,xshift=-0.2pt, yshift=+0.2pt, cells={align=left}, legend columns=3, at={(0, 1)}},
+	tick align=outside,
+	tick pos=left,
+	x grid style={darkgray176},
+	xlabel={Excitation wavelength $\lambda_\mathrm{ex}$ (nm)},
+	ylabel={$\mathcal{S}_\mathrm{L,PD}$ (A.U.)},
+	xmin=220, xmax=500,
+	xtick style={color=black},
+	y grid style={darkgray176},
+	scaled y ticks=false,
+	ymode=log,
+	ymin=0.004, ymax=4,
+	ytick style={color=black},
+	yshift=1cm,
+	]
+	
+	% HPTS
+	\addplot[draw=Green, very thick, smooth, line join=round, name path=hptsabs] table[col sep=comma, ]{CSVs/nocost/hpts_nocost.csv};
+	
+	% PtOEP
+	\addplot[draw=Maroon, very thick, smooth, line join=round] table[col sep=comma]{CSVs/nocost/PtOEP_nocost.csv};
+	
+	% Pyrene
+	\addplot[draw=blue, very thick, smooth, line join=round] table[col sep=comma, ]{CSVs/nocost/Pyrene_nocost.csv};
+	
+	% Ru-bpy
+	\addplot[draw=Rhodamine, very thick, smooth, line join=round] table[col sep=comma]{CSVs/nocost/Ru-bpy_nocost.csv};
+	
+	% Ru-dpp
+	\addplot[draw=red, very thick, smooth, line join=round] table[col sep=comma]{CSVs/nocost/Ru-dpp_nocost.csv};
+	
+	% Ru-pn
+	\addplot[draw=orange, very thick, smooth, line join=round] table[col sep=comma]{CSVs/nocost/Ru-pn_nocost.csv};
+	
+	\addlegendentry{HPTS}
+	\addlegendentry{PtOEP}
+	\addlegendentry{Pyrene}
+	\addlegendentry{Ru-bpy}
+	\addlegendentry{Ru-dpp}
+	\addlegendentry{Ru-pn}
+			
+	\end{axis}
+	\end{tikzpicture}
+\end{document}

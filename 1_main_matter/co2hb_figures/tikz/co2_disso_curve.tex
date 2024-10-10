@@ -1,0 +1,76 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=12cm, height=8cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usepackage[version=4]{mhchem}
+\usepgfplotslibrary{fillbetween}
+
+\def\mhbcolor{red!60}
+\def\mbicarcolor{blue!60}
+\def\mdisscolor{gray!60}
+\def\minpco{15}
+\def\maxpco{100}
+\def\maxcco{32}
+
+\begin{document}
+	
+	\begin{tikzpicture}
+		
+		
+		\begin{axis}[
+			tick align=outside,
+			tick pos=left,
+			x grid style={black},
+			xlabel={paCO$_2$ (mmHg)},
+			xmin=\minpco, xmax=\maxpco,
+			xtick style={color=black},
+			y grid style={black},
+			ylabel={Blood CO$_2$ content (mM)},
+			ymin=0.0, ymax=\maxcco,
+			ytick style={color=black},
+			legend style={at={(1,0.24)},anchor=south east, xshift=+0.2pt, yshift=-0.2pt,
+			%legend image post style={line width=2pt},
+			},
+			legend cell align=left,
+			]
+			% TOTAL
+			\addplot[domain = \minpco:\maxpco, samples = 500,	smooth,	very thick,	black, name path=total] {20.65*((x/40)^0.45)};
+			\addplot[black, mark=*, only marks] coordinates {(40,20.65)};
+			% Bicarbonate
+			\addplot[draw=blue, thick, smooth, name path=bicarbonate] table[col sep=comma, forget plot]{CSVs/bicarbonate.csv};
+			% Dissolved
+			\addplot[domain = \minpco:\maxpco, samples = 2,	smooth,	thick,	gray, name path=dissolved, forget plot] {0.231*x/760*100};
+			% Zero line
+			\addplot[domain = \minpco:\maxpco, samples = 2,	smooth,	thick,	name path=zeroline, draw=none, forget plot] {0};
+			% HCO3-, pH eq 6.10 + np.log10(19/(0.231*40/760*100))
+			%\addplot[domain = \minpco:\maxpco, samples = 400,	smooth,	thick,	blue] {0.231*x/760*100 * 10^(7.2938-6.1)};
+			\addplot[\mhbcolor] fill between[of=bicarbonate and total];
+			\addplot[\mbicarcolor] fill between[of=dissolved and bicarbonate];
+			\addplot[\mdisscolor] fill between[of=zeroline and dissolved];
+			\legend{Total CO$_2$, Arterial eq., Carbamates, \ce{[HCO3^-]}, \ce{[CO2_{(gas)}]}}
+			\addplot[draw = black, thick, densely dashed] coordinates {(40, 0) (40, 20.65)};
+			\addplot[draw = black, thick, densely dashed] coordinates {(0, 20.65) (40, 20.65)};
+		\end{axis}
+		% Other axes for usual units
+		\begin{axis}[
+			axis x line* = top,
+			axis y line = none,
+			xmin=\minpco/760*100, xmax= \maxpco/760*100,
+			xtick align=outside,
+			xlabel={paCO$_2$ (kPa)}]
+			\addplot[opacity=0,domain=2.5:7.5] {x}; %<- ghost plot
+		\end{axis}
+		\begin{axis}[
+			axis x line = none,
+			axis y line* = right,
+			ymin=0, ymax= 2.543636812*\maxcco,
+			ytick align=outside,
+			ylabel={Blood CO$_2$ content (mL.dL$^{-1}$)}]
+			\addplot[opacity=0,domain=2.5:7.5] {x}; %<- ghost plot
+		\end{axis}
+	\end{tikzpicture}
+	
+\end{document}

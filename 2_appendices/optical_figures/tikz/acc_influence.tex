@@ -1,0 +1,57 @@
+\documentclass[tikz, usenames, dvipsnames]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=6.cm, height=6cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepgfplotslibrary{fillbetween}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+
+\begin{document}
+
+\begin{tikzpicture}
+\begin{groupplot}[group style={group size=2 by 1}]
+
+\nextgroupplot[
+legend cell align={left},
+tick align=outside,
+tick pos=left,
+axis on top,
+x grid style={darkgray176},
+xlabel={$n_\mathrm{pts}$},
+xmin=0, xmax=1000,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={Relative power $E_L$ (\%)},
+ymin=16.25, ymax=16.35,
+ytick style={color=black}
+]
+\addplot[very thick, densely dashed, red] coordinates {(0, 16.338) (1e3, 16.338)};
+\addplot [very thick, blue]
+table[col sep=comma] {CSVs/acc_pts_influence.csv};
+
+\nextgroupplot[
+legend cell align={left},
+tick align=outside,
+tick pos=left,
+axis on top,
+x grid style={darkgray176},
+xlabel={$n_\mathrm{rays}$},
+xmin=0, xmax=1000,
+xtick style={color=black},
+y grid style={darkgray176},
+ymin=15, ymax=16.5,
+ytick style={color=black},
+legend style={anchor=south east, at={(1,0)}, xshift=+0.2pt, yshift=-0.2pt},
+]
+\addplot[very thick, densely dashed, red] coordinates {(0, 16.338) (1e3, 16.338)};
+\addplot [very thick, blue]
+table[col sep=comma] {CSVs/acc_rays_influence.csv};
+\addlegendentry{Ground truth}
+\addlegendentry{Ray tracing result}
+
+\end{groupplot}
+
+\end{tikzpicture}
+\end{document}

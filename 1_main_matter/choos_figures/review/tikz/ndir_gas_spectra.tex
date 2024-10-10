@@ -1,0 +1,82 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=12.5cm, height=9cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{amsmath}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkorange}{RGB}{255,140,0}
+\definecolor{darkviolet}{RGB}{148,0,211}
+\definecolor{forestgreen}{RGB}{34,139,34}
+\definecolor{lightgray204}{RGB}{204,204,204}
+\definecolor{pink}{RGB}{255,192,203}
+
+% I used a raster image here because the original data comes from HITRAN, and each spike corresponds actually to many spectral lines. Retrieving the raw Lorentzian-broadened data as CSV resulted in over 40MB of data for this single figure. Doing a PNG export of only ~400KB was thus a sane compromise.
+
+\begin{document}
+
+\begin{tikzpicture}
+\begin{axis}[
+legend cell align={left},
+legend style={fill opacity=1, draw opacity=1, text opacity=1, draw=black, at={(1.025,0.5)},anchor=west,},
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xlabel={Wavelength ($\mu$m)},
+xmajorgrids,
+xmin=1, xmax=17,
+xminorgrids,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={Absorption (cm$^{-1}$)},
+ymajorgrids,
+ymin=0.01, ymax=400,
+yminorgrids,
+ymode=log,
+ytick style={color=black},
+]
+\addplot[forget plot] graphics[xmin=1,ymin=0.01,xmax=17,ymax=1000] {raster_images/ndir_gas_spectra.png};
+\addplot [very thick, blue, opacity=0.7]
+table {%
+	-1 1
+	};
+\addlegendentry{CH$_4$}
+\addplot [very thick, darkviolet, opacity=0.7]
+table {%
+	-1 1
+};
+\addlegendentry{CO}
+\addplot [very thick, black, opacity=0.7]
+table {%
+	-1 1
+};
+\addlegendentry{H$_2$O}
+\addplot [very thick, red, opacity=0.7]
+table {%
+	-1 1
+};
+\addlegendentry{CO$_2$}
+\addplot [very thick, darkorange, opacity=0.7]
+table {%
+	-1 1
+};
+\addlegendentry{NH$_3$}
+\addplot [very thick, forestgreen, opacity=0.7]
+table {%
+	-1 1
+};
+\addlegendentry{O$_3$}
+\addplot [very thick, pink, opacity=0.7]
+table {%
+	-1 1
+};
+\addlegendentry{NO}
+\addplot [very thick, green, opacity=0.7] table {%
+	-1 1
+};
+\addlegendentry{NO$_2$}
+\end{axis}
+\end{tikzpicture}
+\end{document}

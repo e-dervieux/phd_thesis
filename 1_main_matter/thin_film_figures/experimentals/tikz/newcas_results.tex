@@ -1,0 +1,243 @@
+\documentclass[tikz, usenames, dvipsnames]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usetikzlibrary{decorations.pathreplacing, calligraphy}
+
+\tikzset{every picture/.style={font issue=\small},
+	font issue/.style={execute at begin picture={#1\selectfont}}
+}
+
+\def\myline{very thick}
+\def\mysep{2.8cm}
+\def\myleftw{6.1cm}
+\def\myrightw{7.1cm}
+
+\pgfplotsset{
+	every first x axis line/.style={},
+	every first y axis line/.style={},
+	every first z axis line/.style={},
+	every second x axis line/.style={},
+	every second y axis line/.style={},
+	every second z axis line/.style={},
+	first x axis line style/.style={/pgfplots/every first x axis line/.append style={#1}},
+	first y axis line style/.style={/pgfplots/every first y axis line/.append style={#1}},
+	first z axis line style/.style={/pgfplots/every first z axis line/.append style={#1}},
+	second x axis line style/.style={/pgfplots/every second x axis line/.append style={#1}},
+	second y axis line style/.style={/pgfplots/every second y axis line/.append style={#1}},
+	second z axis line style/.style={/pgfplots/every second z axis line/.append style={#1}}
+}
+
+\makeatletter
+\def\pgfplots@drawaxis@outerlines@separate@onorientedsurf#1#2{%
+	\if2\csname pgfplots@#1axislinesnum\endcsname
+	% centered axis lines handled elsewhere.
+	\else
+	\scope[/pgfplots/every outer #1 axis line,
+	#1discont,decoration={pre length=\csname #1disstart\endcsname, post length=\csname #1disend\endcsname}]
+	\pgfplots@ifaxisline@B@onorientedsurf@should@be@drawn{0}{%
+		\draw [/pgfplots/every first #1 axis line] decorate {
+			\pgfextra
+			% exchange roles of A <-> B axes:
+			\pgfplotspointonorientedsurfaceabsetupfor{#2}{#1}{\pgfplotspointonorientedsurfaceN}%
+			\pgfplots@drawgridlines@onorientedsurf@fromto{\csname pgfplots@#2min\endcsname}%
+			\endpgfextra 
+		};
+	}{}%
+	\pgfplots@ifaxisline@B@onorientedsurf@should@be@drawn{1}{%
+		\draw [/pgfplots/every second #1 axis line] decorate {
+			\pgfextra
+			% exchange roles of A <-> B axes:
+			\pgfplotspointonorientedsurfaceabsetupfor{#2}{#1}{\pgfplotspointonorientedsurfaceN}%
+			\pgfplots@drawgridlines@onorientedsurf@fromto{\csname pgfplots@#2max\endcsname}%
+			\endpgfextra 
+		};
+	}{}%
+	\endscope
+	\fi
+}%
+\makeatother
+
+\begin{document}
+	% This file was created with tikzplotlib v0.10.1.
+	\begin{tikzpicture}
+
+%\draw[draw=black] (-1.5,-1.2) rectangle ++(14.5cm,7cm);
+
+\begin{groupplot}[group style={group size=2 by 1, horizontal sep=\mysep}]
+\nextgroupplot[
+tick align=outside,
+tick pos=left,
+width=\myleftw,
+xlabel={Time (s)},
+xmin=0, xmax=3600,
+xtick style={color=black},
+ylabel={$\varphi_\text{mes}$ (°)},
+ylabel shift=-0.1cm,
+ymin=-34., ymax=-13.,
+ytick style={color=black}
+]
+
+\addplot [semithick, black]
+table {CSVs/phase_out.csv};
+
+\addplot [thick, red, dash pattern=on 6pt off 2pt on \the\pgflinewidth off 2pt]
+table {%
+600 -34
+600 -13
+};
+
+\addplot [thick, red, dash pattern=on 6pt off 2pt on \the\pgflinewidth off 2pt]
+table {%
+1500 -34
+1500 -13
+};
+
+\addplot [thick, red, dash pattern=on 6pt off 2pt on \the\pgflinewidth off 2pt]
+table {%
+2400 -34
+2400 -13
+};
+
+\nextgroupplot[
+	log basis x={10},
+	log basis y={10},
+	width=\myrightw,
+	tick align=outside,
+	tick pos=left,
+	xlabel=\textcolor{red}{N},
+	xmin=50, xmax=50000,
+	xmode=log,
+	xtick style={color=red},
+	xticklabel style={color=red},
+	ylabel={$\varphi_\text{mes}$ RMSE (°)},
+	ylabel shift=-0.1cm,
+	ymin=0.01, ymax=.5,
+	ymode=log,
+	ytick style={color=black},
+	legend style={
+		fill opacity=0.9,
+		draw opacity=1,
+		text opacity=1,
+		at={(0, 0)},
+		anchor=south west,
+		legend columns=1,
+		xshift=-0.2pt,
+		yshift=-0.2pt,
+		%anchor=south east,
+		%legend columns=3
+		draw=red,
+	},
+	]
+	\addplot [semithick, red, mark=x, mark size=3, mark options={solid}, only marks]
+	table {%
+		49.9999961853027 0.314983665943146
+		100 0.221523240208626
+		199.999969482422 0.16880202293396
+		500.000091552734 0.101260535418987
+		1000 0.0767707601189613
+		1999.99963378906 0.0583303421735764
+		5000.0009765625 0.0413275510072708
+		10000 0.0258272122591734
+		20000.0078125 0.0148709053173661
+		49999.98046875 0.0159601513296366
+	};
+	\addlegendentry{Meas. RMSE at constant I};
+	\addplot [semithick, red, dash pattern=on 1pt off 3pt on 3pt off 3pt]
+	table {%
+		49.9999961853027 0.307615697383881
+		49999.98046875 0.0129292961210012
+	};
+	\addlegendentry{$\log(y) = -0.46 \cdot \log(x) + 0.27$}
+
+\end{groupplot}
+
+\begin{groupplot}[group style={group size=2 by 1, horizontal sep=\mysep}]
+\nextgroupplot[
+	tick align=outside,
+	tick pos=right,
+	xlabel={},
+	width=\myleftw,
+	xmin=0, xmax=3600,
+	xmajorticks=false,
+	ylabel=\textcolor{blue}{CO$_2$ (\%)},
+	ylabel shift=-0.15cm,
+	ymin=0, ymax=10.500,
+	ytick style={color=blue},
+	yticklabel style={color=blue},
+	separate axis lines,
+	%first x axis line style=red,
+	%second x axis line style=blue,
+	%first y axis line style=black,
+	second y axis line style=blue,
+	]
+	
+	\addplot [semithick, blue]
+	table {CSVs/CO2_out.csv};
+
+\nextgroupplot[
+	width=\myrightw,
+	log basis x={10},
+	log basis y={10},
+	tick align=outside,
+	xlabel=\textcolor{blue}{I (mA)},
+	xmin=1, xmax=24,
+	xmode=log,
+	xtick pos=right,
+	xtick style={color=blue},
+	xticklabel style={color=blue},
+	xtick={1,2,3,4,5,6,7,8,9,10,20},
+	xticklabels={1,2,,,5,,,,,10,20},
+	ymin=0.01, ymax=.5,
+	ymode=log,
+	ytick pos=left,
+	ytick style={color=black},
+	ytick={},
+	yticklabels={},
+	legend style={
+		fill opacity=0.9,
+		draw opacity=1,
+		text opacity=1,
+		at={(1, 1)},
+		anchor=north east,
+		legend columns=1,
+		xshift=+0.2pt,
+		yshift=+0.2pt,
+		%at={(axis cs:700, 1.05)},
+		%anchor=south east,
+		%legend columns=3
+		draw=blue,
+	},
+	separate axis lines,
+	first x axis line style=red,
+	second x axis line style=blue,
+	first y axis line style=black,
+	]
+	\addplot [semithick, blue, mark=+, mark size=3, mark options={solid}, only marks]
+	table {%
+		1 0.417948782444
+		2.00000023841858 0.185038045048714
+		4.00000095367432 0.0930823162198067
+		8 0.0497956052422523
+		11.9999990463257 0.0363962575793266
+		16.0000019073486 0.0269245076924562
+		20.0000019073486 0.0228468105196953
+		24 0.0196085479110479
+	};
+	\addlegendentry{Meas. RMSE at constant $N$};
+	%
+	\addplot [semithick, blue, dashed]
+	table {%
+		1 0.376207888126373
+		24 0.0185978282243013
+	};
+	\addlegendentry{$\log(y) = -0.95 \cdot \log(x) - 0.43$}
+	
+\end{groupplot}
+		
+
+\end{tikzpicture}
+\end{document}

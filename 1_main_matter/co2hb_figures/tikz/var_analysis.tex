@@ -1,0 +1,73 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=13.5cm, height=8cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepgfplotslibrary{fillbetween}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+\definecolor{green01780}{RGB}{0,178,0}
+
+\begin{axis}[
+legend style={at={(0,0)},anchor=south west, xshift=-0.2pt, yshift=-0.2pt,
+},
+legend cell align=left,
+log basis y={10},
+tick align=outside,
+tick pos=left,
+xlabel={Wavelength (nm)},
+xmin=235, xmax=1000,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={Relative variation (\%)},
+ymin=-90, ymax=80,
+ytick style={color=black},
+]
+\addplot [thick, black, densely dashed, forget plot]
+table {%
+	200 0
+	1000 0
+};
+% O2 UV/Vis
+\addplot [name path=O2_uv_rel_var, thick, red, densely dashdotted]
+table[col sep=comma, ]{CSVs/var_analysis/O2_uv_rel_var.csv};
+\addplot [name path=O2_uv_rel_var_max, very thin, red, forget plot]
+table[col sep=comma, ]{CSVs/var_analysis/O2_uv_rel_var_max.csv};
+\addplot [name path=O2_uv_rel_var_min, very thin, red, forget plot]
+table[col sep=comma, ]{CSVs/var_analysis/O2_uv_rel_var_min.csv};
+\addplot[fill=red, opacity=0.2, forget plot]fill between[of=O2_uv_rel_var_min and O2_uv_rel_var_max];
+% O2 Vis/IR
+\addplot [name path=O2_ir_rel_var, thick, red, densely dashdotted, forget plot]
+table[col sep=comma, ]{CSVs/var_analysis/O2_ir_rel_var.csv};
+\addplot [name path=O2_ir_rel_var_max, very thin, red, forget plot]
+table[col sep=comma, ]{CSVs/var_analysis/O2_ir_rel_var_max.csv};
+\addplot [name path=O2_ir_rel_var_min, very thin, red, forget plot]
+table[col sep=comma, ]{CSVs/var_analysis/O2_ir_rel_var_min.csv};
+\addplot[fill=red, opacity=0.2, forget plot]fill between[of=O2_ir_rel_var_min and O2_ir_rel_var_max];
+% CO2 UV/Vis
+\addplot [name path=CO2_uv_rel_var, thick, blue, densely dashdotted]
+table[col sep=comma, ]{CSVs/var_analysis/CO2_uv_rel_var.csv};
+\addplot [name path=CO2_uv_rel_var_max, very thin, blue]
+table[col sep=comma, ]{CSVs/var_analysis/CO2_uv_rel_var_max.csv};
+\addplot [name path=CO2_uv_rel_var_min, very thin, blue]
+table[col sep=comma, ]{CSVs/var_analysis/CO2_uv_rel_var_min.csv};
+\addplot[fill=blue, opacity=0.2]fill between[of=CO2_uv_rel_var_min and CO2_uv_rel_var_max];
+% CO2 Vis/IR
+\addplot [name path=CO2_ir_rel_var, thick, blue, densely dashdotted]
+table[col sep=comma, ]{CSVs/var_analysis/CO2_ir_rel_var.csv};
+\addplot [name path=CO2_ir_rel_var_max, very thin, blue]
+table[col sep=comma, ]{CSVs/var_analysis/CO2_ir_rel_var_max.csv};
+\addplot [name path=CO2_ir_rel_var_min, very thin, blue]
+table[col sep=comma, ]{CSVs/var_analysis/CO2_ir_rel_var_min.csv};
+\addplot[fill=blue, opacity=0.2]fill between[of=CO2_ir_rel_var_min and CO2_ir_rel_var_max];
+\legend{HHb / O$_2$Hb rel. diff., HHb / CO$_2$Hb rel. diff.}
+\end{axis}
+\end{tikzpicture}
+
+\end{document}

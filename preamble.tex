@@ -1,0 +1,226 @@
+% Global packages
+\documentclass[a4paper,table]{book}
+\overfullrule=5pt % This draws black rectangle at overfullbox
+\usepackage[a4paper]{geometry}
+\newgeometry{top=20mm, bottom=20mm, marginparwidth=80pt}
+\usepackage[english]{babel}
+\input{hyphenations.tex}
+\renewcommand*{\thefootnote}{(\arabic{footnote})}
+\usepackage{eurosym}
+
+%%%%%%%%%%%%
+% Math stuff
+%%%%%%%%%%%%
+\usepackage{amsmath}
+\newcommand{\spminus}{^{\smash{-}}} % smashed minus
+\DeclareMathOperator{\cotan}{cotan}
+\DeclareMathOperator*{\argmax}{argmax}
+% Closed square root
+\usepackage{letltxmacro}
+\makeatletter
+\let\oldr@@t\r@@t
+\def\r@@t#1#2{%
+	\setbox0=\hbox{$\oldr@@t#1{#2\,}$}\dimen0=\ht0
+	\advance\dimen0-0.2\ht0
+	\setbox2=\hbox{\vrule height\ht0 depth -\dimen0}%
+	{\box0\lower0.4pt\box2}}
+\LetLtxMacro{\oldsqrt}{\sqrt}
+\renewcommand*{\sqrt}[2][\ ]{\oldsqrt[#1]{#2} }
+\makeatother
+
+\usepackage{afterpage}
+\usepackage{pdflscape}
+%\newenvironment{rotatepage}%
+%{\clearpage\pagebreak[4]\global\pdfpageattr\expandafter{\the\pdfpageattr/Rotate 90}}%
+%{\clearpage\pagebreak[4]\global\pdfpageattr\expandafter{\the\pdfpageattr/Rotate 0}}%
+
+%%%%%%%%%%%%%%%%%%%%%
+% Table related stuff
+%%%%%%%%%%%%%%%%%%%%%
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage[figuresright]{rotating}
+\usepackage{tabularx}
+\newcommand{\specialcell}[2][c]{%
+	\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+% Allows math to be bolded by textbf
+% see: https://tex.stackexchange.com/questions/347146/using-textbf-to-make-also-math-bold-in-sentence
+\AddToHook{cmd/bfseries/after}{\boldmath}
+\AddToHook{cmd/normalfont/after}{\unboldmath}
+% \AddToHook{cmd/itshape/after}{XXX} <- in case it's needed
+
+% Allow aligning with respect to the middle of a symbol, see here:
+% https://tex.stackexchange.com/questions/499883/align-by-center-of-symbol
+\newcommand{\crel}[1]{%
+	\global\setbox1=\hbox{$#1$}%
+	\global\dimen1=0.5\wd1
+	\mathrel{\hbox to\dimen1{$#1$\hss}}&\mathrel{\mspace{-\thickmuskip}\hbox to\dimen1{}}%
+}
+
+% TODO: see later about this for numbering depth adjustments
+% from : https://tex.stackexchange.com/questions/300821/remove-chapter-numbers-keeps-section-numbers
+%\setcounter{secnumdepth}{4} % <- used on a per-chapter basis
+%\usepackage{chngcntr}
+%\counterwithout{section}{chapter}
+
+\makeatletter
+\newcommand*{\centerfloat}{%
+	\parindent \z@
+	\leftskip \z@ \@plus 1fil \@minus \textwidth
+	\rightskip\leftskip
+	\parfillskip \z@skip}
+\makeatother
+
+% For vertical spacing in table
+\newcommand\Tstrut{\rule{0pt}{2.6ex}}         % = `top' strut
+\newcommand\Bstrut{\rule[-1.4ex]{0pt}{0pt}}   % = `bottom' strut
+
+% - END OF TABLE STUFF -
+
+% Graphic related stuff
+\usepackage{graphicx}
+\usepackage[skins]{tcolorbox}
+\usepackage{luacolor}
+\usepackage[soul]{lua-ul}
+\usepackage{pdfpages}
+\usepackage{tikz}
+\usepackage{pgf-pie} %TODO: remove this?
+\usepackage{xcolor}
+\definecolor{lightgreen}{RGB}{200, 255, 200}
+\definecolor{minotaur}{RGB}{225, 6, 0}
+\definecolor{house}{RGB}{35, 91, 168}
+\newcommand{\myblood}{blood}
+\usepackage{placeins} % bring FloatBarrier
+\usepackage{hhline}
+\usepackage[export]{adjustbox} % brings valign
+\usepackage{layouts} % for debug and size information
+\usepackage{bigdelim}
+
+% Notes, and todos
+\usepackage{csquotes}
+\usepackage{sidenotes}
+\usepackage{todonotes}
+
+% Symbols
+\usepackage{stmaryrd} % Where \llbracket and \rrbracket are defined
+\usepackage{enumitem, amssymb}
+\usepackage{textcomp, gensymb}
+\usepackage{pifont}
+\usepackage{circledsteps}
+% \usepackage[nointegrals]{wasysym} <- causes several warnings
+\def\female{\mbox{\fontencoding{U}\fontfamily{wasy}\selectfont\char25}}
+\def\male{\mbox{\fontencoding{U}\fontfamily{wasy}\selectfont\char26}}
+
+% Chemistry packages
+\usepackage[version=4]{mhchem} % <- for chemical equations
+
+\usepackage{chemfig} % <- for molecules drawings
+\setchemfig{atom sep=2em}
+
+\usepackage{chemarr}
+\usepackage{chemmacros}
+\chemsetup[reactions]{own-counter=false}
+
+% Bibliography
+\usepackage[backend=biber, bibencoding=utf8, sorting=none, style=numeric-comp, backref=true]{biblatex}
+\addbibresource{clean_bibliography.bib}
+
+% hyperref: load this at last !
+% hypperef doc https://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/hyperref/doc/hyperref-doc.pdf
+\usepackage[hyperfootnotes=false]{hyperref}
+\hypersetup{%
+	pdfauthor={Emmanuel DERVIEUX},%
+	pdftitle={Dervieux PhD Thesis},%
+	bookmarksnumbered=true,%
+	colorlinks=false,%
+	citecolor=black,%
+	filecolor=black,%
+	linkcolor=black,%
+	urlcolor=black,%
+	pdfstartview=FitH,%
+}
+
+% Glossary
+\usepackage[toc, shortcuts]{glossaries}
+\input{bib_src/setup/acronyms}
+\makeglossaries
+\glsdisablehyper
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Thesis related commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Default figure placement
+\makeatletter
+\renewcommand*{\fps@figure}{!htbp}
+\makeatother
+
+% Hidden link
+\newcommand{\mhiddenlink}[2]{\begingroup\hypersetup{hidelinks}\href{#1}{#2}\endgroup}
+
+% tcolobox for book citation
+\newcommand*{\mbookcite}[4]{\begin{center}
+		\begin{minipage}{0.8\linewidth}
+			\enquote{#1}
+			
+			\raggedleft --- #2, \textit{#3} (#4)
+		\end{minipage}
+\end{center}}
+
+% Further Research Is Needed stuff
+\newcounter{mfrincounter}
+\newcommand{\mfrin}{\begin{marginfigure}[0.2cm]\centering \includegraphics{0_front_matter/front_figures/tikz/out/frin.pdf}\end{marginfigure}\stepcounter{mfrincounter}}
+
+\makeatletter
+\newcommand\inlineparagraph
+{%
+	\@startsection{paragraph}{4}{\z@}{3.25ex \@plus 1ex \@minus .2ex}{-1ex}
+	{\normalfont\normalsize\bfseries}
+}
+\makeatother
+
+% tcolobox for TL;DR sections
+\newtcolorbox{tldrbox}{
+	enhanced,
+	coltitle=black,
+	colbacktitle=white,
+	colback=white,
+	attach boxed title to top center=
+	{yshift=-0.25mm-\tcboxedtitleheight/2,yshifttext=2mm-\tcboxedtitleheight/2},
+	boxed title style={boxrule=0.5mm,
+		frame code={ \path[tcb fill frame] ([xshift=-4mm]frame.west)
+			-- (frame.north west) -- (frame.north east) -- ([xshift=4mm]frame.east)
+			-- (frame.south east) -- (frame.south west) -- cycle; },
+		interior code={ \path[tcb fill interior] ([xshift=-2mm]interior.west)
+			-- (interior.north west) -- (interior.north east)
+			-- ([xshift=2mm]interior.east) -- (interior.south east) -- (interior.south west)
+			-- cycle;} },
+	colframe=black,
+	title=\acs{tldr}\vphantom{\rule{1mm}{3.8mm}},
+	arc=0mm,
+	outer arc=0pt,
+	fonttitle={\large\bfseries},
+	segmentation engine=path,
+	segmentation style={draw=black, line width=1.5pt, solid},
+	after skip=20pt,}
+
+\newtcolorbox{appbox}{
+	enhanced,
+	coltitle=black,
+	colbacktitle=white,
+	colback=white,
+	colframe=black,
+	arc=0mm,
+	outer arc=0pt,
+	fonttitle={\large\bfseries},
+	segmentation engine=path,
+	segmentation style={draw=black, line width=1.5pt, solid},
+	before skip=20pt,
+	after skip=20pt,
+	}
+
+% tcolobox for important stuff
+\newtcolorbox{keypointbox}{center, arc=0mm, outer arc=0pt,colback=white, width=0.85\linewidth}
+
+\setcounter{secnumdepth}{4}

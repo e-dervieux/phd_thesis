@@ -1,0 +1,61 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=14.cm, height=9cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+
+\begin{document}
+	
+	\begin{tikzpicture}
+	\begin{groupplot}[
+		group style={
+			group name=myplot,
+			group size=2 by 1,
+			every plot/.style={
+				tick align=outside,
+				tick pos=left,
+				xtick style={color=black},
+			}
+		},
+		width=6cm,height=6cm]
+			%
+			\nextgroupplot[
+				ylabel={Fluorescence intensity (a.u.)},
+				ymin=0, ymax=60,
+				xmin=300, xmax=410,
+				xtick={300, 340, 380},]
+			\addplot [draw=blue, very thick, smooth] table[col sep=comma]{CSVs/hirsch1981_fluo/deoxy_left.csv};
+			\addplot [draw=red, very thick, smooth, densely dashed] table[col sep=comma]{CSVs/hirsch1981_fluo/oxy_left.csv};
+			\addplot [draw=black, very thick, smooth, densely dashdotted] table[col sep=comma]{CSVs/hirsch1981_fluo/carboxy_left.csv};
+			\addplot [draw=darkgray176, very thick, smooth, densely dotted] table[col sep=comma]{CSVs/hirsch1981_fluo/baseline_left.csv};
+			\node[anchor=north west] at (axis cs:300,60) {\small{$\lambda_\text{ex}$ = 280~nm}};
+			%%%%%%%
+			%%%%%%%
+			\nextgroupplot[
+				ymin=0,ymax=60,
+				xmin=310, xmax=410,
+				xtick={310, 350, 390},
+				yticklabels={},
+				xshift=-1cm,
+				legend style={
+					at={(1,1)},
+					anchor=north east,
+					xshift=+0.2pt,
+					yshift=+0.2pt,
+					font=\small},
+				legend cell align=left,]
+			\addplot [draw=blue, very thick, smooth] table[col sep=comma]{CSVs/hirsch1981_fluo/deoxy_right.csv};
+			\addplot [draw=red, very thick, smooth, densely dashed] table[col sep=comma]{CSVs/hirsch1981_fluo/oxy_right.csv};
+			\addplot [draw=black, very thick, smooth, densely dashdotted] table[col sep=comma]{CSVs/hirsch1981_fluo/carboxy_right.csv};
+			\addplot [draw=darkgray176, very thick, smooth, densely dotted] table[col sep=comma]{CSVs/hirsch1981_fluo/baseline_right.csv};
+			\node[anchor=north west] at (axis cs:310,60) {\small{$\lambda_\text{ex}$ = 296~nm}};
+			\legend{HHb, O$_2$Hb, COHb, Baseline};
+	\end{groupplot}
+	\node [below, yshift=-0.6cm] at ($(myplot c1r1.south east)!0.5!(myplot c2r1.south west)$) {Emission wavelength (nm)};
+	%\node (0.5,0.5) {content};
+	\end{tikzpicture}
+	
+\end{document}

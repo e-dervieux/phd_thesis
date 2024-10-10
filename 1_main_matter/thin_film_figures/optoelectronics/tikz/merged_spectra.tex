@@ -1,0 +1,78 @@
+\documentclass[tikz, usenames, dvipsnames]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=14cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\def\myline{very thick}
+
+\begin{document}
+	% This file was created with tikzplotlib v0.10.1.
+	\begin{tikzpicture}
+		
+		\begin{axis}[
+			tick align=outside,
+			tick pos=left,
+			xlabel={Wavelength (nm)},
+			xmin=350, xmax=700,
+			xtick style={color=black},
+			ylabel={Arbitrary scale},
+			ymin=-0.02, ymax=1.02,
+			ytick style={color=black},
+			grid=both,
+			legend cell align=left,
+			legend style={
+				fill opacity=0.9,
+				draw opacity=1,
+				text opacity=1,
+				at={(0.5, 1.03)},
+				legend columns=2,
+				transpose legend,
+				anchor=south,
+				draw=black,
+				font=\small,
+			},
+			]
+			% KEEP this part
+			\addplot [\myline, red]
+			table {CSVs/out/rudpp_ex.csv};
+			\addlegendentry{Rudpp ex.}
+			
+			\addplot [\myline, red, densely dashdotted]
+			table {CSVs/out/rudpp_em.csv};
+			\addlegendentry{Rudpp em.}
+			
+			\addplot [\myline, Green, ]
+			table {CSVs/out/hpts_abs.csv};
+			\addlegendentry{HPTS ex.}
+			
+			\addplot [\myline, Green, densely dotted]
+			table {CSVs/out/hpts_em.csv};
+			\addlegendentry{HPTS em.}
+			
+			\addplot [\myline, blue, smooth]
+			table {CSVs/out/LED450L.csv};
+			\addlegendentry{450~nm LED}
+			
+			\addplot [\myline, black, dashed]
+			table {CSVs/out/fds100.csv};
+			\addlegendentry{Photodiode}
+			
+			
+			\addplot [\myline, black, dash pattern=on 6pt off 2pt on \the\pgflinewidth off 2pt]
+			table {CSVs/out/FES0450.csv};
+			\addlegendentry{450~nm ex. filter}
+			
+			\addplot [\myline, black]
+			table {CSVs/out/thorlabs_fel0500.csv};
+			\addlegendentry{500~nm em. filter}
+			
+			
+		\end{axis}
+		
+		
+	\end{tikzpicture}
+	
+	
+\end{document}

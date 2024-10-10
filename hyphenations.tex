@@ -1,0 +1,18 @@
+% see, https://wayback-api.archive.org/web/20240521033957/https://en.wikibooks.org/wiki/LaTeX/Text_Formatting#Hyphenation
+% for more information on word hyphenation
+\hyphenation{long la-tex}
+\hyphenation{tri-sodium}
+\hyphenation{haemo-globin}
+\hyphenation{hemo-globin}
+\hyphenation{con-cen-tra-tion}
+\hyphenation{ery-thro-cyte}
+\hyphenation{ery-thro-cytes}
+\hyphenation{ery-thro-cy-tic}
+\hyphenation{meta-bisulfite}
+
+% stretching / hyphenation in texttt
+% https://tex.stackexchange.com/questions/171278/
+\setlength{\emergencystretch}{2em}
+\newcommand{\origttfamily}{}%
+\let\origttfamily=\ttfamily%
+\renewcommand{\ttfamily}{\origttfamily \hyphenchar\font=`\-}

@@ -1,0 +1,146 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=7.cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+
+\begin{document}
+\begin{tikzpicture}
+\definecolor{darkgray176}{RGB}{176,176,176}
+\begin{groupplot}[group style={group size=2 by 1, horizontal sep=2cm}]
+\nextgroupplot[
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xlabel={saO2 (\%)},
+xmin=70, xmax=100,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={Ratio of ratio $R$ (unitless)},
+ymin=0.306122448979592, ymax=1.24038107763243,
+ytick style={color=black}
+]
+\path [draw=blue, fill=blue, opacity=0.5]
+(axis cs:78,0)
+--(axis cs:78,0.954447659321908)
+--(axis cs:79,0.924119841885552)
+--(axis cs:80,0.894039735099338)
+--(axis cs:81,0.864204316441317)
+--(axis cs:82,0.834610612364061)
+--(axis cs:82,0)
+--(axis cs:82,0)
+--(axis cs:81,0)
+--(axis cs:80,0)
+--(axis cs:79,0)
+--(axis cs:78,0)
+--cycle;
+\path [draw=red, fill=red, opacity=0.5]
+(axis cs:0,0.954447659321908)
+--(axis cs:78,0.954447659321908)
+--(axis cs:79,0.924119841885552)
+--(axis cs:80,0.894039735099338)
+--(axis cs:81,0.864204316441317)
+--(axis cs:82,0.834610612364061)
+--(axis cs:0,0.834610612364061)
+--(axis cs:0,0.834610612364061)
+--(axis cs:0,0.864204316441317)
+--(axis cs:0,0.894039735099338)
+--(axis cs:0,0.924119841885552)
+--(axis cs:0,0.954447659321908)
+--cycle;
+\addplot [thick, black]
+table {%
+70 1.20636747219026
+71 1.17394293571674
+72 1.14179218013084
+73 1.10991175245237
+74 1.07829825752433
+75 1.04694835680751
+76 1.01585876720527
+77 0.985026259917309
+78 0.954447659321908
+79 0.924119841885552
+80 0.894039735099338
+81 0.864204316441317
+82 0.834610612364061
+83 0.805255697306728
+84 0.776136692730959
+85 0.747250766179917
+86 0.718595130359836
+87 0.690167042243445
+88 0.66196380219467
+89 0.633982753114021
+90 0.6062212796041
+91 0.578676807154678
+92 0.551346801346801
+93 0.524228767075429
+94 0.497320247790075
+95 0.47061882475299
+96 0.444122116314408
+97 0.41782777720439
+98 0.391733497840839
+99 0.365837003653249
+100 0.340136054421769
+};
+\path [draw=black, thick, dashed]
+(axis cs:80,0)
+--(axis cs:80,0.894039735099338);
+\path [draw=black, thick, dashed]
+(axis cs:0,0.894039735099338)
+--(axis cs:80,0.894039735099338);
+% ---------------------
+\nextgroupplot[
+tick align=outside,
+tick pos=left,
+x grid style={darkgray176},
+xlabel={saO2 (\%)},
+xmin=72, xmax=98,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={Ratio of ratio accuracy (\%)},
+ymin=5.04742873550462, ymax=13.8333770944237,
+ytick style={color=black}
+]
+\addplot [thick, black] table {%
+72 5.60825415056069
+73 5.72093135461591
+74 5.83945174940298
+75 5.96426231165213
+76 6.09585713096441
+77 6.23478377785945
+78 6.38165073360207
+79 6.5371360942467
+80 6.70199781134624
+81 6.87708579542226
+82 7.06335628985204
+83 7.26188902807923
+84 7.47390782389157
+85 7.70080542383629
+86 7.94417368783981
+87 8.20584048013282
+88 8.48791507807319
+89 8.79284448521239
+90 9.12348383086359
+91 9.48318514597524
+92 9.87591036603531
+93 10.3063766420643
+94 10.7802452754401
+95 11.3043703603319
+96 11.8871303714233
+97 12.538876878988
+98 13.2725516793676
+};
+\addplot[thick, black, dashed] table{%
+80 0
+80 6.70199781134624
+};
+\addplot[thick, black, dashed] table{%
+	0 6.70199781134624
+	80 6.70199781134624
+};
+\end{groupplot}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,68 @@
+\documentclass[tikz, usenames, dvipsnames]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=12.5cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{amsmath}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkorange}{RGB}{255,140,0}
+\definecolor{darkviolet}{RGB}{148,0,211}
+\definecolor{forestgreen}{RGB}{34,139,34}
+\definecolor{lightgray204}{RGB}{204,204,204}
+\definecolor{pink}{RGB}{255,192,203}
+\DeclareMathSymbol{\cdot}{\mathord}{symbols}{"01} % shortens space around cdot
+
+\begin{document}
+	
+	\begin{tikzpicture}
+		%\pgfplotsset{scale only axis,}
+		
+		\begin{axis}[
+			legend cell align={left},
+			legend style={fill opacity=1, draw opacity=1, text opacity=1, draw=black, at={(0.,1)},anchor=north west,xshift=-0.2pt, yshift=+0.2pt, cells={align=left}},
+			tick align=outside,
+			tick pos=left,
+			x grid style={darkgray176},
+			xlabel={Wavelength (nm)},
+			xmin=210, xmax=700,
+			xtick style={color=black},
+			y grid style={darkgray176},
+			ylabel={Absorption $\varepsilon$ ($10^4$.cm$^{-1}$.M$^{-1}$)},
+			scaled y ticks=false,
+			ytick={0, 2E4, 4E4, 6E4, 8E4},
+			yticklabels={0,2,4,6,8},
+			ymin=0., ymax=95000.,
+			ytick style={color=black},
+			]
+			\addplot[draw=red, very thick, smooth, line join=round] table[col sep=comma, skip first n=1]{CSVs/photochemcad/fluorescein_abs.csv};
+			\addlegendentry{Fluorescein Abs.}
+			\addplot[draw=red, very thick, smooth, line join=round, densely dashed] table[col sep=comma, skip first n=1]{CSVs/photochemcad/fluorescein_em.csv};
+			\addlegendentry{Fluorescein Em.}
+			\addplot[draw=Green, very thick, smooth, line join=round] table[col sep=comma, skip first n=1]{CSVs/photochemcad/hpts_abs.csv};
+			\addlegendentry{HPTS Abs.}
+			\addplot[draw=Green, very thick, smooth, line join=round, densely dashed] table[col sep=comma, skip first n=1]{CSVs/photochemcad/hpts_em.csv};
+			\addlegendentry{HPTS Em.}
+		\end{axis}
+		
+		\begin{axis}[
+			axis y line*=right,
+			axis x line=none,
+			tick align=outside,
+			xmin=210, xmax=700,
+			ylabel={Emission $\varepsilon \cdot \Phi_\mathrm{F}$ (A.U.)},
+			scaled y ticks=false,
+			ytick={0, 2E4, 4E4, 6E4, 8E4},
+			yticklabels={0,2,4,6,8},
+			ymin=0., ymax=95000.,
+			ytick style={color=black},
+			]
+			\addplot coordinates{
+				(600,-1)
+				(600,-1)
+			};
+		\end{axis}
+		
+	\end{tikzpicture}
+\end{document}

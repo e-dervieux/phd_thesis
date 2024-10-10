@@ -1,0 +1,41 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{width=14.cm, height=9cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+
+\begin{document}
+	
+	\begin{tikzpicture}
+		\begin{axis}[
+			tick align=outside,
+			tick pos=left,
+			x grid style={black},
+			xlabel={Wavelength (nm)},
+			xmin=250, xmax=1000,
+			xtick style={color=black},
+			y grid style={black},
+			ylabel={Molar extinction coeff. (cm$^{-1}$.M$^{-1}$)},
+			ymin=1e1, ymax=1e6,
+			ytick style={color=black},
+			ymode=log,
+			legend style={at={(0,0)},anchor=south west, xshift=-0.2pt, yshift=-0.2pt,
+			%legend image post style={line width=2pt},
+			},
+			legend cell align=left,
+			grid=major,
+			x grid style={darkgray176},
+			y grid style={darkgray176},
+			]
+			\addplot [draw=red, very thick, smooth] table[col sep=comma]{CSVs/hb_literature/prahl/spectra/oxyhaemoglobin.csv};
+			\addplot [draw=blue, very thick, smooth, densely dashed] table[col sep=comma]{CSVs/hb_literature/prahl/spectra/deoxyhaemoglobin.csv};
+			\addplot [draw=teal, very thick, smooth, dashdotted] table[col sep=comma, ]{CSVs/hb_literature/zijlstra/molar_extinction/methaemoglobin.csv};
+			\addplot [draw=black, very thick, smooth, dashdotdotted] table[col sep=comma, ]{CSVs/hb_literature/zijlstra/molar_extinction/carboxyhaemoglobin.csv};
+			\addplot [draw=violet, very thick, smooth, densely dotted] table[col sep=comma, ]{CSVs/hb_literature/zijlstra/molar_extinction/sulfhaemoglobin.csv};
+			\legend{O$_2$Hb,HHb,MetHb, COHb, SulfHb}
+		\end{axis}
+	\end{tikzpicture}
+	
+\end{document}

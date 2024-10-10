@@ -1,0 +1,35 @@
+\documentclass[tikz, usenames, dvipsnames]{standalone}
+\usepackage{pgfplots}
+\pgfplotsset{width=12.cm, height=6cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepgfplotslibrary{fillbetween}
+
+\definecolor{darkgray176}{RGB}{176,176,176}
+
+\begin{document}
+
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+\begin{axis}[
+legend cell align={left},
+tick align=outside,
+tick pos=left,
+axis on top,
+x grid style={darkgray176},
+xlabel={Spot / lens distance $d_{SL}$ (mm)},
+xmin=0, xmax=95,
+xtick style={color=black},
+y grid style={darkgray176},
+ylabel={Relative power $E_L$ (\%)},
+ymin=0, ymax=50,
+ytick={0,25,50},
+ytick style={color=black}
+]
+
+\addplot [very thick, blue]
+table[col sep=comma] {CSVs/aperture_first_lens.csv};
+
+\end{axis}
+\end{tikzpicture}
+\end{document}

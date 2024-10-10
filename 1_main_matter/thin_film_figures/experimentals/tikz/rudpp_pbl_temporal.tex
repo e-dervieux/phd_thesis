@@ -1,0 +1,58 @@
+\documentclass[tikz, usenames, dvipsnames]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=13cm, height=7.2cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\pgfplotsset{scaled x ticks=false}
+\begin{document}
+
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+	
+	\definecolor{darkgray176}{RGB}{176,176,176}
+	
+	\begin{axis}[
+		tick align=outside,
+		tick pos=left,
+		ymajorgrids,
+		xmajorgrids,
+		x grid style={darkgray176},
+		xmin=0, xmax=26000,
+		xtick style={color=black},
+		y grid style={darkgray176},
+		ylabel={Rel. phosphorescence intensity (\%)},
+		ymin=80, ymax=101,
+		ytick style={color=black},
+		xtick={0, 3600, 7200, 10800, 14400, 18000, 21600, 25200, 28800},
+		xticklabels={0, 1, 2, 3, 4, 5, 6, 7, 8},
+		xlabel={Time (h)},
+		legend style={
+			fill opacity=1,
+			draw opacity=1,
+			text opacity=1,
+			at={(0, 0)},
+			anchor=south west,
+			legend columns=1,
+			xshift=-0.2pt,
+			yshift=-0.2pt,
+			draw=black,
+		},
+		]
+		\node[anchor=east, align=right] at (4.5-0.2,10) {$\leftarrow$\\In dry N$_2$};
+		\node[anchor=west, align=left] at (4.5+0.2,10) {$\rightarrow$\\In 38\% RH air};
+		\addplot[red, thick] table{CSVs/S2_air_04.csv};
+		\addplot[red, thick, forget plot] table{CSVs/S2_air_06.csv};
+		
+		\addplot[Green, thick] table{CSVs/S5_air_04.csv};
+		\addplot[Green, thick, forget plot] table{CSVs/S5_air_07.csv};
+		
+		\addlegendentry{PAN}
+		\addlegendentry{HPMC}	
+		
+		\end{axis}
+	
+\end{tikzpicture}
+
+\end{document}

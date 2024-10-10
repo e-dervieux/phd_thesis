@@ -1,0 +1,118 @@
+\documentclass[tikz, usenames, dvipsnames]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{height=7.5cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usetikzlibrary{arrows.meta} 
+
+\def\myline{very thick}
+\def\mysep{1.2cm}
+\def\myleftw{7.2cm}
+\def\myrightw{7.2cm}
+\pgfplotsset{colormap={inferno}{
+		rgb(0)=(0.001462, 0.000466, 0.013866),
+		rgb(15)=(0.037668, 0.025921, 0.132232),
+		rgb(30)=(0.116656, 0.047574, 0.272321),
+		rgb(45)=(0.217949, 0.036615, 0.383522),
+		rgb(60)=(0.316282, 0.053490, 0.425116),
+		rgb(75)=(0.410113, 0.087896, 0.433098),
+		rgb(90)=(0.503493, 0.121575, 0.423356),
+		rgb(105)=(0.596940, 0.154848, 0.398125),
+		rgb(120)=(0.688653, 0.192239, 0.357603),
+		rgb(135)=(0.775059, 0.239667, 0.303526),
+		rgb(150)=(0.851384, 0.302260, 0.239636),
+		rgb(165)=(0.912966, 0.381636, 0.169755),
+		rgb(180)=(0.956852, 0.475356, 0.094695),
+		rgb(195)=(0.981895, 0.579392, 0.026250),
+		rgb(210)=(0.987464, 0.690366, 0.079990),
+		rgb(225)=(0.973088, 0.805409, 0.216877),
+		rgb(240)=(0.947594, 0.917399, 0.410665),
+		rgb(255)=(0.988362, 0.998364, 0.644924),
+}} 
+
+\begin{document}
+	\begin{tikzpicture}
+		\small
+		%\draw[draw=black] (-1.3,-1.2) rectangle ++(14.5cm,7cm);
+		
+		\begin{groupplot}[group style={group size=2 by 1, horizontal sep=\mysep}]
+			\nextgroupplot[
+			tick align=outside,
+			tick pos=left,
+			width=\myleftw,
+			xlabel={[A$^-$] (M)},
+			xmin=0, xmax=1e-3,
+			xtick style={color=black},
+			ylabel={pCO$_2$ (atm)},
+			%ylabel shift=-0.1cm,
+			ymin=0, ymax=.5,
+			ytick style={color=black},
+			axis on top,
+			legend cell align={left},
+			legend style={fill opacity=0.9, draw opacity=1, text opacity=1, draw=black, anchor=north,xshift=+0.pt, yshift=+0.2pt, cells={align=left}, at={(0.5, 1)}}
+			]
+			
+			\draw[fill=gray!40!white, draw=none] (0,40/760) rectangle ++(1e-3,40/760);
+			
+			\addplot [opacity=0]
+			table{
+				0 0
+				};
+			
+			\addplot [\myline, red]
+			table[col sep=comma] {CSVs/pco2_f_rm_pkr_10.0.csv};
+			\addplot [\myline, blue, densely dashed]
+			table[col sep=comma] {CSVs/pco2_f_rm_pkr_8.0.csv};
+			\addplot [\myline, black, densely dotted]
+			table[col sep=comma] {CSVs/pco2_f_rm_pkr_7.3.csv};
+			\addplot [\myline, Green, densely dashdotted]
+			table[col sep=comma] {CSVs/pco2_f_rm_pkr_6.0.csv};
+			\addplot [\myline, purple, densely dashdotdotted]
+			table[col sep=comma] {CSVs/pco2_f_rm_pkr_5.0.csv};
+			
+			\addlegendentry{\hspace{-.5cm}$pK_A$, $\delta$[A$^-$], $\delta$[A$^-$]$_\text{rel}$}
+			\addlegendentry{10.0, 5.0 \textmu{}M, 1\%}
+			\addlegendentry{8.0, 14.0 \textmu{}M, 1\%}
+			\addlegendentry{7.3, 56.0 \textmu{}M, 7\%}
+			\addlegendentry{6.0, 97.0 \textmu{}M, 15\%}
+			\addlegendentry{5.0, 29.0 \textmu{}M, 61\%}
+			
+			\draw[{Stealth[length=2mm]}-{Stealth[length=2mm]}, \myline] (.56e-3,40/760) -- (.56e-3,80/760);
+			\node[anchor=east] at (axis cs:.56e-3, 60/760) {$\delta$pCO$_2$};
+			
+			\draw[{Stealth[length=2mm]}-{Stealth[length=2mm]}, \myline] (.56e-3,35/760) -- (.69e-3,35/760);
+			\node[anchor=north] at (axis cs:.625e-3, 35/760) {$\delta$[A$^-$]};
+			
+			\nextgroupplot[
+			enlargelimits=false,
+			width=6.3cm,
+			height=7.5cm,
+			colorbar,
+			colormap name=inferno,
+			point meta min=0,
+			point meta max=70,
+			xlabel={[Q$^+$] = [A$^-$] + [AH] (M)},
+			ylabel shift=-0.2cm,
+			ylabel={p$K_\text{a}$},
+			xmode=log,
+			xmin=1e-6, xmax=1e-2,
+			ymin=4, ymax=12,
+			ytick={4,6,8,10,12},
+			%xtick={400,600,800,1000},
+			tick align=outside,
+			xtick style={color=black},
+			ytick style={color=black},
+			colorbar style={
+				ylabel=$\delta$[A$^-$]$_\text{rel}$ (\%),
+				xshift=-0.5cm,
+				width=0.3cm},
+			axis on top]
+			\addplot graphics[xmin=1e-6,ymin=4,xmax=1e-2,ymax=12] {raster_images/ch_f_pkr.png};
+			
+		\end{groupplot}
+		
+		
+	\end{tikzpicture}
+\end{document}
