@@ -376,13 +376,11 @@ We gently warn the reader that each column of the table contains the best perfor
 
 Finally, although most criteria are self-explanatory, a few additional comments may be necessary for a sound understanding and interpretation of this table. First, the lifetimes of several sensor families---and especially that of the (photo-)acoustical ones---are not explicitly reported in the literature. Yet, since \gls{ndir} sensors were reported to reach a lifetime of at least 15~years\cite{gibson2013}, and since acoustical building blocks---\eg{} ultrasonic transducers---usually last for years, the infinity symbol ($\infty$) was used, meaning that a lifetime of at least several years should be expected. Second, the calibration need refers to the need to re-calibrate a sensor frequently---\ie{} every few hours or days---due to the presence of a significant drift in its response. This criterion does \emph{not} refer to the initial sensor calibration that may be performed in the factory. Third, the response time of the evaluated sensors was often measured using test benches which flush the sensors with a continuous flow of a gas mixture containing a known \gls{co2} concentration. In such a configuration, the four sensors noted with an $(a)$ are supposed to respond as soon as the latter gas mixture flows inside their embodiment, hence the $\leq 1$~s indication. In practice, however, the response time strongly depends on the sensor housing dimensions, since \gls{co2} will have to diffuse from the analyte gas---or medium---inside the sensor embodiment.
 
-\afterpage{
-\begin{landscape}
+%\afterpage{\begin{landscape}
 \def\arraystretch{1.25}
-\begin{table}
+\begin{sidewaystable}
 	\centering
-	\begin{adjustbox}{center}
-	\begin{tabular}{c|c|c|c|c|c|c|c}
+	\begin{tabularx}{\textwidth}{c|c|c|c|c|c|c|c}
 		\specialcell{Criterion $\rightarrow$\\$\downarrow$ Technique} & Lifetime & \specialcell{Calibration\\need} & \specialcell{Humidity cross-\\sensitivity} & Accuracy & \specialcell{Response\\time} & \specialcell{Miniaturisation\\potential} & References \\ \hline \hline
 		
 		\specialcell{\gls{ndir}\\(Section \ref{subsect:choos:review:ndir})} & $\geq15$~years & No & No & 0.03\% & $\leq$1~s $^{(a)}$ & \specialcell{Moderate (down to\\$10\times 10\times 0.5$~mm$^3$)} & \cite{zhang2010, gibson2013, jing2020, popa2019}\\ \hline
@@ -415,13 +413,11 @@ Finally, although most criteria are self-explanatory, a few additional comments 
 		\specialcell{Acous. Att.\\(Section \ref{subsect:choos:review:acoust_att})} & ? ($\infty$) & No & ? & ? & $\leq$1~s $^{(a)}$ & Low ($\sim$cm) & \cite{petculescu2006a, petculescu2006b}
 		% humidity cross-sens: ? depend frequence...
 		
-	\end{tabular}
-	\end{adjustbox}
+	\end{tabularx}
 	\caption[An overview of the presented \gls{co2} sensing techniques.]{An overview of the presented \gls{co2} sensing techniques. ($\infty$): expected to be at least several years. $(a)$: limited primarily by the diffusion of the analyte gas inside the enclosure of the sensor. Please refer to detailed explanations in Section \ref{subsect:choos:review:comp_table}.}
 	\label{tab:choos:review:resume_techniques}
-\end{table}
-\end{landscape}
-}
+\end{sidewaystable}
+%\end{landscape}}
 
 \section{Potential Application to Transcutaneous Sensing}\label{sect:choos:techno_choice}
 
@@ -497,7 +493,8 @@ Second, dual membrane techniques---such as that presented by Targett \etal{}\cit
 
 Third, the need for an absolute \gls{ptco2} reading could also be mitigated in two ways. First off, by mean of a punctual per-subject calibration, following the example of non-invasive, cuffless, \gls{ppg}-based, arterial blood pressure measurements\cite{xing2019, shao2020}. In this sensing scheme, the actual \gls{ptco2} could be measured from time to time using a reference \gls{ptco2} monitor, whose measurements would then serve to calibrate a lighter, wearable, rate-based device. This would allow to share a main---expensive---\gls{ptco2} monitor among multiple patients, in a clinical setting. Alternatively, it could also be envisioned that rate-based devices do not provide any absolute \gls{ptco2} reading. Rather, they may provide the user with trend analysis only, raising alarms following the crossing of certain thresholds or abrupt variations. This last approach, however, may be difficult to introduce into medical practice without further clinical studies, even though the clinical interest of similar variability metrics for other physiological variables---such as heart rate\cite{kim2018} or oxygen saturation\cite{moret2014, clarke2016}---is encouraging in this regard.
 
-\subsubsection{\texorpdfstring{\glsfirst{drs}}{DRS}}\label{subsect:choos:pot:drs}
+\glsreset{drs}
+\subsubsection{\texorpdfstring{\gls{drs}}{DRS}}\label{subsect:choos:pot:drs}
 
 As stated in Section \ref{subsect:choos:review:ndir}, dissolved \gls{co2} measurements can be performed not only in the gaseous phase, but also in aqueous solution\cite{schaden2004}. This result was also demonstrated for whole blood samples, the \gls{pco2} of which could be retrieved with a standard error of about 5~mmHg, using infrared spectroscopy in the 1024--2290~nm range\cite{domjan1994}. Further still, it has been recently suggested in a patent that transcutaneous \gls{co2} measurements could be performed using mid-infrared \glspl{led} of wavelength \enquote{between about 2~\textmu{}m and about 18~\textmu{}m}\cite{marasco2020}. Although patents do not constitute scientific evidence\cite{freilich2019}, the idea has been put forth, and \mfrin{}further research would be interesting on the topic, in order to assess the feasibility of such transcutaneous \gls{co2} measurements. \emph{Prima facie}, two major challenges conceivably need to be solved for \gls{drs}-based transcutaneous measurements.
 
@@ -760,6 +757,7 @@ More information on \gls{fret} in general may be found in the literature\cite{mi
 
 Usually, because the dye concentrations are rather elevated---generating adverse inner-filter effects or turbidity in the samples---an approach based on the luminescence decay time is favoured over one based on the luminescence intensity. Such measurements can either take place in the frequency domain---measuring phase shifts\cite{lakowicz1993, bultzingslowen2003}---or in the time domain---measuring effective decay times\cite{neurauter1999}. In both cases, long luminophore lifetimes are especially interesting since they allow for lower frequency---and thus slower and less expensive---detection electronic. Typically 20--75~kHz for long-lifetime Ruthenium(II) complexes\cite{bultzingslowen2003, neurauter1999} compared to over 100~MHz for shorter lifetime fluorophores\cite{lakowicz1993}. The modification of the decay time of the luminophore does not occur with the other techniques presented hitherto and may be the main advantage of \gls{fret}, since time- or frequency-based approaches ignore the fluctuations of the light source intensity or photodetector sensitivity.
 
+\glsreset{dlr}
 \paragraph{\texorpdfstring{\gls{dlr}}{DLR}}\label{subsect:choos:dye_based:optical_schemes:dlr_intro}\mbox{}\\
 
 Contrary to the \gls{ife} and \gls{fret} sensing schemes, which both rely on one luminescent and one absorbing dye, \gls{dlr} uses two luminescent dyes: \textit{(i)} a short-lived ($\sim$ns\footnote{The order of magnitude of the luminescence decay time, when modelling it with a mono-exponential decrease. This is a commonly used approximation, although real-world luminescence decays are generally not following a purely mono-exponential model---this is especially true for large and complex molecules such as proteins\cite{wlodarczyk2003}.\label{footnote:monoexp}}) pH-sensitive fluorophore (noted A), and \textit{(ii)} a long-lived ($\sim${\textmu}s) reference, pH-insensitive luminophore (noted R). At this point of the discussion, the reader only needs to know that the fluorescence intensity of A is influenced by the sensor's pH. As for \gls{ife}-based sensors---see Section \ref{subsect:choos:dye_based:optical_schemes:ife}---the dyes need not to be close to each other and may be entrapped in stacked films\cite{aguayolopez2014}. However, the excitation spectra of the two dyes must overlap so that a single excitation wavelength triggers the luminescence of both dyes. \gls{pco2} measurement can then be performed in two modalities, either with time-based of frequency-based measurements.

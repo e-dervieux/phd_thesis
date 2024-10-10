@@ -20,10 +20,10 @@
 	% Ok, the code for this figure is overly complicated, and I spent two hours of my life writing it, which was waaaaay too much. All that because I wanted custom legend positioning, which the pgf-pie package does not provide. Also margins in the matrix envs were too big, but changing "inner sep = 0pt" not only changes the outer margins, but also the inner ones - i.e. between nodes. Bref. S0meb0d1 k1ll m3 pliz.
 	\begin{tikzpicture}
 		\pie [pos={\mradius,\mradius}, rotate = 90, radius=\mradius, /tikz/nodes={text opacity=0,overlay}, color={\mhbcolor, \mdisscolor}]
-		{98, 2}
+		{97, 3}
 		\matrix [right, tight matrix] at (2*\mradius+\mmargin,\mradius) {
-			\node[fill=\mhbcolor, thick, draw, minimum height=0.3cm, minimum width=0.3cm, label=right:{O$_2$Hb (98\%)}] at (0,0) {};\\
-			\node[fill=\mdisscolor, thick, draw, minimum height=0.3cm, minimum width=0.3cm, label=right:{Dissolved gas (2\%)}] at (0,0) {};\\
+			\node[fill=\mhbcolor, thick, draw, minimum height=0.3cm, minimum width=0.3cm, label=right:{O$_2$Hb (97\%)}] at (0,0) {};\\
+			\node[fill=\mdisscolor, thick, draw, minimum height=0.3cm, minimum width=0.3cm, label=right:{Dissolved gas (3\%)}] at (0,0) {};\\
 		};
 		\draw ({(\mfigwidth/2-0.2)/2}, 0) node[below]{O$_2$ blood transport} ;
 		\pie [pos={\mfigwidth/2+\mradius-0.20,\mradius}, rotate = 90, radius=\mradius, /tikz/nodes={text opacity=0,overlay}, color={\mbicarcolor, \mhbcolor, \mdisscolor}]
