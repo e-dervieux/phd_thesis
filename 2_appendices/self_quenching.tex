@@ -1,10 +1,10 @@
-\chapter{Haemoglobin Fluorescence Self Quenching}\label{app:haemo_self_quench}
+\chapter{Haemoglobin Inner Filter Effect}\label{app:haemo_self_quench}
 
 \begin{appbox}
 	Back to Section~\ref{sect:co2hb:fluo:hb_fluo}\hfill \hyperref[chapter:toc]{Main Table Of Content (TOC)}
 \end{appbox}
 
-When measuring the fluorescence of a solution, one might expect to measure more fluorescence signal when increasing the fluorophore concentration. This is however not the case if the fluorophore also absorbs at the wavelength of the re-emitted fluorescent light---a phenomenon known as \emph{self quenching}. The following developments present two simplified models of right-angle and front-face geometry fluorometers to emphasise this latter phenomenon.
+When measuring the fluorescence of a solution, one might expect to measure more fluorescence signal when increasing the fluorophore concentration. However, this is not the case if the fluorophore also absorbs at the wavelength of the re-emitted fluorescent light---a phenomenon sometimes improperly referred to as \emph{self-quenching}, but which is, in reality, an \emph{inner filter effect}\cite{elisonhirsch1994}. The following developments present two simplified models of right-angle and front-face geometry fluorometers to emphasise this latter phenomenon.
 
 \section{Right-Angle Optics}
 
@@ -45,7 +45,7 @@ Note that in the---highly unlikely---case where $\varepsilon_X = \varepsilon_\te
 \end{equation}
 
 
-Figure~\ref{annfig:fluo_quenching:fluo_right_curves} depicts several plots of $\Phi_\text{M,detected}$ as a function of the fluorophore concentration $c$ for different values of $\varepsilon_X$ and $\varepsilon_M$, and is useful to understand the self quenching phenomenon that takes place during right-angle haemoglobin fluorescence measurements.
+Figure~\ref{annfig:fluo_quenching:fluo_right_curves} depicts several plots of $\Phi_\text{M,detected}$ as a function of the fluorophore concentration $c$ for different values of $\varepsilon_X$ and $\varepsilon_M$, and is useful to understand the inner filter effect phenomenon that takes place during right-angle haemoglobin fluorescence measurements.
 
 \begin{figure}
 	\centering
@@ -56,7 +56,7 @@ Figure~\ref{annfig:fluo_quenching:fluo_right_curves} depicts several plots of $\
 
 At first, we can notice that in the absence of absorption at the emission wavelength---red curves---increasing the fluorophore concentration above a certain threshold is pointless. Indeed, the re-emitted light---and thus detected light, since all the re-emitted light will be collected without attenuation---becomes limited by the intensity of the exciting beam $\Phi_\text{X}(x=0)$. In this configuration, the collected light is directly proportional to the exciting beam intensity, given that the fluorophore concentration is at least three up to five-fold larger than $(\varepsilon_\text{X} \cdot L)^{-1}$ (first-order exponential decay).
 
-Then, if the fluorophore also absorbs at the emitting wavelength, as is the case for haemo\-globin---green and blue curves---it appears that there is an optimal concentration to measure the highest possible fluorescence intensity, where the fluorescence intensity peaks---typically in the 0.5--3~M range in Figure~\ref{annfig:fluo_quenching:fluo_right_curves} depending on which blue or green curve is taken. The higher the fluorophore absorption at the re-emitted wavelength, the lower the fluorophore concentration should be to maximise $\Phi_\text{M,detected}$, but also the lower the $\Phi_\text{M,detected}$ value will be. This illustrates well the so-called \enquote{self quenching} mechanism.
+Then, if the fluorophore also absorbs at the emitting wavelength, as is the case for haemo\-globin---green and blue curves---it appears that there is an optimal concentration to measure the highest possible fluorescence intensity, where the fluorescence intensity peaks---typically in the 0.5--3~M range in Figure~\ref{annfig:fluo_quenching:fluo_right_curves} depending on which blue or green curve is taken. The higher the fluorophore absorption at the re-emitted wavelength, the lower the fluorophore concentration should be to maximise $\Phi_\text{M,detected}$, but also the lower the $\Phi_\text{M,detected}$ value will be. This illustrates well the so-called \enquote{inner filter effect} mechanism.
 
 As a quick application, taking the extinction coefficients of Prahl\cite{prahl1998} for \gls{o2hb} and an optical path length of approximately 1~cm---as is the case in commonly encountered right-angle fluorometers---leads to an optimal fluorophore concentration of 10~{\textmu}M for an excitation at 280~nm and an emission at 326~nm. The measurements related in Section~\ref{sect:co2hb:pulse_carbametry} were performed with $c\approx20$~{\textmu}M, and were thus well targeted, being in the corresponding fluorescence intensity peak (peak over its half-width in the 1--25~{\textmu}M range).
 
