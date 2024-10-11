@@ -8,13 +8,13 @@ The outlier removal technique that was used on haemoglobin absorption spectra wa
 
 \section{Ethical Considerations}
 
-At first, outlier detection and removal is often criticised because it is performed on measurements \textit{a posteriori}, and aims at supporting an already formulated hypothesis. As such, one may be tempted to keep only the data in accordance with their theory, and thus reach erroneous conclusions\cite{stefan2023}. In the intra medium case, the solution was prepared once and for all, and it was poured from the same bottle inside one of the six quartz cuvettes at my disposal. The cuvettes were carefully cleaned and dried before each measurement, and all measurements are thus expected to be extremely similar, exhibiting discrepancies close to that of a Gaussian distribution. Any measurement exhibiting large deviations from the average---or median, if a more robust location estimator is sought---spectrum should thus be considered as an outlier. All measurements on the intra medium were additionally performed on the same day, but would it not be the case, we should not observe any spectral drift. Indeed, the intra medium is composed of distilled water, KCl and HEPES buffer which makes it a stable solution (the shelf life of HEPES solutions is of at least two years\cite{hepes_shelf}).
+At first, outlier detection and removal is often criticised because it is performed on measurements \textit{a posteriori}, and aims at supporting an already formulated hypothesis. As such, one may be tempted to keep only the data in accordance with their theory, and thus reach erroneous conclusions\cite{stefan2023}. In the intra medium case, the solution was prepared once and for all, and it was poured from the same bottle inside one of the six quartz cuvettes at my disposal. The cuvettes were carefully cleaned and dried before each measurement, and all measurements are thus expected to be extremely similar, exhibiting discrepancies close to that of a Gaussian distribution. Any measurement exhibiting large deviations from the average---or median, if a more robust location estimator is sought---spectrum should thus be considered as an outlier. Additionally, all measurements on the intra medium were performed on the same day, but were it not the case, we should not observe any spectral drift. Indeed, the intra medium is composed of distilled water, KCl and HEPES buffer which makes it a stable solution (the shelf life of HEPES solutions is of at least two years\cite{hepes_shelf}).
 
-Second, concerning the handling of the so-obtained outliers, the logical way to treat them would be to remove them from the dataset. Indeed, the aim of the study at hand was to measure the most accurate intra medium spectrum as possible, and the latter should not be polluted by undesirable, presumably erroneous measurement. However, these outliers can still reveal valuable insights about the measurement protocol that was used, and they will need to be investigated. The possible origins of these outliers are further discussed in paragraph \ref{annsect:outliers:outliers_discuss}.
+Second, concerning the handling of the so-obtained outliers, the logical way to treat them would be to remove them from the dataset. Indeed, the aim of the study at hand was to measure the most accurate intra medium spectrum as possible, and the latter should not be polluted by undesirable, presumably erroneous measurements. However, these outliers can still reveal valuable insights about the measurement protocol that was used, and they will need to be investigated. The possible origins of these outliers are further discussed in paragraph \ref{annsect:outliers:outliers_discuss}.
 
 \section{Outlier Identification and Removal}\label{par:outliers_id}
 
-As can be seen in Figure~\ref{annfig:outlier:outlier_and_cor}, on 30 measured intra medium spectra plotted with a dashed line---five measurements for each of the six cuvettes at our disposal---at least two of them---the two upper curves---appear to be quite suspicious, exhibiting large deviations compared to the other spectra. The first one is far above all the others, and the second one exhibits a strong drift in the 250--300~nm range. To investigate this issue with a more objective point-of view, the following algorithm was set up.
+As can be seen in Figure~\ref{annfig:outlier:outlier_and_cor}, on 30 measured intra medium spectra plotted with a dashed line---five measurements for each of the six cuvettes at our disposal---at least two of them---the two upper curves---appear to be quite suspicious, exhibiting large deviations compared to the other spectra. The first one is far above all the others, and the second one exhibits a strong drift in the 250--300~nm range. To investigate this issue with a more objective point-of-view, the following algorithm was set up.
 
 \begin{figure}
 	\centering
@@ -23,7 +23,7 @@ As can be seen in Figure~\ref{annfig:outlier:outlier_and_cor}, on 30 measured in
 	\label{annfig:outlier:outlier_and_cor}
 \end{figure}
 
-First, the spectral data are centred and normed, that is
+First, the spectral data are centred and normalised, that is
 \begin{equation}
 	\begin{split}
 		\forall \lambda,\; \widetilde{\mathcal{S}}(\lambda) = \frac{\mathcal{S}(\lambda) - \overline{\mathcal{S}}(\lambda)}{\sigma(\lambda)} \quad
@@ -35,7 +35,7 @@ First, the spectral data are centred and normed, that is
 	\end{split}
 \end{equation}
 
-Then, for each spectrum, the maximum deviation $\widetilde{\mathcal{S}}$ is compared to a given threshold, in order to decide whether this spectrum is an outlier or not:
+Then, for each spectrum, the maximum deviation of $\widetilde{\mathcal{S}}$ is compared to a given threshold, in order to decide whether this spectrum is an outlier or not:
 
 \begin{equation}
 	\max_{\lambda} \widetilde{\mathcal{S}}(\lambda)
@@ -45,7 +45,7 @@ Then, for each spectrum, the maximum deviation $\widetilde{\mathcal{S}}$ is comp
 	\end{cases}
 \end{equation}
 
-Once this simple two-step process has been run on all spectra, the detected outliers are removed from the available dataset and the algorithm---\ie{} normalising and thresholding---is re-run for a new epoch. It stops either if no supplementary outlier is detected at the end of an epoch, or if there is only one spectrum left in the dataset\footnote{This case should never be reached in practice, but is mentioned here for the sake of completeness.}. The idea behind this iterative process is that, in the presence of an extreme outlier, the resulting estimated standard deviation $\sigma(\lambda)$ will be much higher that it would have been without the outlier. Thus, some spectra might have been considered normal while they were in fact quite deviant. The iterative nature of the algorithm then guarantees that the latter spectra will be removed by subsequent runs.
+Once this simple two-step process has been run on all spectra, the detected outliers are removed from the available dataset and the algorithm---\ie{} normalising and thresholding---is re-run for a new epoch. It stops either if no supplementary outlier is detected at the end of an epoch, or if there is only one spectrum left in the dataset\footnote{This case should never be reached in practice, but is mentioned here for the sake of completeness.}. The idea behind this iterative process is that, in the presence of an extreme outlier, the resulting estimated standard deviation $\sigma(\lambda)$ will be much higher than it would have been without the said outlier. Thus, some spectra might have been considered normal while they were in fact quite deviant. The iterative nature of the algorithm then guarantees that the latter spectra will be removed by subsequent runs.
 
 In Figure~\ref{annfig:outlier:outlier_algo_steps}, different scenarios of evolution of the algorithm are shown, depending on different threshold values. One can see that the first outlier gets rejected even with a threshold value as high as 5~S.D., while the second one is rejected at roughly 3.85~S.D. (more threshold values were tested for accuracy purposes but are not shown here for readability reasons).
 
@@ -53,7 +53,7 @@ We arbitrarily chose to take a final threshold value of 3~S.D., which allowed 28
 \begin{equation}
 	m = \frac{1}{N_s}\cdot \sum_{i=1}^{N_s} \left( \frac{1}{N_{\lambda}} \sum_{\lambda}^{} \left( \mathcal{S}_i(\lambda) - \overline{\mathcal{S}}(\lambda) \right) ^2 \right)
 \end{equation}
-wherein $N_s$ is the number of intra medium spectra (30 in total, 28 without the two detected outliers) and $N_{\lambda}$ it the number of measured wavelengths. When computing this metric on the full intra medium spectra population and when removing the outliers, $m$ decreases from $5.19\times 10^{-5}$ down to $8.24\times 10^{-6}$. Concerning the maximum deviation from the mean, the latter decreased from $\substack{+0.122 \\ -0.015}$~Abs (range: 0.137~Abs) to $\substack{+0.013 \\ -0.010}$~Abs (range: 0.023~Abs), hence the interest of the presented technique.
+wherein $N_s$ is the number of intra medium spectra (30 in total, 28 without the two detected outliers) and $N_{\lambda}$ it the number of measured wavelengths. When computing this metric on the whole population of intra medium spectra and when removing the outliers, $m$ decreases from $5.19\times 10^{-5}$ down to $8.24\times 10^{-6}$. Concerning the maximum deviation from the mean, the latter decreases from $\substack{+0.122 \\ -0.015}$~Abs (range: 0.137~Abs) to $\substack{+0.013 \\ -0.010}$~Abs (range: 0.023~Abs), hence the interest of the presented technique.
 
 \begin{figure}
 	\centering
@@ -64,13 +64,13 @@ wherein $N_s$ is the number of intra medium spectra (30 in total, 28 without the
 
 \section{On the Detected Outliers}\label{annsect:outliers:outliers_discuss}
 
-The two outliers removed by the above-mentioned method were the first and second acquisition performed on the $2^{nd}$ quartz cuvette. While it was tempting to incriminate the cuvette itself, the other three measurements performed with it passed the algorithm successfully. It thus seems that the cause of these outlying measurements lies elsewhere.
+The two outliers removed by the above-mentioned method were the first and second acquisitions performed on the $2^{nd}$ quartz cuvette. While it was tempting to incriminate the cuvette itself, the other three measurements performed with it passed the algorithm successfully. It thus seems that the cause of these outlying measurements lies elsewhere.
 
-Most likely, the spectrum which is far above the others in Figure~\ref{annfig:outlier:outlier_and_cor} corresponds to a cuvette which was placed in the wrong orientation. In such configuration, the light path-length in the intra medium is reduced while that in the quartz of the cuvette is increased. Considering the second outlier---which only diverges on the 250--300~nm range---it might result from a soiled cuvette, possibly from greasy fingers. Indeed, human skin lipid can have important absorption in this spectral region\cite{beadle1981}.
+Most likely, the spectrum that is far above the others in Figure~\ref{annfig:outlier:outlier_and_cor} corresponds to a cuvette which was placed in the wrong orientation. In such a configuration, the light path-length in the intra medium is reduced while that in the quartz of the cuvette is increased. Considering the second outlier---which only diverges in the 250--300~nm range---it might result from a soiled cuvette, possibly from greasy fingers. Indeed, human skin lipids can have important absorption in this spectral region\cite{beadle1981}.
 
 \section{Obtained Spectrum After Outlier Removal}
 
-As mentioned above, the chosen outlier removal technique pruned 2 spectra out of the 30 intra medium spectra measured. With the remaining 28 spectra, an average spectrum could be computed that was latter used as a baseline in subsequent spectrophotometric analyses---\ie{} this average spectrum was subtracted from the haemoglobin absorption spectra to remove the influence of the quartz cuvette and intra medium from them. This outlier removal technique was also used on the haemoglobin absorption spectra themselves, as mentioned in Section~\ref{sect:co2hb:hb_spectra}, above. In all cases, the number of survivors \textit{versus} the threshold value always presented a shape similar to that of Figure~\ref{annfig:outlier:outlier_algo_steps}, right---\ie{} a few outliers are removed for a high threshold value, before a steep decrease at a threshold value of about 3~S.D. Consequently this latter value was always chosen in all subsequent spectra pruning.
+As mentioned above, the chosen outlier removal technique pruned 2 spectra out of the 30 intra medium spectra measured. With the remaining 28 spectra, an average spectrum could be computed that was later used as a baseline in subsequent spectrophotometric analyses---\ie{} this average spectrum was subtracted from the haemoglobin absorption spectra to remove the influence of the quartz cuvette and intra medium from them. The outlier removal technique was also used on the haemoglobin absorption spectra themselves, as mentioned in Section~\ref{sect:co2hb:hb_spectra}, above. In all cases, the number of survivors \textit{versus} the threshold value always presented a shape similar to that of Figure~\ref{annfig:outlier:outlier_algo_steps}, right---\ie{} a few outliers are removed for a high threshold value, before a steep decrease at a threshold value of about 3~S.D. Consequently this latter value was always chosen in all subsequent spectra pruning operations.
 
 \begin{appbox}
 	Back to Section~\ref{sect:co2hb:hb_spectra}\hfill \hyperref[chapter:toc]{Main Table Of Content (TOC)}
