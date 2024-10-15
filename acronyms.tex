@@ -1,0 +1,200 @@
+% Acronyms: label, short name, full name
+
+% From there: https://tex.stackexchange.com/questions/79907/howto-achieve-capitalized-description-in-glossary-table
+% EDIT: https://tex.stackexchange.com/questions/717622/
+\let\firstchar\uppercase
+\let\oldprintglossaries\printglossaries
+\def\printglossaries{\oldprintglossaries\let\firstchar\lowercase}
+
+% Others
+\newacronym{who}{WHO}{World Health Organisation}
+\newacronym{fda}{FDA}{Food and Drug Administration}
+\newacronym{fdm}{FDM}{Fused Deposition Modeling}
+\newacronym{pas_fr}{PAS}{Plan d'Analyse Statistique}
+\newacronym{tldr}{TL;DR}{Too Long; Didn't Read}
+
+% Gases
+\newacronym{co2}{CO$_2$}{\firstchar{C}arbon dioxide}
+\newacronym{co}{CO}{\firstchar{C}arbon monoxide}
+\newacronym{o2}{O$_2$}{\firstchar{D}i-oxygen}
+\newacronym{n2}{N$_2$}{\firstchar{D}i-nitrogen}
+\newacronym{voc}{VOC}{Volatile Organic Compound}
+
+% Medecine
+\newacronym{o2sat}{saO$_2$}{arterial \firstchar{D}i-oxygen saturation}
+\newacronym{spo2}{spO$_2$}{\firstchar{P}ulsed di-oxygen saturation}
+\newacronym{co2sat}{saCO$_2$}{arterial \firstchar{C}arbon dioxide saturation}
+\newacronym{capco2}{cap-pCO$_2$}{\firstchar{C}apillary CO$_2$ pressure}
+\newacronym{cosat}{SatCO}{\firstchar{C}arbon monoxide saturation}
+\newacronym{pi}{PI}{Perfusion Index}
+\newacronym{punit}{P.U.}{Perfusion Units}
+\newacronym{copd}{COPD}{Chronic Obstructive Pulmonary Disease}
+\newacronym{ldf}{LDF}{Laser Doppler Flowmetry}
+\newacronym{cvc}{CVC}{Cutaneous Vascular Conductance}
+\newacronym{map}{MAP}{Mean Arterial Pressure}
+\newacronym{tewl}{TEWL}{Transepidermal Water Loss}
+\newacronym{bmi}{BMI}{Body Mass Index}
+
+% Hb species
+\newacronym{sulfhb}{SulfHb}{Sulf-Haemo\-globin}
+\newacronym{cnhb}{HiCN}{Cyan-Met-Haemo\-globin}
+\newacronym{methb}{MetHb}{Met-Haemo\-globin}
+\newacronym{o2hb}{O$_2$Hb}{Oxy-Haemo\-globin}
+\newacronym{cohb}{COHb}{Carboxy-Haemo\-globin}
+\newacronym{co2hb}{CO$_2$Hb}{Carbamino-Haemo\-globin}
+\newacronym{hb}{HHb}{Deoxy-Haemo\-globin}
+
+% Electronic
+\newacronym{led}{LED}{Light Emitting Diode}
+\newacronym{mems}{MEMS}{Micro Electro-Mechanical Systems}
+\newacronym{isfet}{ISFET}{Ion-Selective Field-Effect Transistor}
+\newacronym{fet}{FET}{Field-Effect Transistor}
+\newacronym{mosfet}{MOSFET}{Metal Oxyde Semiconductor Field-Effect Transistor}
+\newacronym{ntc}{NTC}{Negative Temperature Coefficient}
+\newacronym{pcb}{PCB}{Printed Circuit Board}
+\newacronym{smd}{SMD}{Surface Mount Device}
+\newacronym{lfo}{LFO}{Low Frequency Oscillator}
+\newacronym{bnc}{BNC}{Bayonet Neill–Concelman}
+\newacronym{sma}{SMA}{SubMiniature version A}
+\newacronym{psu}{PSU}{Power Supply Unit}
+\newglossaryentry{ac}{name=AC,description={Alternative Current (by extension, anything time varying)}}
+\newglossaryentry{dc}{name=DC,description={Direct Current (by extension, anything constant)}}
+\newacronym{fwhm}{FWHM}{Full Width at Half Maximum}
+\newacronym{adc}{ADC}{Analog to Digital Converter}
+\newacronym{tia}{TIA}{TransImpedance Amplifier}
+\newacronym{dac}{DAC}{Digital to Analog Converter}
+\newacronym{dspcpu}{DSP}{Digital Signal Processor}
+
+% Computer Science
+\newacronym{uart}{UART}{Universal Asynchronous Receiver Transmitter}
+\newacronym{usb}{USB}{Universal Serial Bus}
+\newacronym{csv}{CSV}{Comma-Separated Values}
+\newacronym{api}{API}{Application Programming Interface}
+
+%%% Chemicals %%%
+
+% Chemicals - Dyes
+% Chemicals - Dyes - Fluorescent
+\newacronym{hpts}{HPTS}{1-hydroxy-pyrene-3,6,8-trisulfonate} % a.k.a.:
+\newacronym{hopsa}{HOPSA}{\firstchar{T}risodium salt of 8-hydroxyl-1,3,6-pyridine trisulfonic acid} % a.k.a.:
+\newacronym{hpta}{HPTA}{\firstchar{H}ydroxypyrenetrisulfonic acid} % a.k.a. pyranine
+\newacronym{rudpp}{Ru-dpp}{\firstchar{T}ris(4,7-diphenyl-1,10 phenanthroline) ruthenium (II) dichloride}
+\newacronym{rupn}{Ru-pn}{\firstchar{T}ris(1,10 phenanthroline) ruthenium (II) dichloride}
+\newacronym{rubpy}{Ru-bpy}{\firstchar{T}ris(2,2'-bipyridyl) ruthenium (II) dichloride}
+% Chemicals - Dyes - Absorption
+\newacronym{btb}{BTB}{BromoThymol Blue}
+\newacronym{tb}{TB}{Thymol Blue}
+\newacronym{mcp}{m-Cresol Purple}{MCP}
+\newacronym{naf}{NAF}{$\alpha$-naphtolphtalein}
+\newacronym{nbb}{NBB}{Naphtol Blue Black}
+
+% Chemicals - Polymers
+\newacronym{evoh}{EVOH}{\firstchar{E}thylene-vinyl alcohol}
+\newacronym{hpmc}{HPMC}{\firstchar{H}ydroxy propyl methylcellulose}
+\newacronym{pan}{PAN}{\firstchar{P}olyacrylonitrile}
+\newacronym{pdms}{PDMS}{\firstchar{P}olydimethylsiloxane}
+\newacronym{peg}{PEG}{\firstchar{P}olyethylene glycol}
+\newacronym{pen}{PEN}{\firstchar{P}olyethylene naphthalate}
+\newacronym{pet}{PET}{\firstchar{P}olyethylene terephthalate}
+\newacronym{pibm}{polyIBM}{\firstchar{P}oly(isobutyl methacrylate)}
+\newacronym{pla}{PLA}{\firstchar{P}oly-lactic acid}
+\newacronym{pmma}{PMMA}{\firstchar{P}oly(methyl methacrylate)}
+\newacronym{ppta}{PPTA}{\firstchar{P}oly(p-phenylene terephthalamide)}
+\newacronym{ptfe}{PTFE}{\firstchar{P}olytetrafluoroethylene}
+\newacronym{pva}{PVA}{\firstchar{P}olyvinyl alcohol}
+\newacronym{pvc}{PVC}{\firstchar{P}olyvinyl chloride}
+\newacronym{pvcd}{PVCD}{\firstchar{P}oly(vinylidene chloride-co-vinyl chloride)}
+\newacronym{pvdf}{PVDF}{\firstchar{P}olyvinylidene fluoride}
+
+% Chemicals - Phase Transfer Agents
+\newacronym{teah}{TEAH}{\firstchar{T}etraethyl ammonium hydroxide}
+\newacronym{toah}{TOAH}{\firstchar{T}etraoctyl ammonium hydroxide}
+\newacronym{toab}{TOAB}{\firstchar{T}etraoctyl ammonium bromide}
+\newacronym{tmah}{TMAH}{\firstchar{T}etramethyl ammonium hydroxide}
+\newacronym{ctah}{CTAH}{\firstchar{C}etyltrimethyl ammonium hydroxide}
+
+% Chemicals - Solvents
+\newacronym{dmf}{DMF}{\firstchar{D}imethylformamide}
+\newacronym{dmso}{DMSO}{\firstchar{D}imethyl sulfoxide}
+\newacronym{ipa}{IPA}{\firstchar{I}sopropyl alcohol}
+\newacronym{thf}{THF}{\firstchar{T}etrahydrofuran}
+
+% Chemicals - Others
+\newacronym{edta}{EDTA}{Ethylene Diamine Tetraacetic Acid}
+\newacronym{nadh}{NADH}{Oxydised Nicotinamide Adenine Dinucleotide}
+\newacronym{rh}{RH}{Relative Humidity}
+\newacronym{rtil}{RTIL}{Room Temperature Ionic Liquid}
+\newacronym{cil}{CIL}{Carbamate Ionic Liquid}
+\newacronym{tbp}{TBP}{\firstchar{T}ributyl phosphate}
+\newacronym{kfecn}{K$_3$[Fe(CN)$_6$]}{\firstchar{P}otassium ferricyanide}
+\newacronym{23dpg}{2,3-BPG}{2,3-BisPhosphoGlyceric acid}
+\newacronym{ros}{ROS}{\firstchar{R}eactive oxygen species}
+\newacronym{dabco}{DABCO}{1,4-diazabicyclo[2.2.2]octane}
+\newacronym{teda}{TEDA}{\firstchar{T}riethylenediamine}
+\newacronym{mof}{MOF}{Metal Organic Framework}
+
+% Measurement technique
+\newacronym{ppg}{PPG}{\firstchar{P}hotoplethysmography}
+\newacronym{nirs}{NIRS}{Near Infra-Red Spectrometry}
+\newacronym{ndir}{NDIR}{Non Dispersive Infra-Red}
+\newacronym{mri-er}{MRI}{Magnetic Resonance Imager}
+\newacronym{mri-ing}{MRI}{Magnetic Resonance Imaging}
+\newacronym{dlr}{DLR}{Dual Lifetime Referencing}
+\newacronym{fdlr}{f-DLR}{frequency-based Dual Lifetime Referencing}
+\newacronym{tdlr}{t-DLR}{time-based Dual Lifetime Referencing}
+\newacronym{dfdlr}{DF-DLR}{Dual Frequency Dual Lifetime Referencing}
+\newacronym{drs}{DRS}{Diffuse Reflectance Spectometry}
+\newacronym{fret}{FRET}{Fluorescent Resonance Energy Transfer}
+\newacronym{ife}{IFE}{Inner Filter Effect}
+
+% Mathematical methods
+\newacronym{pca}{PCA}{Principal Component Analysis}
+\newacronym{pls}{PLS}{Partial Least Squares}
+\newacronym{pdf}{PDF}{Probability Density Function}
+\newacronym{anova}{ANOVA}{ANalysis Of VAriance}
+\newacronym{manova}{MANOVA}{Multivariate ANalysis Of VAriance}
+\newacronym{dft}{DFT}{Discrete Fourier Transform}
+\newacronym{rmse}{RMSE}{Root Mean Square Error}
+\newacronym{snr}{SNR}{Signal to Noise Ratio}
+\newacronym{snrdb}{SNR$_\text{dB}$}{Signal to Noise Ratio in dB}
+\newacronym{sd}{SD}{Standard Deviation}
+\newacronym{lotus}{LOTUS}{Law Of The Unconscious Statistician}
+\newacronym{crlb}{CRLB}{Cram\'er-Rao Lower Bound}
+\newacronym{lclt}{L-CLT}{Lyapunov's Central Limit Theorem}
+
+% Physics
+\newacronym{ir}{IR}{Infra-Red}
+\newacronym{nir}{NIR}{Near Infra-Red}
+\newacronym{stp}{STP}{Standard Temperature and Pressure}
+\newacronym{nh}{NH}{Non-Heated}
+
+% Shortcuts
+\newcommand{\bscy}{Biosency}
+\newcommand{\ssel}{Stow-Severinghaus electrode}
+\newcommand{\aka}{\textit{a.k.a.}}
+\newcommand{\conj}[1]{\overline{\mbox{$#1$\mathstrut}}} % math conjugate
+\DeclareMathSymbol{\cdot}{\mathord}{symbols}{"01} % shortens space around cdot
+
+% Latin locution
+\newcommand{\etal}{\textit{et al.}}
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\etc}{\textit{etc}}
+\newcommand{\perse}{\textit{per se}}
+\newcommand{\invivo}{\textit{in vivo}}
+\newcommand{\invitro}{\textit{in vitro}}
+
+% Abreviation: label, name, description
+\newglossaryentry{pao2}{name={paO$_2$},description={Arterial dioxygen partial pressure}}
+\newglossaryentry{po2}{name={pO$_2$},description={Dioxygen partial pressure}}
+\newglossaryentry{pco2}{name={pCO$_2$},description={Carbon dioxide partial pressure}}
+\newglossaryentry{paco2}{name={paCO$_2$},description={Arterial carbon dioxide partial pressure}}
+\newglossaryentry{petco2}{name={petCO$_2$},description={End-tidal carbon dioxide partial pressure}}
+\newglossaryentry{ptco2}{name={tcpCO$_2$},description={Transcutaneous carbon dioxide partial pressure}}
+\newglossaryentry{pseco2}{name={p$_\text{Se}$CO$_2$},description={Inner sensor carbon dioxide partial pressure}}
+\newglossaryentry{tcpo2}{name={tcpO$_2$},description={Transcutaneous dioxygen partial pressure}}
+\newglossaryentry{pvaco2}{name={p$_{\text{v-a}}$CO$_2$},description={Carbon dioxide venous-to-arterial pressure difference}}
+\newglossaryentry{h2o}{name={H$_2$O},description={Water}}
+\newglossaryentry{h2s}{name={H$_2$S},description={Hydrogen sulfide}}
+\newglossaryentry{sodith_for}{name=Na$_2$S$_2$O$_4$,description={Sodium dithionite}}
+\newglossaryentry{sobisulf_for}{name=Na$_2$S$_2$O$_5$,description={Sodium metabisulfite}}
