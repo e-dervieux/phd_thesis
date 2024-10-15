@@ -1,20 +1,15 @@
-#####################################
-# Front matter
-#####################################
+####################################################
+# Compile figures for each part separately
+####################################################
 
-(cd 0_front_matter/front_figures/tikz && mkdir -p out && lualatex -synctex=1 -output-directory out -interaction=nonstopmode frin.tex)
+./compilation_chain/0_front_matter
+./compilation_chain/1_main_matter
+./compilation_chain/2_appendices
+./compilation_chain/3_back_matter
 
-# Appendix
-
-#####################################
-# Back Matter
-#####################################
-
-(cd 3_back_matter/figures/tikz && mkdir -p out && lualatex -synctex=1 -output-directory out -interaction=nonstopmode biblio_hist.tex)
-
-#####################################
+####################################################
 # Main compilation
-#####################################
+####################################################
 
 # Creating main output dirs
 mkdir -p out

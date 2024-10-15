@@ -1,0 +1,1 @@
+(echo Generating backmatter figures && cd 3_back_matter/figures/tikz && mkdir -p out && lualatex -synctex=1 -output-directory out -interaction=nonstopmode biblio_hist.tex > /dev/null && echo Done!)

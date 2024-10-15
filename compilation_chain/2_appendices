@@ -1,0 +1,12 @@
+# Appendix
+for location in 2_appendices/figures/tikz 2_appendices/optical_figures/tikz; do
+	(cd "$location"
+	echo Generating figures for $location
+	mkdir -p out
+	for texfile in *.tex; do
+		echo Figure $texfile...
+		lualatex -synctex=1 -output-directory out -interaction=nonstopmode "$texfile" > /dev/null
+		echo Done!
+	done
+	)
+done
