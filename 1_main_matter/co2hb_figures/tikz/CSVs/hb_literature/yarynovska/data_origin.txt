@@ -1,0 +1,6 @@
+Data retrieved from https://wayback-api.archive.org/web/20240126033945/http://www.npsg.uwaterloo.ca/data/blood.php
+Origininal publication:
+
+I. H. Yarynovska and A.I. Bilyi. Absorption spectra of sulfhemoglobin derivatives of human blood. In G.L. Cote and A.V. Priezzhev, editors, Optical Diagnostics and Sensing VI - SPIE, 6094:1-6, 2006. 
+
+DOI: 10.1117/12.639597
