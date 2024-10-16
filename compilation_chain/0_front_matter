@@ -1,1 +1,0 @@
-(echo Generating backmatter figures && cd 0_front_matter/front_figures/tikz && mkdir -p out && lualatex -synctex=1 -output-directory out -interaction=nonstopmode frin.tex > /dev/null && echo Done!)
