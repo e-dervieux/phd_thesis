@@ -6,3 +6,8 @@ bib_src
 **/out/**
 *.doc
 *.docx
+**/*.pdf
+**/*.tex_dirty
+**/*.pdf_tex
+2_appendices/figures/src
+2_appendices/optical_figures/src
