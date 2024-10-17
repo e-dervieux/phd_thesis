@@ -11,12 +11,14 @@ m_man_compile="no"
 function Help()
 {
 # Display Help
-echo "Hoopefully compiles the thesis' manuscript."
+echo "Compiles the thesis' manuscript."
+echo "Recommended use is ./compile_thesis.sh -f -m"
 echo
-echo "Syntax: scriptTemplate [-h|v]"
+echo "Syntax: scriptTemplate [-f|h|m|v]"
 echo "options:"
-echo "f     Compile TikZ figures"
-echo "h     Print this Help."
+echo "f     Compiles TikZ figures only"
+echo "h     Prints this Help."
+echo "m     Compiles the manuscript only (figures MUST have been compiled beforehand)"
 echo "v     Verbose mode."
 echo
 }
@@ -37,6 +39,8 @@ while getopts ":fhmv" option; do
 			exit;;
 		esac
 done
+
+if [ -z "$*" ]; then Help exit; fi
 
 ####################################################
 # Compile figures for each part separately
