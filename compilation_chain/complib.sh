@@ -1,6 +1,6 @@
-RED=$(tput setaf 1)
-GREEN=$(tput setaf 2)
-NC=$(tput sgr0)
+RED=$(tput setaf 1 || printf '\x1B[31m')
+GREEN=$(tput setaf 2 || printf '\x1B[32m')
+NC=$(tput sgr0 || printf '\x1B[0m')
 
 if [ -z "$m_verbose" ]; then m_verbose="no"; fi
 

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ####################################################
 # Script setup and documentation
 ####################################################
@@ -40,7 +42,7 @@ while getopts ":fhmv" option; do
 		esac
 done
 
-if [ -z "$*" ]; then Help exit; fi
+if [ -z "$*" ]; then Help; exit; fi
 
 ####################################################
 # Compile figures for each part separately
