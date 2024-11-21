@@ -1,0 +1,135 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=7cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{circledsteps}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usetikzlibrary{fit, matrix}
+\usetikzlibrary {arrows.meta} 
+\usetikzlibrary{decorations.pathreplacing, calligraphy}
+
+\def\myline{very thick}
+
+\begin{document}
+\small
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+	%\draw[draw=black] (-1.48,-1.2) rectangle ++(11.8,1);
+	
+	\definecolor{darkgray176}{RGB}{176,176,176}
+	\definecolor{darkred}{RGB}{139,0,0}
+	\definecolor{lightgray204}{RGB}{204,204,204}
+	\definecolor{darkgray140}{RGB}{140,140,140}
+	\definecolor{lightred}{RGB}{255,95,95}
+	\definecolor{darkgreen}{RGB}{0,150,0}
+	
+	\begin{groupplot}[group style={
+			group size=2 by 2, horizontal sep=1.2cm}]
+	\nextgroupplot[
+		ymode=log,
+		tick align=outside,
+		tick pos=left,
+		xlabel={SNR$_\text{dB}$ (dB)},
+		xmin=-50, xmax=50,
+		ylabel shift=-0.1cm,
+		xtick style={color=black},
+		ylabel={RMSE ({\degree})},
+		ymin=2e-3, ymax=2e2,
+		ytick style={color=black},
+		grid=both,
+		]
+		% KEEP this part
+		\addplot [\myline, lightred]
+		table {CSVs/phase_noise_SNR_N_100.csv};
+		\label{plot:line1}
+		%
+		\addplot [\myline, red, densely dotted]
+		table {CSVs/phase_noise_SNR_N_1000.csv};
+		\label{plot:line2}
+		%
+		\addplot [\myline, darkred, dash pattern=on 1pt off 3pt on 3pt off 3pt]
+		table {CSVs/phase_noise_SNR_N_10000.csv};
+		\label{plot:line3}
+		%
+		\addplot [\myline, black, dashed]
+		table {CSVs/phase_noise_SNR_N_100000.csv};
+		\label{plot:line4}
+		\coordinate (legend) at (axis description cs:1,1);
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\nextgroupplot[
+		ymode=log,
+		xmode=log,
+		tick align=outside,
+		tick pos=left,
+		xlabel={N},
+		xmin=1e2, xmax=1e5,
+		xtick style={color=black},
+		ymin=2e-3, ymax=1e1,
+		ytick style={color=black},
+		grid=both,
+		]
+		% KEEP this part
+		
+		\addplot [\myline, lightred]
+		table {CSVs/perfs_sigma_samples/phase_noise_N_SNR_0.csv};
+		\label{plotn:line1}
+		%
+		\addplot [\myline, red, densely dotted]
+		table {CSVs/perfs_sigma_samples/phase_noise_N_SNR_10.csv};
+		\label{plotn:line2}
+		%
+		\addplot [\myline, darkred, dash pattern=on 1pt off 3pt on 3pt off 3pt]
+		table {CSVs/perfs_sigma_samples/phase_noise_N_SNR_20.csv};
+		\label{plotn:line3}
+		%
+		\addplot [\myline, black, dashed]
+		table {CSVs/perfs_sigma_samples/phase_noise_N_SNR_40.csv};
+		\label{plotn:line4}
+		
+		\coordinate (legendn) at (axis description cs:1,1);
+		
+	\end{groupplot}
+	
+	\matrix (table) [
+	draw,
+	matrix of nodes,
+	nodes in empty cells,
+	anchor=north east,
+	fill=white,
+	fill opacity=0.9,
+	inner sep=1.5pt,
+	xshift=+0.2pt,
+	yshift=+0.2pt,
+	] at (legend) {
+		& &\vphantom{A} & \\
+		\ref{plot:line1} & $10^2$ & \ref{plot:line3} & $10^4$ \\
+		\ref{plot:line2} & $10^3$ & \ref{plot:line4} & $10^5$ \\
+	};
+	\node[text centered, fit=(table-1-1)(table-1-4)]{$N$};
+	
+	\matrix (tablen) [
+	draw,
+	matrix of nodes,
+	nodes in empty cells,
+	anchor=north east,
+	fill=white,
+	fill opacity=0.9,
+	inner sep=1.5pt,
+	xshift=+0.2pt,
+	yshift=+0.2pt,
+	] at (legendn) {
+		& &\vphantom{A} & \\
+		\ref{plot:line1} & 0 & \ref{plot:line3} & 20 \\
+		\ref{plot:line2} & 10 & \ref{plot:line4} & 40 \\
+	};
+	\node[text centered, fit=(tablen-1-1)(tablen-1-4)]{SNR$_\text{dB}$ (dB)};
+	
+\end{tikzpicture}
+
+
+\end{document}

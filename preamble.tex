@@ -14,7 +14,7 @@
 \usepackage{amsmath}
 \newcommand{\spminus}{^{\smash{-}}} % smashed minus
 \DeclareMathOperator{\cotan}{cotan}
-\DeclareMathOperator*{\argmax}{argmax}
+
 % Closed square root
 \usepackage{letltxmacro}
 \makeatletter
@@ -26,6 +26,26 @@
 	{\box0\lower0.4pt\box2}}
 \LetLtxMacro{\oldsqrt}{\sqrt}
 \renewcommand*{\sqrt}[2][\ ]{\oldsqrt[#1]{#2} }
+\makeatother
+
+\usepackage{esint}
+\usepackage{cancel}
+\usepackage{bbold}
+\DeclareMathOperator\erf{erf}
+\DeclareMathOperator\erfi{erfi}
+\DeclareMathOperator\erfc{erfc}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\var}{\mathbf{Var}}
+\newcommand{\esp}{\mathbf{E}}
+\newcommand{\cov}{\mathbf{Cov}}
+\newcommand{\ind}{\mathrel{\perp\!\!\!\perp}}
+\newcommand{\e}{\mathrm{e}}
+\usepackage{bm}
+
+\makeatletter
+\newcommand{\pushright}[1]{\ifmeasuring@#1\else\omit\hfill$\displaystyle#1$\fi\ignorespaces}
+\newcommand{\pushleft}[1]{\ifmeasuring@#1\else\omit$\displaystyle#1$\hfill\fi\ignorespaces}
 \makeatother
 
 \usepackage{afterpage}

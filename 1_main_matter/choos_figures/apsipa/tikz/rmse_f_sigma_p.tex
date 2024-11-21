@@ -1,0 +1,121 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=5.97cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{circledsteps}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usetikzlibrary{fit, matrix}
+\usetikzlibrary {arrows.meta} 
+\usetikzlibrary{decorations.pathreplacing, calligraphy}
+
+\def\myline{very thick}
+
+\begin{document}
+	\small
+	% This file was created with tikzplotlib v0.10.1.
+	\begin{tikzpicture}
+		%\draw[draw=black] (-1.48,-1.2) rectangle ++(11.8,1);
+		
+		\definecolor{darkgray176}{RGB}{176,176,176}
+		\definecolor{darkred}{RGB}{139,0,0}
+		\definecolor{lightgray204}{RGB}{204,204,204}
+		\definecolor{darkgray140}{RGB}{140,140,140}
+		\definecolor{lightred}{RGB}{255,95,95}
+		\definecolor{darkgreen}{RGB}{0,150,0}
+		
+		\begin{groupplot}[group style={
+				group size=2 by 2, horizontal sep=1.2cm}]
+			\nextgroupplot[
+			ymode=log,
+			xmode=log,
+			xmin=3e-3, xmax=1,
+			tick align=outside,
+			tick pos=left,
+			xlabel={$\sigma_{p}$ (°)},
+			ylabel shift=-0.1cm,
+			xtick style={color=black},
+			ylabel={RMSE ({\degree})},
+			ymin=1e-3, ymax=1e-1,
+			ytick style={color=black},
+			grid=both,
+			]
+			% KEEP this part
+			\addplot [\myline, lightred]
+			table {CSVs/perf_sigma_snr/phase_noise_sigma_p_SNR_30_N_1000.csv};
+			\label{plot:line1}
+			%
+			\addplot [\myline, red, densely dotted]
+			table {CSVs/perf_sigma_snr/phase_noise_sigma_p_SNR_40_N_1000.csv};
+			\label{plot:line2}
+			%
+			\addplot [\myline, darkred, dash pattern=on 1pt off 3pt on 3pt off 3pt]
+			table {CSVs/perf_sigma_snr/phase_noise_sigma_p_SNR_50_N_1000.csv};
+			\label{plot:line3}
+			%
+			\addplot [\myline, black, dashed]
+			table {CSVs/perf_sigma_snr/phase_noise_sigma_p_SNR_60_N_1000.csv};
+			\label{plot:line4}
+			\coordinate (legend) at (axis description cs:1,0);
+			\node[draw=black, anchor=north, yshift=+0.2pt, fill opacity=0.9, fill=white] at (axis description cs:0.5,1) {$N = 10^3$};
+			
+			%%%%%%%%%%%%%%%%%%%%%%%%
+			%%%%%%%%%%%%%%%%%%%%%%%%
+			
+			\nextgroupplot[
+			ymode=log,
+			xmode=log,
+			tick align=outside,
+			tick pos=left,
+			xlabel={$\sigma_{p}$ (°)},
+			xmin=0, xmax=1,
+			xtick style={color=black},
+			ymin=3e-7, ymax=8e-2,
+			xmin=3e-3, xmax=1,
+			ytick style={color=black},
+			grid=both,
+			]
+			% KEEP this part
+			
+			\addplot [\myline, lightred]
+			table {CSVs/perf_sigma_snr//phase_noise_sigma_p_SNR_30_N_10000.csv};
+			\label{plotn:line1}
+			%
+			\addplot [\myline, red, densely dotted]
+			table {CSVs/perf_sigma_snr//phase_noise_sigma_p_SNR_40_N_10000.csv};
+			\label{plotn:line2}
+			%
+			\addplot [\myline, darkred, dash pattern=on 1pt off 3pt on 3pt off 3pt]
+			table {CSVs/perf_sigma_snr//phase_noise_sigma_p_SNR_50_N_10000.csv};
+			\label{plotn:line3}
+			%
+			\addplot [\myline, black, dashed]
+			table {CSVs/perf_sigma_snr//phase_noise_sigma_p_SNR_60_N_10000.csv};
+			\label{plotn:line4}
+			
+			\coordinate (legendn) at (axis description cs:1,0);
+			\node[draw=black, anchor=north, yshift=+0.2pt, fill opacity=0.9, fill=white] at (axis description cs:0.5,1) {$N = 10^4$};
+		\end{groupplot}
+		
+		\matrix (table) [
+		draw,
+		matrix of nodes,
+		nodes in empty cells,
+		anchor=south east,
+		fill=white,
+		fill opacity=0.9,
+		inner sep=1.5pt,
+		xshift=+0.2pt,
+		yshift=-0.2pt,
+		] at (legendn) {
+			& &\vphantom{A} & \\
+			\ref{plot:line1} & 20 & \ref{plot:line3} & 40 \\
+			\ref{plot:line2} & 30 & \ref{plot:line4} & 50 \\
+		};
+		\node[text centered, fit=(table-1-1)(table-1-4)]{SNR$_\text{dB}$ (dB)};
+		
+	\end{tikzpicture}
+	
+	
+\end{document}

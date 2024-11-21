@@ -1,0 +1,91 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=11.5cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{circledsteps}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usepackage[outline]{contour}
+\contournumber{64}% default is 16, star form uses 32
+\contourlength{.12em}% default is 0.03em
+\usetikzlibrary {arrows.meta, spy} 
+\usetikzlibrary{decorations.pathreplacing, calligraphy}
+
+\def\myline{very thick}
+
+\begin{document}
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}[spy using outlines={circle,black,magnification=2.5,size=2.cm, connect spies, every spy on node/.append style={thick}}]
+	
+	\definecolor{darkgray176}{RGB}{176,176,176}
+	\definecolor{darkred}{RGB}{139,0,0}
+	\definecolor{lightgray204}{RGB}{204,204,204}
+	\definecolor{darkgray140}{RGB}{140,140,140}
+	\definecolor{lightred}{RGB}{255,95,95}
+	\begin{axis}[
+		tick align=outside,
+		tick pos=left,
+		xlabel={$\theta$ (\degree)},
+		xmin=0, xmax=360,
+		xtick={0,60,120,180,240,300,360},
+		xtick style={color=black},
+		ylabel={$g_\varphi(\theta)$ (normalised)},
+		ymin=-0.05, ymax=1.05,
+		ytick style={color=black},
+		y tick label style={
+			/pgf/number format/.cd,
+			fixed,
+			fixed zerofill,
+			precision=1,
+			/tikz/.cd
+		}
+		]
+		% Hist
+		% \path[name path=xaxis] (axis cs:0,0) -- (axis cs:360,0);
+		\addplot[const plot, mark=none, draw=none, fill=red, fill opacity=0.5] table{CSVs/phi_pdf_hist.csv} \closedcycle;
+		\addplot[const plot, mark=none] table{CSVs/phi_pdf_hist.csv};
+		% Lines
+		\addplot [thick, blue, dashdotted] coordinates {(60,-1) (60,1)};
+		\addplot [thick, blue] table {CSVs/phi_mes_th.csv};
+		%
+		%\addplot [thick, draw=none,	fill=red, fill opacity=0.5]
+		%fill between[of=hist and xaxis,	soft clip={domain=0:360},
+		%];
+		%
+		%
+		\coordinate (spyfocus) at (axis cs:60,0.95);
+		\coordinate (spybubble) at (axis cs:60,0.23);
+		\coordinate (insetPosition) at (rel axis cs:0.98,0.96);
+		\spy[spy connection path={\draw[thick] (tikzspyonnode) to [bend right=20] (tikzspyinnode);}] on (spyfocus) in node at (spybubble) [fill=white];
+	\end{axis}
+	\begin{axis}[at={(insetPosition)},anchor={outer north east},
+		font=\footnotesize,
+		width=6.9cm,height=4.7cm,
+		tick align=outside,
+		tick pos=left,
+		xmin=0, xmax=360,
+		xtick style={color=black},
+		xtick={0,120,240,360},
+		ytick style={color=black},
+		% grid=both,
+		ymin=-0.05, ymax=1.05,
+		ytick style={color=black},
+		y tick label style={
+			/pgf/number format/.cd,
+			fixed,
+			fixed zerofill,
+			precision=1,
+			/tikz/.cd
+		}
+		]
+		% Hist
+		\addplot[const plot, mark=none, draw=none, fill=red, fill opacity=0.5] table{CSVs/phi_pdf_hist_inset.csv} \closedcycle;
+		\addplot[const plot, mark=none] table{CSVs/phi_pdf_hist_inset.csv};
+		% Lines
+		\addplot [thick, blue, dashdotted] coordinates {(60,-1) (60,1)};
+		\addplot [thick, blue] table {CSVs/phi_mes_th_inset.csv};
+		%
+	\end{axis}
+\end{tikzpicture}
+\end{document}

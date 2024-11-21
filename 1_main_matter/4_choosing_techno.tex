@@ -980,10 +980,718 @@ wherein $\varphi_\text{mes}$ is the phase shift between an excitation signal $s_
 
 \section{Accurate Phase Estimation for \texorpdfstring{\gls{dlr}}{DLR}}\label{sect:choos:phase_mes}
 
-What follows is essentially a slightly formatted and edited version of the article entitled \textit{On the Accuracy of Phase Extraction from a Known-Frequency Noisy	Sinusoidal Signal}, and published in 2024 in the APSIPA Transactions on Signal and Information Processing\cite{dervieux2024phase}. However, the reader probably does not need to understand all the mathematical subtleties presented in the following pages, and might only be interested in the conclusions presented in Section~\hl{XX}. \hl{L'article a été accepté avec modifications et suit actuellement sa seconde passe de revue par les pairs. Il sera inclus et formaté convenablement dès que sa version définitive sera acceptée. Pour aller à la conclusion du chapitre :} \ref{sect:choos:conclusion}.
+What follows is essentially a slightly formatted and edited version of the article entitled \textit{On the Accuracy of Phase Extraction from a Known-Frequency Noisy	Sinusoidal Signal}, and published in 2024 in the APSIPA Transactions on Signal and Information Processing\cite{dervieux2024phase}. However, the reader probably does not need to understand all the mathematical subtleties presented in the following pages, and might only be interested in the concluding remarks presented in Section~\ref{subsect:choos:apsipa:conclusion}. Those conclusions are also briefly outlined in the conclusion of the present chapter---Section~\ref{sect:choos:conclusion}. Again, the first person plural is used in the following subsections, as this was a collective work.
 
-\clearpage
-\includepdf[pages={1-}]{1_main_matter/dervieux_phase_apsipa.pdf}
+\subsection{Introduction}
+
+Spectral estimation plays a critical role in signal processing by characterising a signal's spectral attributes, including amplitudes and phase shifts. This topic has gathered considerable research interest for decades due to its numerous applications in various fields, such as telecommunications, radar, seismology, and power grid analysis\cite{marple1989, scharf1991_statistical, stoica2005spectral, marple2019_digital}. In the general case, the frequencies of interest $f_i$ of the signal under study are \textit{a priori} unknown. Thus, it is exceedingly unlikely that given a sampling frequency $f_s$ and a sampling length $N$, the numbers $f_i\cdot N / f_s$ are integers. This condition---known as \enquote{asynchronous sampling}---leads to the infamous picket fence and spectral leaking effects\cite{girgis1980}, which may be mitigated by an appropriate windowing function choice\cite{schuster2009}, the use of all-phase \gls{dft}\cite{xiaohong2007, xiaohong2008}, or both\cite{su2018}, for example.
+
+There are certain cases, however, for which the signal under study is purely sinusoidal with a known frequency. This scenario arises when characterising linear systems, which may be fed a sinusoidal excitation signal of known frequency, amplitude, and phase, while recording their output. The analysis of the attenuation and phase shift induced by the system at hand can then yield useful information. For instance, in the context of \gls{fdlr}\cite{klimant2001_pap}, the phase shift between a fluorescence excitation signal of known frequency and the re-emitted one can be used to accurately measure the concentration of a variety of analytes\cite{bultzingslowen2002, atamanchuk2014, staudinger2018, tufan2022}. In this situation---known as \enquote{synchronous sampling}---the number of samples taken, as well as the sampling and excitation frequencies $f$ and $f_s$, can be chosen so that $f\cdot N / f_s$ is an integer, which suppresses the above-mentioned deleterious effects\cite{girgis1980, ferrero1992}.
+
+Yet, as far as we were aware when performing the following developments, no comprehensive study had been conducted to characterise the achievable accuracy of phase estimation in such a synchronous sampling scenario. In the next sections, we present theoretical developments leading to a closed-form expression of the asymptotic \gls{pdf} of the phase estimate of a noisy sinusoidal signal in the presence of both phase and additive noises. The presented derivations are supported by simulations results, showing the resulting phase \gls{rmse} at different noise levels. We then show that the derived phase estimator is asymptotically efficient with a fast convergence. Finally, we discuss its asymptotic behaviour in the case of very high or very low noise levels and sample numbers.
+
+\subsection{Problem Formulation}
+
+In the remainder of this document, the objective is always to retrieve the phase $\varphi$ of a real discrete signal of length $N$ defined as
+\begin{equation}\label{eq:choos:apsipa:s_n_definition}
+	s_n = A_s \cdot\cos\left( \frac{2\cdot \pi \cdot f_0 \cdot n}{f_s} + \varphi + p_n \right) + x_n \text{, with } 
+	\begin{cases}
+		x_n \stackrel{iid}{\sim} \mathcal{N}(0, \sigma_x^2) \\
+		p_n \stackrel{iid}{\sim} \mathcal{N}(0, \sigma_p^2) \\
+		n \in  [\![0;N-1]\!]
+	\end{cases}
+\end{equation}
+with $f_0$ the frequency of the signal itself, $f_s$ its sampling frequency---always chosen such that $f_s>2\cdot f_0$, the Nyquist frequency---and $A_s$ its amplitude. The $x_n$ and $p_n$ random variables---of variances  $\sigma_x^2$ and $\sigma_p^2$---represent additive measurement noise and sampling-induced phase noise, respectively. Of note, it is also considered that $A_s$ and $\varphi$, though unknown, remain constant throughout the acquisition duration $N/f_s$. A representative illustration of the issue at hand, involving most of the parameters introduced above, may be seen in Figure~\ref{fig:choos:apsipa:intro_fig}.
+
+\begin{figure}
+	\centering
+	% Script explanatory_figure_phase.py
+	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/intro_fig}
+	\caption[Introductory figure.]{Temporal representation of the problem: the objective is to estimate the phase $\varphi$ of an idealised sinusoidal signal of amplitude $A_s$ (\begin{tikzpicture}\draw[fill=blue, blue] (0,0)  circle(0.7ex);\draw[line width=0.5ex, blue] (-1.5ex, 0) -- (1.5ex, 0); \end{tikzpicture}) from a noisy measurement of the latter (\begin{tikzpicture} \draw[fill=black, black] (-0.5ex,0ex) -- (0ex,0.7ex) -- (0.5ex,0ex) -- (0ex,-0.7ex) -- cycle; \draw[line width=0.5ex, black] (-1.5ex, 0) -- (1.5ex, 0); \end{tikzpicture}). The noise originates from two distinct sources: \textit{(i)} an additive noise $x_n$ which makes the sampled signal depart from its ideal counterpart, and \textit{(ii)} a phase noise $p_n$, which randomly shifts the sampling times ($\vcenter{\hbox{\rule{0.2em}{0.2em}\kern0.2em\rule{0.2em}{0.2em}\kern0.2em\rule{0.2em}{0.2em}}}$) in comparison to an ideal sampling at frequency $f_s$ (\textcolor{blue}{$\vcenter{\hbox{\rule{0.4em}{0.2em}\kern0.4em\rule{0.4em}{0.2em}}}$}). The symbol $\propto$ denotes proportionality, not to be confused with the Greek letter \textit{alpha} ($\alpha$), used later on in this section.}
+	\label{fig:choos:apsipa:intro_fig}
+\end{figure}
+
+Typically, in an \gls{fdlr} sensing scheme, $A_s$ and $\varphi$ would correspond to:
+\begin{enumerate}
+	\item the intensity of the collected light: a function of the quantum yield of the involved luminophores, of their concentrations, and of the illumination and light collection parameters, and
+	\item the phase shift: function of the ratio of the different luminophores species, conveying the concentration of the analyte of interest---see Section~\ref{sect:choos:dye_based:dlr_theory}.
+\end{enumerate}
+
+Hence, it is of particular importance to accurately estimate $\varphi$, and to characterise the influence of $\sigma_p$, $\sigma_x$, and $N$ on its \gls{rmse}, since it will directly influence the reachable accuracy on the measurement of a given analyte's concentration.
+
+In the remainder of this article, we adopt the following notations: $x_n$ refers to the n-th element of a given vector $X$, $\square^\intercal$ is the transpose operator, $\mathbb{0}_N$ and $\mathbb{1}_N$ stand for the zero and unit vector in $\mathbb{R}^N$, respectively, $\Re(z)$ and $\Im(z)$ stand for the real and imaginary parts of a given complex number $z$, while $\lvert z \rvert$ and $\arg (z)$ stand for its modulus and argument. $\triangleq$ means \enquote{per definition}, $\conj{\square}$ is the complex conjugate operator, $\mathcal{N}$ and $\mathcal{CN}$ stand for the normal and complex normal distributions, respectively, and $x \ind y$ denotes the independence between two random variable $x$ and $y$. Finally, the \gls{snr} of the measurement is defined as
+\begin{equation}
+	\text{SNR} = \frac{A_s^2}{2 \cdot \sigma_x^2} \quad \text{and} \quad \text{SNR}_{\text{dB}} = 10 \cdot \log_{10} (\text{SNR})
+\end{equation}
+
+\subsection{Characterisation of the \texorpdfstring{\gls{dft}}{DFT} Distribution}
+
+This study focuses on $\varphi$ estimation through the study of the \gls{dft} of the above-presented noisy signal. Indeed, we demonstrate in Section \ref{sect:choos:apsipa:phase_est} that an unbiased and efficient estimator of $\varphi$---denoted as $\widehat{\varphi}$---can be derived by taking the argument of the signal's \gls{dft} at frequency $f_0$. In order to derive the \gls{pdf} of $\widehat{\varphi}$, the \gls{pdf} of this \gls{dft} must thus be known first.
+
+To this end, let us first consider the $k$-th index of the $N$-points \gls{dft} of the above-mentioned signal\cite{cooley1969}, \ie{} its \gls{dft} at frequency $f_0$:
+\begin{equation}
+	D_N = \sum_{n=0}^{N-1} s_n \cdot \e^{-i \cdot \frac{2\cdot \pi \cdot k \cdot n}{N}}
+\end{equation}
+with $k$, $N$, $f_0$ and $f_s$ chosen such that $\frac{k}{N}=\frac{f_0}{f_s}$ (synchronous sampling hypothesis). Let $\alpha = \frac{2 \cdot \pi \cdot f_0}{f_s}$ and
+\begin{equation}
+	S = \begin{pmatrix} s_0 \\ s_1 \\ \vdots \\ s_{N-1} \end{pmatrix},\; X = \begin{pmatrix} x_0 \\ x_1 \\ \vdots \\ x_{N-1} \end{pmatrix},\;
+	Z = \begin{pmatrix} \e^{i \cdot p_0} \\ \e^{i \cdot p_1} \\ \vdots \\ \e^{i \cdot p_{N-1}} \end{pmatrix},\; \mathcal{U}_{\alpha} = \begin{pmatrix} 1 \\ \e^{-i \cdot \alpha} \\ \vdots \\ \e^{-i \cdot \alpha \cdot (N-1)} \end{pmatrix}
+\end{equation}
+
+Then $D_N$ may be rewritten as
+\begin{equation}
+	D_N = \sum_{n=0}^{N-1} s_n \cdot \e^{-i \cdot \alpha \cdot n} = \mathcal{U}_{\alpha}^\intercal \cdot S
+\end{equation}
+
+Let also define $\widetilde{S}$ as $S = \widetilde{S} + X$. Using Euler's formula, each element $\widetilde{s}_n$ of $\widetilde{S}$ may then be expressed as
+\begin{equation}
+	\begin{aligned}
+		\widetilde{s}_n &= A_s \cdot \frac{\e^{i \cdot \left( \frac{2\cdot \pi \cdot f_0 \cdot n}{f_s} + \varphi + p_n \right)} + \e^{- i \cdot \left( \frac{2\cdot \pi \cdot f_0 \cdot n}{f_s} + \varphi + p_n \right)}}{2} \\
+		&= \frac{A_s}{2} \cdot \left(\e^{i\cdot \left( \alpha \cdot n + \varphi +  p_n \right)} + \e^{- i\cdot \left( \alpha \cdot n + \varphi + p_n \right)}\right)
+	\end{aligned}
+\end{equation}
+
+The remainder of this section is organised as follows: the expected value and variance of $D_N$ are computed in Sections \ref{subsect:choos:apsipa:espd} and \ref{subsect:choos:apsipa:dvar_ideal}, respectively, while its asymptotic \gls{pdf} is derived in Section \ref{subsect:choos:apsipa:dpdf}.
+
+\subsubsection{Expected Value of \texorpdfstring{$D_N$}{DN}}\label{subsect:choos:apsipa:espd}
+
+The expected value of $D_N$ is given by
+\begin{equation}
+	\esp[D_N] = \esp[\mathcal{U}_\alpha^\intercal\cdot \widetilde{S} ] + \esp\left[\mathcal{U}_\alpha^\intercal\cdot X\right]
+\end{equation}
+
+Regarding $\esp[\mathcal{U}_\alpha^\intercal\cdot \widetilde{S} ]$,
+\begin{equation}
+	\begin{aligned}
+		\mathcal{U}_\alpha^\intercal\cdot \widetilde{S} &= \frac{A_s}{2}\left(\e^{i\cdot \varphi} \sum_{n=0}^{N-1} \e^{i \cdot p_n} + \e^{-i\cdot \varphi} \cdot \sum_{n=0}^{N-1} \e^{-2\cdot i\cdot \alpha \cdot n} \cdot \e^{-i \cdot p_n}\right)\\
+		&= \frac{A_s}{2} \cdot \left(\e^{i \cdot \varphi} \cdot \mathbb{1}_N^\intercal\cdot Z + \e^{-i\cdot \varphi} \cdot \left(\mathcal{U}_{\alpha}^2\right)^\intercal \cdot \conj{Z}\right)
+	\end{aligned}
+\end{equation}
+hence
+\begin{equation}
+	\esp[\mathcal{U}_\alpha^\intercal\cdot \widetilde{S}] = \frac{A_s}{2} \cdot \left(\e^{i \cdot \varphi} \cdot \mathbb{1}_N^\intercal\cdot \esp[Z] \vphantom{\e^{-i\cdot \varphi} \cdot \left(\mathcal{U}_{\alpha}^2\right)^\intercal \cdot \esp[\conj{Z}]}
+	+ \e^{-i\cdot \varphi} \cdot \left(\mathcal{U}_{\alpha}^2\right)^\intercal \cdot \esp[\conj{Z}]\right)
+\end{equation}
+
+We thus need to compute $\esp[Z]$. For a given $p$ amongst $p_n$, let us consider $\esp[\e^{i\cdot p}]$ first, and let $\left[g: v \mapsto \e^{i\cdot v}\right]$. Then
+\begin{equation}
+	\esp[\e^{i\cdot p}] = \esp[g(p)] =  \int_{-\infty}^{+\infty} g(v) \cdot f_p(v) dv
+\end{equation}
+
+thanks to the \href{https://web.archive.org/web/20221020124947/https://statproofbook.github.io/P/mean-lotus.html}{\gls{lotus}}\cite{soch2020}, wherein $f_p$ is the probability density function of $p$---namely a centred normal distribution of variance $\sigma_p^2$, see Equation~\ref{eq:choos:apsipa:s_n_definition}---given by
+\begin{equation}
+	\left[f_p: v \mapsto \frac{1}{\sigma_p \cdot \sqrt{2\cdot \pi}} \cdot \e^{-\frac{v^2}{2\cdot \sigma_p^2}} \right]
+\end{equation}
+
+We thus have
+\begin{equation}\label{eq:choos:apsipa:remarqid_factor}
+	\esp[\e^{i\cdot p}] = \int_{-\infty}^{+\infty} \frac{1}{\sigma_p \cdot \sqrt{2\cdot \pi}} \cdot \e^{-\frac{v^2}{2\cdot \sigma_p^2} + i \cdot v} dv= \frac{\e^{- \frac{\sigma_p^2}{2}}}{\sigma_p \cdot \sqrt{2\cdot \pi}} \int_{-\infty}^{+\infty} \e^{\left(\frac{i\cdot v}{\sigma_p \cdot \sqrt{2}} + \frac{\sigma_p}{\sqrt{2}}\right)^2} dv
+\end{equation}
+
+Using the change of variable $u = h(v)$ with
+\begin{equation}
+	\left[h: v \mapsto \frac{i\cdot v}{\sigma_p \cdot \sqrt{2}} + \frac{\sigma_p}{\sqrt{2}} \right]
+\end{equation}
+we thus have $du = \frac{i\cdot dv}{\sigma_p \cdot \sqrt{2}}$, with $\erfi$ being the imaginary error function,
+\begin{equation}
+	\begin{aligned}
+		\esp[\e^{i\cdot p}] &= \frac{\e^{- \frac{\sigma_p^2}{2}}}{\sigma_p \cdot \sqrt{2\cdot \pi}} \cdot \lim_{v\to +\infty} \int_{-h(v)}^{+h(v)} \e^{u^2} \cdot \frac{\sigma_p \cdot \sqrt{2}}{i} du \\
+		&= \frac{\e^{- \frac{\sigma_p^2}{2}}}{2 \cdot i} \cdot \underbrace{\lim_{v\to +\infty} \underbrace{\frac{2}{\sqrt{\pi}} \int_{-h(v)}^{+h(v)} \e^{u^2} du}_{= \left[\erfi(u)\right]^{+h(v)}_{-h(v)}}}_{=2\cdot i} = \e^{- \frac{\sigma_p^2}{2}}
+	\end{aligned}
+\end{equation}
+
+Back to $\esp[\mathcal{U}_\alpha^\intercal\cdot \widetilde{S} ]$, since
+\begin{equation}
+	\esp[\conj{Z}] = \conj{\esp[Z]} = \esp[Z] = \mathbb{1}_N \cdot \e^{- \frac{\sigma_p^2}{2}}
+\end{equation}
+we thus have
+\begin{equation}\label{eq:choos:apsipa:before_cyclo}
+	\esp[\mathcal{U}_\alpha^\intercal\cdot \widetilde{S}] = \frac{A_s}{2} \cdot \Biggl( \e^{i \cdot \varphi} \cdot N \cdot \e^{- \frac{\sigma_p^2}{2}} + \e^{-i\cdot \varphi} \cdot \e^{- \frac{\sigma_p^2}{2}} \cdot \sum_{n=0}^{N-1} u_{\alpha,n}^2 \Biggr)
+\end{equation}
+
+Noting that $\sum_{n=0}^{N-1} u_{\alpha,n}^2 = 0$ because $\e^{-2 \cdot i\cdot \alpha}$ is an N-th root of unity, comes
+\begin{equation}\label{eq:choos:apsipa:after_cyclo}
+	\esp[\mathcal{U}_\alpha^\intercal\cdot \widetilde{S}] = \frac{A_s \cdot N}{2} \cdot \e^{i \cdot \varphi} \cdot \e^{- \frac{\sigma_p^2}{2}}
+\end{equation}
+
+Regarding $\esp[\mathcal{U}_\alpha^\intercal\cdot X ]$,
+\begin{equation}
+	\esp[\mathcal{U}_\alpha^\intercal\cdot X ] = \mathcal{U}_\alpha^\intercal\cdot \underbrace{\esp[X]}_{=\mathbb{0}_N} = 0
+\end{equation}
+
+Finally, the expected value of $D_N$ comes to be
+\begin{equation}
+	\boxed{\esp[D_N] = \frac{A_s \cdot N}{2} \cdot \e^{i \cdot \varphi} \cdot \e^{- \frac{\sigma_p^2}{2}}}
+\end{equation}
+
+\subsubsection{Variance of \texorpdfstring{$D_N$}{DN}}\label{subsect:choos:apsipa:dvar_ideal}
+
+The variance of $D_N$ may also be calculated in a similar manner, starting with
+\begin{equation}\label{eq:choos:apsipa:esp_bbg_null}
+	\var(D_N) = \var(\mathcal{U}_\alpha^\intercal\cdot \widetilde{S} ) + \var\left(\mathcal{U}_\alpha^\intercal\cdot X\right)
+\end{equation}
+
+Regarding $\var(\mathcal{U}_\alpha^\intercal\cdot \widetilde{S} )$,
+\begin{equation}
+	\begin{aligned}
+		\var(\mathcal{U}_\alpha^\intercal\cdot \widetilde{S}) &= 
+		\var \biggl[ \frac{A_s}{2} \cdot \Bigl( \e^{i \cdot \varphi} \cdot \mathbb{1}_N^\intercal\cdot Z  + \e^{-i\cdot \varphi} \cdot \left(\mathcal{U}_{\alpha}^2\right)^\intercal \cdot \conj{Z} \Bigr) \biggr]
+		\\
+		&= \frac{A_s^2}{4} \cdot \left(\sum_{n=0}^{N-1} \var(z_n) + \var \left(\conj{z_n}\right) \right)
+	\end{aligned}
+\end{equation}
+
+We thus need to compute $\var(z_n)$, \ie{} $\var(\e^{i\cdot p_n})$.
+\begin{equation}
+	\var(\e^{i \cdot p}) = \esp\left[\left|\e^{i\cdot p}\right|^2\right] - \Big|\esp\left[\e^{i\cdot p}\right]\Big|^2
+	= 1 - \e^{-\sigma_p^2} = \var(\e^{-i \cdot p})
+\end{equation}
+as $\esp[e^{-i\cdot p}] = \conj{\esp[e^{i\cdot p}]}$. Thus
+\begin{equation}
+	\var(\mathcal{U}_\alpha^\intercal\cdot \widetilde{S}) 
+	= \frac{N \cdot A_s^2}{2} \cdot \left(1 - \e^{-\sigma_p^2}\right)
+\end{equation}
+
+Regarding $\var\left(\mathcal{U}_\alpha^\intercal\cdot X\right)$,
+\begin{equation}\label{eq:choos:apsipa:var_bbg_ideal}
+	\begin{aligned}
+		\var\left(\mathcal{U}_\alpha^\intercal \cdot X\right)\! &= \smashoperator{\sum_{n=0}^{N-1}} \var\left( u_{\alpha, n}  x_n\right) = \smashoperator{\sum_{n=0}^{N-1}} \left( \esp \Bigl[ \left|u_{\alpha, n} x_n\right|^2 \Bigr] - \big|\esp\left[ u_{\alpha, n} x_n\right] \big|^2 \right) \\
+		&= \smashoperator{\sum_{n=0}^{N-1}} \esp[x_n^2] = N \cdot \sigma_x^2
+	\end{aligned}
+\end{equation}
+
+Finally, the variance of $D_N$ comes to be
+\begin{equation}
+	\boxed{\var(D_N) = N \cdot \left( \frac{A_s^2}{2} \cdot \left(1 - \e^{-\sigma_p^2} \right) + \sigma_x^2 \right) }
+\end{equation}
+
+\subsubsection{Distribution of \texorpdfstring{$D_N$}{DN}}\label{subsect:choos:apsipa:dpdf}
+
+Now that the expected value and variance of $D_N$ are known, the next step is to study its \gls{pdf}. To do so, we focus on a reduced version of $D_N$---$\widetilde{D}_N$---defined as $\widetilde{D}_N = \frac{2 \cdot D_N}{A_s \cdot N}$, with
+\begin{equation}\label{eq:choos:apsipa:d_tilde_def}
+	\begingroup
+	\renewcommand*{\arraystretch}{1.5}
+	\beta_p = \e^{-\frac{\sigma_p^2}{2}}
+	\qquad
+	\begin{array}{l}
+		\esp[\widetilde{D}_N] = \beta_p \cdot \e^{i \cdot \varphi} \\
+		\var(\widetilde{D}_N) = \frac{2}{N} \cdot \left(1 - \beta_p^2 + \frac{1}{\text{SNR}}\right)
+	\end{array}
+	\endgroup
+\end{equation}
+
+We then proceed in two steps: at first, the convergence in law of $\Re(\widetilde{D}_N)$ and $\Im(\widetilde{D}_N)$ towards normal distributions is demonstrated. Then, the asymptotic independence of the latter two quantities is shown. These two demonstrations establish that $\widetilde{D}_N$ converges in law\footnote{Of note, convergence in law is sometimes also referred to as \enquote{convergence in distribution} or \enquote{weak convergence}\cite[p.~18]{vandervaart1996weak}.} towards a complex normal distribution\cite[pp. 540--559]{lapidoth2017}, which is a crucial requirement for the forthcoming developments (see Section \ref{sect:choos:apsipa:phase_est}). However, before delving any deeper into this two-step demonstration, we can further simplify the issue at hand, observing that
+\begin{equation}
+	\widetilde{D}_N = \underbrace{\frac{2\cdot \mathcal{U}_\alpha^\intercal\cdot \widetilde{S}}{A_s \cdot N}}_{\widetilde{D}_s} + \underbrace{\frac{2\cdot \mathcal{U}_\alpha^\intercal\cdot X}{A_s \cdot N}}_{\widetilde{D}_x}
+\end{equation}
+
+Since $X$ is stationary and ergodic, it readily follows that $\widetilde{D}_x$ converges in distribution toward a complex normal distribution\cite{panaretos2013, cerovecki2017}. Since $\widetilde{D}_s$ and $\widetilde{D}_x$ are independent, the two above-mentioned steps thus only have to be performed for $\widetilde{D}_s$.
+
+\paragraph{Convergence in Law Towards a Normal Distribution}\mbox{}\\
+
+Let us consider the real part of $\widetilde{D}_s$
+\begin{equation}
+	\begin{aligned}
+		\Re(\widetilde{D}_s) &= \frac{2}{N} \cdot \sum_{n=0}^{N-1} \cos \left(\alpha \cdot n\right) \cdot \cos \left( \alpha \cdot n + \varphi + p_n \right)\\
+		&= \frac{2}{N} \cdot \sum_{n=0}^{N-1} V_n 
+		,\quad\text{with}\quad V_n = \cos \left(\alpha \cdot n\right) \cdot \cos \left( \alpha \cdot n + \varphi + p_n \right)
+	\end{aligned}
+\end{equation}
+
+We will use \gls{lclt} to demonstrate the convergence of $\sum V_n$ towards a normal distribution. To do so, we will first show that there exists a positive $\delta$ such that
+\begin{equation}
+	\lim_{N \rightarrow + \infty} \underbrace{\frac{1}{s_N^{2+\delta}}\sum_{n=0}^{N-1} \esp \left[\big|V_n - \esp[V_n]\big|^{2+\delta}\right]}_{\gamma_N} = 0
+\end{equation}
+wherein $s_\text{N}^2=\sum_{n=0}^{N-1} \var(V_n)$, and $\var (V_n) = \cos^2(\alpha \cdot n) \cdot \underbrace{\var (\cos \left( t_\text{n} + p_n \right))}_{=\esp(\dots^2) - \esp (\dots)^2}$, with $t_n = \alpha \cdot n + \varphi$. Where
+\begin{equation}
+	\esp(\dots^2) = \frac{1}{2} + \frac{e^{-2 \cdot \sigma_p^2}}{2} \cdot \cos (2\cdot t_n),\quad\text{and}\quad \esp (\dots)^2 = e^{-\sigma_p^2} \cdot \frac{1 + \cos(2 \cdot t_n )}{2}
+\end{equation}
+and thus
+\begin{equation}
+	\begin{aligned}
+		\var (V_n) &= \cos^2(\alpha \cdot n) \cdot \Bigg[ \frac{1}{2} + e^{-\sigma_p^2} \cdot \left( \frac{\cos(2\cdot t_n )}{2}\cdot e^{-\sigma_p^2} - \frac{1 + \cos(2 \cdot t_n )}{2} \right) \Bigg] \\
+		&= \frac{\cos^2(\alpha \cdot n)}{2} \cdot \left(1 - e^{-\sigma_p^2}\right) \cdot \left(1 - e^{-\sigma_p^2} \cdot \cos(2\cdot t_n)\right)\\
+		&\geq \frac{\cos^2(\alpha \cdot n)}{2} \cdot \left(1 - e^{-\sigma_p^2}\right)^2
+	\end{aligned}
+\end{equation}
+
+Back to $s_n$,
+\begin{equation}
+	s_n^2 \geq \frac{\left(1-e^{-\sigma_p^2}\right)^2}{2} \overbrace{\sum_{n=0}^{N-1} \cos^2(\alpha \cdot n)}^{=N/2^{(\ddagger)}} \geq \frac{N \cdot \left(1-e^{-\sigma_p^2}\right)^2}{4}
+\end{equation}
+wherein $(\ddagger)$ comes from the facts that $\cos^2 x = \frac{1+\cos(2\cdot x)}{2}$, and that $e^{-2\cdot i \cdot \alpha}$ is an N-th root of unity (see Equations~\ref{eq:choos:apsipa:before_cyclo}--\ref{eq:choos:apsipa:after_cyclo}). Then, $\forall \delta > 0$
+\begin{equation}
+	\gamma_N = \frac{1}{s_N^{2+\delta}} \sum_{n=0}^{N-1} \overbrace{\esp \left[\big|V_n - \esp[V_n]\big|^{2+\delta}\right]}^{\leq 2^{2+\delta}} \leq \frac{N \cdot 2^{2+\delta}}{\left(\frac{N}{4} \cdot \left(1-e^{-\sigma_p^2}\right)^2\right)^{1+\frac{\delta}{2}}} \xrightarrow[N\rightarrow +\infty]{} 0
+\end{equation}
+Since $V_n$ are independent and of finite variance, according to \gls{lclt}, we thus have
+\begin{equation}
+	\frac{1}{s_N} \sum_{n=0}^{N-1} (V_n - \esp[V_n]) \xrightarrow[N\rightarrow +\infty]{d} \mathcal{N}(0,1)
+\end{equation}
+wherein $\xrightarrow[]{d}$ denotes convergence in distribution. 
+
+Hence, since $\Re(\widetilde{D}_s) = \frac{2}{N} \cdot \sum_{n=0}^{N-1} V_n$,
+\begin{equation}
+	\Re(\widetilde{D}_s) \xrightarrow[N\rightarrow +\infty]{d} \mathcal{N} \left( \frac{2}{N}\cdot \sum_{n=0}^{N-1} \esp [V_n], \left(\frac{2 \cdot s_N}{N}\right)^2 \right)
+\end{equation}
+A similar train of thought can be followed to also demonstrate the asymptotic normality of $\Im(\widetilde{D}_s)$.
+
+\paragraph{Asymptotic Independence}\mbox{}\\
+
+Demonstrating the complex normality of $\widetilde{D}_s$ then only requires to demonstrate that $\Re(\widetilde{D}_s) \ind \Im(\widetilde{D}_s)$. To do so, it suffices to show that\cite[Th. 4.5-1]{hogg2014}:
+\begin{enumerate}[label=\textit{(\roman*)}]
+	\item $\Re(\widetilde{D}_s)$ and $\Im(\widetilde{D}_s)$ follow a bivariate normal distribution, and that
+	\item $\cov (\Re(\widetilde{D}_s), \Im(\widetilde{D}_s)) = 0$.
+\end{enumerate}
+
+\subparagraph{Bivariate normality}\mbox{}\\
+
+$\forall (a,b) \in \mathbb{R}^2$ let
+\begin{equation}
+	\begin{aligned}
+		T &= a\cdot \Re(\widetilde{D}_s) + b \cdot \Im(\widetilde{D}_s)\\
+		&= \sum_{n=0}^{N-1} \frac{a \cdot \cos \left(\alpha \cdot n\right) + b \cdot \sin \left(\alpha \cdot n\right)}{N} \cdot \cos \left(\alpha \cdot n + \varphi + p_n \right)
+	\end{aligned}
+\end{equation}
+
+It can be shown---as was done in the previous section with $\Re(\widetilde{D}_s)$---that $T$ also converges in law towards a normal distribution. Thus, by definition, $\Re(\widetilde{D}_s)$ and $\Im(\widetilde{D}_s)$ follow a bivariate normal distribution.
+
+\subparagraph{Covariance}\mbox{}\\
+Let
+\begin{equation}
+	C = \cov (\Re(\widetilde{D}_s), \Im(\widetilde{D}_s)) = \underbrace{\esp [\Re(\widetilde{D}_s)\cdot \Im(\widetilde{D}_s)]}_{C_L} - \underbrace{\esp [\Re(\widetilde{D}_s)] \cdot \esp [\Im(\widetilde{D}_s)]}_{C_R}\\
+\end{equation}
+and $\forall n$, $\Phi_n = \varphi + p_n$. Then
+\begin{equation}
+	\begin{aligned}
+		C_L &= \esp \Bigg[\!\! \left(\sum_{l=0}^{N-1} \frac{\cos \left(\alpha \cdot l\right) \cdot \cos \left(\alpha \cdot l + \Phi_l \right)}{N} \right)\! \cdot\! \left(\sum_{l=0}^{N-1} \frac{\sin \left(\alpha\cdot m\right) \cdot \cos \left(\alpha \cdot m + \Phi_m \right)}{N} \right)\!\! \Bigg] \\
+		&= \sum_{l,m=0}^{N-1} \Bigg( \frac{\cos (\alpha \cdot l) \cdot \sin (\alpha \cdot m)}{N^2} \cdot \esp \left[\cos(\alpha \cdot l + \Phi_l) \cdot \cos(\alpha \cdot m + \Phi_m) \right] \Bigg)
+	\end{aligned}
+\end{equation}
+while
+\begin{equation}
+	C_R = \sum_{l,m=0}^{N-1} \Bigg( \frac{\cos (\alpha \cdot l) \cdot \sin (\alpha \cdot m)}{N^2} \cdot \esp \left[\cos(\alpha \cdot l + \Phi_l)\right] \cdot \esp \left[ \cos(\alpha \cdot m + \Phi_m) \right] \Bigg)
+\end{equation}
+
+Since $(p_n)$ are independent, $(\Phi_n)$ are also independent and $\forall l \neq m$
+\begin{equation}
+	\esp \left[\cos(\alpha \cdot l + \Phi_l) \cdot \cos(\alpha \cdot m + \Phi_m) \right] = \esp \left[\cos(\alpha \cdot l + \Phi_l)\right] \cdot \esp \left[ \cos(\alpha \cdot m + \Phi_m) \right]
+\end{equation}
+
+The corresponding terms in $C_L$ and $C_R$ thus cancel out and
+\begin{equation}
+	\begin{aligned}
+		C &= \frac{1}{N^2} \sum_{n=0}^{N-1} \cos (\alpha \cdot n) \cdot \sin (\alpha \cdot n) \cdot \underbrace{ \left[ \esp \left[\cos^2 (\alpha \cdot n + \Phi_n)\right] - \esp \left[\cos(\alpha \cdot n + \Phi_n)\right]^2 \right] }_{=\var (\cos (\alpha \cdot n + \Phi_n))}\\
+	\end{aligned}
+\end{equation}
+
+Using Popoviciu's inequality on variances to bound $\var (\cos (...))$ yields
+\begin{equation}
+	C \leq \frac{1}{N^2} \sum_{n=0}^{N-1} \underbrace{\left|\cos (\alpha \cdot n)\right|}_{\leq 1} \cdot \underbrace{\left|\sin (\alpha \cdot n)\right|}_{\leq 1} \cdot \underbrace{\var (\cos (...))}_{\leq 1} \leq \frac{1}{N} \xrightarrow[N \rightarrow + \infty]{} 0
+\end{equation}
+
+Thus $\Re(\widetilde{D}_s) \ind \Im(\widetilde{D}_s)$ asymptotically, and we finally demonstrated that $\widetilde{D}_s$---and thus $\widetilde{D}_N$---converges in law towards a complex normal distribution with increasing values of $N$. This can be rephrased as
+\begin{equation}\label{eq:choos:apsipa:xy_tilde_def}
+	\begin{cases}
+		\widetilde{D}_N = x + i\cdot y \\
+		x \sim \mathcal{N}\left(\mu_x = \beta_p \cdot \cos(\varphi), \sigma^2 \right)\\
+		y \sim \mathcal{N}\left(\mu_y = \beta_p \cdot \sin(\varphi), \sigma^2 \right)\\
+		x \ind y
+	\end{cases}\text{ wherein } \sigma^2 = \frac{1}{N} \cdot \left(1 - \beta_p^2 + \frac{1}{\text{SNR}}\right)
+\end{equation}
+
+\paragraph{Convergence in Practice}\mbox{}\\
+
+While this convergence is theoretically proven for $N\rightarrow + \infty$, its practical validity was studied for relatively small values of $N$. To do so, simulations were performed for \gls{snrdb}$=0..30$~dB, $\sigma_p=0.1..10${\degree}, $N=10..100$. The multivariate normality of $\Re{(\widetilde{D}_N)}$ and $\Im{(\widetilde{D}_N)}$ was tested using Henze-Zirkler test\cite{henze1990} on $2.10^3$ $\widetilde{D}_N$ outcomes. Their independence, was asserted using Hoeffding's D measures\cite{fujita2009} between $\Re{(\widetilde{D}_N)}$ and $\Im{(\widetilde{D}_N)}$ using $10^5$ $\widetilde{D}_N$ outcomes. In the case of the Henze-Zirkler test, simulations were repeated ten times, and their p-values---adjusted using the Benjamini-Hochberg correction\cite{benjamini1995} and combined with Fisher's method. The outcomes of these simulations were as follows. Henze-Zirkler multivariate test revealed no deviation from normality for $N$ values above 20 using a significance level of 0.05. Hoeffding's D measures between $\Re{(\widetilde{D}_N)}$ and $\Im{(\widetilde{D}_N)}$, on their part, were found to be below $10^{-4}$ for as little as $N=20$ measurement points, clearly demonstrating the practical independence of the two random variables. These two tests confirm that the convergence of $\widetilde{D}_N)$ towards a complex normal distribution is observed in practice across a wide range of conditions, even for relatively small $N$ values. Of note, this fast convergence is again demonstrated in Figure~\ref{fig:pdf_theta_phi}, further below, for as little as 20 samples.
+
+\subsection{Phase Estimation from the \texorpdfstring{\gls{dft}}{DFT}}\label{sect:choos:apsipa:phase_est}
+
+The phase $\varphi$ of the signal $S$ may be estimated by $\widehat{\varphi} = \arg(\widetilde{D}_N)$. Of paramount importance are thus the mean bias and \gls{rmse} of this estimator, \ie{} the two quantities
+\begin{equation}
+	\esp[\varphi - \widehat{\varphi}] \quad \text{and} \quad \sqrt{\esp\left[(\varphi - \widehat{\varphi})^2 \right]}
+\end{equation}
+
+In order to derive them, we can notice that $\widehat{\varphi}=\arg(x + i\cdot y)$, and focus on the joint probability function of $(x,y)$, given by
+\begin{equation}
+	f(x,y) = \frac{1}{2 \cdot \pi \cdot \sigma^2} \cdot \e^{-\frac{1}{2 \cdot \sigma^2}\cdot ((x - \mu_x)^2+(y-\mu_y)^2)}
+\end{equation}
+
+Then---thanks to the \gls{lotus}---$\widehat{\varphi}$'s mean bias ($a=1$) and \gls{rmse} ($a=2$) may be computed using
+\begin{equation}\label{eq:choos:apsipa:bias_rmse_cartesian}
+	\esp\left[(\varphi - \widehat{\varphi})^{a} \right] = \iint_{\mathbb{R}^2} \arg\left(x + i \cdot y\right)^{a}\cdot f(x,y)\ dxdy
+\end{equation}
+
+While direct numerical calculations are presented in Section \ref{sect:choos:apsipa:num_results}, another approach involving a switch to polar coordinates is first presented in the next section, allowing an in-depth comprehension of the influence of noises by means of meaningful illustrations.
+
+\subsubsection{Marginalisation in Polar Coordinates}
+
+A representation of the estimation of $\varphi$ in the complex plane can be seen in Figure~\ref{fig:choos:apsipa:complex_plane_expl}. Naturally, different realisations of $S$ would lead to different $\widetilde{D}_N$ values. Since $\widetilde{D}_N$ follows a complex normal distribution, this translates into the small black dots ($\cdot$) whose repartition is characteristic of a bivariate normal law, in the complex plane. This distribution is centred around its mean---$\esp[\widetilde{D}_N]$---of Cartesian coordinates $(\mu_x, \mu_y)_c$, represented as a large black dot (\textcolor{black}{$\bullet$}). Interestingly, this centre is distinct from its position in the noiseless case, represented as a large blue dot (\textcolor{blue}{$\bullet$}), due to the $\e^{-\sigma_p^2}$ term in $\esp[\widetilde{D}_N]$, which is dragging the $\widetilde{D}_N$ distribution towards the origin. A given $\widetilde{D}_N$ realisation---depicted as a large red dot (\textcolor{red}{$\bullet$})---yields an estimation of $\varphi$, namely $\widehat{\varphi}$.
+
+\begin{figure}
+	\centering
+	% Script explanatory_figure_phase.py
+	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/complex_plot_pn}
+	\caption{A representation of the estimation issue at hand in the complex plane. The $\left(\square\right)_c$ and $\left(\square\right)_p$ subscripts denote Cartesian and polar coordinates, respectively. See the text for further explanations.}
+	\label{fig:choos:apsipa:complex_plane_expl}
+\end{figure}
+
+Formally, the following change of variable from Cartesian to polar coordinates may be performed:
+\begin{equation}
+	\left[
+	\mathbf{F}:
+	\begin{array}{l}
+		\mathbb{R}^{+} \times \left[0;2\cdot \pi\right[ \rightarrow \mathbb{R}^2 \\
+		\begin{pmatrix}r \\ \theta \end{pmatrix} \mapsto \begin{pmatrix} r \cdot\cos\ \theta \\ r \cdot\sin\ \theta \end{pmatrix}
+	\end{array}
+	\right]
+	\text{and} \quad \mathbf{J_F}(r, \theta) = r
+\end{equation}
+wherein $\mathbf{J_F}$ is the Jacobian of $\mathbf{F}$. Expressing $f$ as a function of $r$ and $\theta$ yields
+\begin{equation}
+	\begin{aligned}
+		f(r,\theta) &= \frac{1}{2 \cdot \pi \cdot \sigma^2} \cdot 	\e^{-\frac{1}{2 \cdot \sigma^2}\cdot \left(r^2-2\cdot r \cdot \beta_p \cdot\cos(\theta - \varphi) + \beta_p^2\right)}\\
+		&= \frac{1}{2 \cdot \pi \cdot \sigma^2} \cdot 	\e^{-\frac{\left(r- \beta_p \cdot\cos(\theta - \varphi)\right)^2 + \beta_p^2 \cdot \sin^2(\theta - \varphi )}{2 \cdot \sigma^2}}\\
+		&= \frac{\e^{- \beta_p^2 \cdot \frac{\sin^2(\theta - \varphi)}{2\cdot \sigma^2}}}{2 \cdot \pi \cdot \sigma^2} \cdot \e^{-\frac{1}{2 \cdot \sigma^2}\cdot \left(r- \beta_p \cdot\cos(\theta - \varphi)\right)^2}
+	\end{aligned}
+\end{equation}
+
+Applying the above-mentioned change of variables, taking care to replace $dxdy$ by $\mathbf{J_F}(r, \theta)drd\theta$ in the integrand leads to the following expression for the marginal density probability of $\theta$ under $\varphi$:
+\begin{equation}
+	\smashoperator{\iint_{(x,y) \in \mathbb{R}^2}} f(x,y) dxdy = \smashoperator{\iint_{\substack{r \in \mathbb{R}^+ \\ \theta \in [0;2\cdot \pi[}}} f(r,\theta) \cdot r \ drd\theta
+\end{equation}
+and $f$ can be marginalised with respect to $r$ alone, leading to
+\begin{equation}
+	g_\varphi(\theta) \triangleq \int_{0}^{+\infty}f(\theta, r) \cdot r \ dr = \frac{\e^{- \beta_p^2 \cdot \frac{\sin^2(\theta - \varphi)}{2\cdot \sigma^2}}}{2 \cdot \pi \cdot \sigma^2} \cdot \underbrace{\smashoperator{\int_{0}^{+\infty}} r\cdot \e^{-\frac{\left(r- \beta_p \cdot\cos(\theta - \varphi)\right)^2}{2 \cdot \sigma^2}} dr}_{\mathcal{G}_\theta}
+\end{equation}
+
+$\mathcal{G}_\theta$ can be further decomposed into $\mathcal{H_\theta}$ and $\mathcal{K_\theta}$, following
+\begin{equation}
+	\begin{aligned}
+		\mathcal{G}_\theta &= \overbrace{\smashoperator{\int_{0}^{+\infty}} \left(r-\beta_p\cdot\cos(\theta - \varphi)\right)\cdot \e^{-\frac{\left(r-\beta_p\cdot\cos(\theta - \varphi)\right)^2}{2 \cdot \sigma^2}} dr}^{\mathcal{H_\theta}}\\
+		& \pushright{+ \beta_p \cdot \cos(\theta - \varphi)\cdot \underbrace{\smashoperator{\int_{0}^{+\infty}} \e^{-\frac{1}{2 \cdot \sigma^2}\cdot \left(r-\beta_p\cdot\cos(\theta - \varphi)\right)^2} dr}_{\mathcal{K_\theta}}}
+	\end{aligned}
+\end{equation}
+
+And $\mathcal{H_\theta}$ and $\mathcal{K_\theta}$ can be explicitly calculated using appropriate change of variables as
+\begin{equation}
+	\mathcal{H_\theta} = \smashoperator{\int_{-\beta_p \cdot \cos(\theta - \varphi)}^{+\infty}} t\cdot \e^{-\frac{t^2}{2 \cdot \sigma^2}} dt = -\sigma^2\cdot \smashoperator{\int_{-\beta_p \cdot \cos(\theta - \varphi)}^{+\infty}}  \frac{d}{dt}\left(\e^{-\frac{t^2}{2 \cdot \sigma^2}}\right) dt = \sigma^2 \cdot \e^{- \beta_p^2 \cdot\frac{\cos^2(\theta - \varphi)}{2 \cdot \sigma^2}}
+\end{equation}
+and
+\begin{equation}
+	\begin{aligned}
+		\mathcal{K_\theta} &= \smashoperator{\int_{-\beta_p \cdot \cos(\theta - \varphi)}^{+\infty}} \e^{-\frac{t^2}{2 \cdot \sigma^2}} dt = \smashoperator{\int_{-\beta_p \cdot \cos(\theta - \varphi)}^{+\infty}} \e^{-\left(\frac{t}{\sqrt{2} \cdot \sigma}\right)^2} dt =\sigma \cdot \sqrt{2} \cdot \smashoperator{\int_{-\beta_p \cdot \frac{\cos(\theta - \varphi)}{\sigma \cdot \sqrt{2}}}^{+\infty}} \e^{-u^2} du\\
+		& = \sigma \cdot \sqrt{\frac{\pi}{2}} \cdot \underbrace{\frac{2}{\sqrt{\pi}} \cdot \smashoperator{\int_{-\beta_p \cdot\frac{\cos(\theta - \varphi)}{\sigma \cdot \sqrt{2}}}^{+\infty}} \e^{-u^2} du}_{\erfc(...)} = \sigma \cdot \sqrt{\frac{\pi}{2}} \cdot \erfc\left(-\beta_p \cdot \frac{\cos(\theta - \varphi)}{\sigma \cdot \sqrt{2}}\right)
+	\end{aligned}
+\end{equation}
+and thus:
+\begin{equation}
+	\mathcal{G}_\theta = \sigma^2 \cdot \e^{-\beta_p^2\frac{\cos^2(\theta - \varphi)}{2 \cdot \sigma^2}} + \sigma \cdot \beta_p \cdot \sqrt{\frac{\pi}{2}} \cdot \cos(\theta-\varphi) \cdot \erfc\left(-\beta_p\cdot\frac{\cos(\theta - \varphi)}{\sigma \cdot \sqrt{2}}\right)
+\end{equation}
+
+Finally, putting it all together leads to
+\begin{equation}
+	\boxed{
+		g_\varphi(\theta) = \frac{\e^{-\frac{\beta_p^2}{2 \sigma^2}}}{2\cdot \pi} + \frac{\beta_p \cdot \cos(\theta-\varphi) \cdot \e^{-\beta_p^2 \cdot \frac{\sin^2(\theta - \varphi)}{2\cdot \sigma^2}}}{2 \cdot \sqrt{2 \cdot \pi} \cdot \sigma}
+		\cdot \erfc\left(- \beta_p \cdot \frac{\cos(\theta - \varphi)}{\sigma \cdot \sqrt{2}}\right)
+	}
+\end{equation}
+
+$g_\varphi(\theta)$ is represented in Figure~\ref{fig:choos:apsipa:pdf_theta_phi}, along with the histogram of simulated $\widehat{\varphi}$ values---\ie{} $\arg (\widetilde{D}_N)$ values, $\widetilde{D}_N$ being computed from simulated $S$ vectors. $g_\varphi(\theta)$ resembles a normal distribution which would have been wrapped around the $\left[0,2\cdot\pi\right]$ interval---although it is not a wrapped normal distribution nor a von Mises distribution strictly speaking (for further information on these distributions, see Collett, Mardia, Ley \etal{}\cite{collett1981, mardia2000directional, ley2017modern}). As could have been expected intuitively, the shape of $g_\varphi(\theta)$ narrows as $N$ or \gls{snrdb} increase, or as $\sigma_p$ decreases, as emphasised in the inset of Figure~\ref{fig:choos:apsipa:pdf_theta_phi}.
+
+\begin{figure}
+	\centering
+	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/pdf_theta_phi_pn}
+	\caption{Normalised representations of $g_\varphi(\theta)$ and of the histogram of simulated $\widehat{\varphi}$ values ($10^6$ draws, $\varphi$=60{\degree}). \textbf{Main picture:} $N=20$, \gls{snrdb}=-10~dB and $\sigma_p=5{\degree}$. The magnifying glass clearly shows how the histogram of simulated $\widehat{\varphi}$ is close to the analytic expression of $g_\varphi(\theta)$. \textbf{Inset:} $N=20$, \gls{snrdb}=0~dB and $\sigma_p=1{\degree}$.}
+	\label{fig:choos:apsipa:pdf_theta_phi}
+\end{figure}
+
+\subsubsection{Expressing the Error in the Polar Case}
+
+Since $g_\varphi(\theta)$ is the probability density function to measure a phase shift $\widehat{\varphi}=\theta$ given a true phase shift $\varphi$, the mean bias and \gls{rmse} of the $\widehat{\varphi}$ estimator, may be expressed as
+\begin{equation}\label{eq:choos:apsipa:rmse_def}
+	\begin{aligned}
+		\underset{\mathrm{(bias)}}{\esp{\left[\varphi - \widehat{\varphi}\right]}} &= \int_{0}^{2\cdot \pi} err_\varphi(\theta) \cdot g_\varphi(\theta) d\theta,\ \mathrm{and} \\
+		\text{RMSE} &= \sqrt{\int_{0}^{2\cdot \pi} err_\varphi^2(\theta) \cdot g_\varphi(\theta) d\theta}
+	\end{aligned}
+\end{equation}
+wherein $err_\varphi(\theta)$ is the estimation error at a given polar angle $\theta$, as represented in Figure~\ref{fig:choos:apsipa:error_illustration}, and is defined as
+\begin{equation}
+	err_\varphi(\theta) = \min \left(d, 2\cdot \pi - d\right)
+\end{equation}
+with $d \equiv \theta - \varphi \pmod{2\cdot\pi}$, that is
+\begin{equation}
+	err_\varphi(\theta) = \pi - |\pi - \theta|
+\end{equation}
+
+\begin{figure}
+	\centering
+	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/error_illustration_pn}
+	\caption{Illustration of $err$ on the trigonometric circle: $err$ always represent the minimum angular distance between the true $\varphi$ value and an angle $\theta$.}
+	\label{fig:choos:apsipa:error_illustration}
+\end{figure}
+
+It can also be demonstrated that the \gls{rmse} and bias are independent of $\varphi$, as could have been expected intuitively. Only the \gls{rmse} case is detailed below, but a similar train of thought can be followed for the bias. Since the square root function is bijective on $\mathbb{R}^+$, we only have to demonstrate that $\forall (\varphi,\varphi') \in [0, 2 \cdot \pi[^2$
+\begin{equation}
+	\underbrace{\int_{0}^{2\cdot \pi} err_\varphi^2(\theta) \cdot g_\varphi(\theta) d\theta}_{\mathcal{J_\varphi}} = \underbrace{\int_{0}^{2\cdot \pi} err_{\varphi'}^2(\theta) \cdot g_{\varphi'}(\theta) d\theta}_{\mathcal{J_{\varphi'}}}
+\end{equation}
+
+Then, with the change of variable $t = \theta - \varphi + \varphi'$,
+\begin{equation}
+	\mathcal{J_\varphi} = \int_{-\varphi + \varphi'}^{2 \cdot \pi-\varphi + \varphi'} err_\varphi^2(t + \varphi - \varphi') \cdot g_\varphi(t + \varphi - \varphi') d\theta
+\end{equation}
+
+Using the definitions of $err$ and $g$ comes
+\begin{equation}
+	\begin{aligned}
+		\mathcal{J_\varphi} &= \int_{-\varphi + \varphi'}^{2 \cdot \pi -\varphi + \varphi'} err_{\varphi'}^2(t) \cdot g_{\varphi'}(t) dt\\
+		&= \underbrace{\int_{-\varphi + \varphi'}^{0} err_{\varphi'}^2(t) \cdot g_{\varphi'}(t) dt}_{\mathcal{M_\varphi}} + \int_{0}^{2 \cdot \pi-\varphi + \varphi'} err_{\varphi'}^2(t) \cdot g_{\varphi'}(t) dt
+	\end{aligned}
+\end{equation}
+
+Using the change of variable $u = t + 2\cdot \pi$, and since $err$ and $g$ are $2\cdot\pi$-periodic,
+\begin{equation}
+	\mathcal{M_\varphi} = \int_{2 \cdot \pi-\varphi + \varphi'}^{2 \cdot \pi} err_{\varphi'}^2(u - 2\cdot \pi) \cdot g_{\varphi'}(u - 2\cdot \pi) du = \int_{2 \cdot \pi-\varphi + \varphi'}^{2 \cdot \pi} err_{\varphi'}^2(u) \cdot g_{\varphi'}(u) du
+\end{equation}
+
+Leading to
+\begin{equation}
+	\begin{aligned}
+		\mathcal{J_\varphi} &= \int_{0}^{2 \cdot \pi-\varphi + \varphi'} err_{\varphi'}^2(t) \cdot g_{\varphi'}(t) dt + \int_{2 \cdot \pi-\varphi + \varphi'}^{2 \cdot \pi} err_{\varphi'}^2(u) \cdot g_{\varphi'}(u) du\\
+		&= \int_{0}^{2 \cdot \pi} err_{\varphi'}^2(t) \cdot g_{\varphi'}(t) dt = \mathcal{J_{\varphi'}}\\
+	\end{aligned}
+\end{equation}
+
+The \gls{rmse} is thus independent of $\varphi$, and taking $\varphi=0$ leads to $err(\theta) = |\theta|$ $\forall \theta \in \left[-\pi, \pi\right]$, yielding finally
+\begin{equation}\label{eq:choos:apsipa:rmse_polar}
+	\boxed{
+		\text{RMSE} = \sqrt{\int_{-\pi}^{+\pi} \theta^2 \cdot g_0(\theta) d\theta}
+	}
+\end{equation}
+
+However, due to the complexity of $g_0(\theta)$, we did not manage to derive a closed-form expression of the \gls{rmse} in the general case, and used numerical simulations to compute the latter as a function of $\sigma_x$---or, equivalently, the SNR---$\sigma_p$, and $N$.
+
+The bias, on the other hand, can be readily computed since it can be shown similarly that:
+\begin{equation}
+	\esp{(\widehat{\varphi} - \varphi)} = \int_{-\pi}^{+ \pi} \theta \cdot g_0(\theta) d\theta
+\end{equation}
+and since $\left[\theta \mapsto \theta \cdot g_0(\theta)\right]$ is an odd function, it follows that the bias is null and that \textbf{$\widehat{\varphi}$ is an unbiased estimator of $\bm{\varphi}$}, which further justifies its choice as $\varphi$ estimator in the first place.
+
+\subsubsection{Numerical Calculation of the \texorpdfstring{\gls{rmse}}{RMSE}}\label{sect:choos:apsipa:num_results}
+
+Despite giving a better understanding of the issue at hand, and allowing one to clearly visualize the influence of $N$, $\sigma_p$ or $\sigma_x$ on the probability density function of $\widehat{\varphi}$---as demonstrated by Figures \ref{fig:choos:apsipa:complex_plane_expl} and \ref{fig:choos:apsipa:pdf_theta_phi}---the polar coordinates considerations did not give a closed form expression for the \gls{rmse} of $\widehat{\varphi}$. The latter may thus be calculated numerically using either Equation~\ref{eq:choos:apsipa:bias_rmse_cartesian} (Cartesian case) or Equation~\ref{eq:choos:apsipa:rmse_polar} (polar case):
+\begin{equation}
+	\text{RMSE} = \sqrt{\iint_{\mathbb{R}^2} \arg\left(x + i \cdot y\right)^{2}\cdot f(x,y)\ dxdy} = \sqrt{\int_{-\pi}^{+\pi} \theta^2 \cdot g_0(\theta) d\theta}
+\end{equation}
+
+While these two expression of the \gls{rmse} obviously yield the same quantity, the Cartesian approach is much more computationally expensive than the polar one, due to the double integration over the discretised, truncated $\mathbb{R}^2$ plane. Thus, all the results below were obtained using the polar approach. The influence of both the \gls{snrdb}---and thus $\sigma_x$---and the phase noise $\sigma_p$ on the \gls{rmse} is depicted in Figure~\ref{fig:choos:apsipa:rmse_f_snr_db}. Simulated \gls{rmse} values were also added to the latter figure, computed in a similar fashion to Figure~\ref{fig:choos:apsipa:pdf_theta_phi}. The closeness between these simulated values and the theoretical predictions consolidates the above-presented approach.
+
+\begin{figure}
+	\centering
+	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/rmse_f_snr_db_pn}
+	\caption{The \gls{rmse} on $\varphi$ estimation as a function of \gls{snrdb} for various $\sigma_p$ values. In the absence of phase noise---\ie{} the black, continuous line (\rule[.5ex]{1em}{1pt})---a linear regression can be performed for $\text{\gls{snrdb}} \geq -20$~dB, yielding the displayed equation and associated determination coefficient. As indicated, all calculations were performed taking $N$=1000 points. Simulated values were computed using only $10^2$ realisations so that some dispersion is perceivable. Indeed, using $10^6$ realisations as was done in Figure~\ref{fig:choos:apsipa:pdf_theta_phi} led to marks indistinguishable from the plain red line.}
+	\label{fig:choos:apsipa:rmse_f_snr_db}
+\end{figure}
+
+The evolution of the \gls{rmse} as a function of the SNR$_\text{dB}$ can be split into three behaviours:
+
+\begin{itemize}
+	\item[--] At very low \gls{snrdb} values---\ie{} below $-30$~dB---the \gls{rmse} saturates, to reach approximately 100{\degree}. This corresponds to an exceedingly noisy case, for which $\widehat{\varphi}$ is basically no more than a random guess on $[0;2\cdot \pi[$. In this case, $g_\varphi(\theta)$ converges towards a uniform distribution, and the \gls{rmse} tends towards $\pi / \sqrt{3}$~rad ($\approx$104{\degree}), as shown in Section \ref{subsect:choos:apsipa:uniform_sat}.
+	\item[--] At higher \gls{snrdb} value and in the absence of phase noise---\ie{} when $\text{\gls{snrdb}} > -20$~dB and $\sigma_p$=0---the \gls{rmse} follows a linear relationship with the \gls{snr} (or a log-linear relationship with \gls{snrdb}, as indicates the equation on the graphic). In this case, $g_\varphi(\theta)$ converges towards a normal distribution centred around $\varphi$, and the \gls{rmse} tends towards $1/\sqrt{N\cdot \text{\gls{snr}}}$, as demonstrated in Section \ref{subseq:choos:apsipa:linear_rel}.
+	\item[--] Finally, when $\text{\gls{snrdb}}\geq-20$~dB but the phase noise is significant---typically above 0.5{\degree} in Figure~\ref{fig:choos:apsipa:rmse_f_snr_db}---the \gls{rmse} becomes independent of \gls{snrdb} at some point as \gls{snrdb} increases, and becomes a function of $\sigma_p$ alone. This latter case is developed in Section \ref{subsect:choos:apsipa:phase_noise_satu}.
+\end{itemize}
+
+The influence of $N$ on $\widehat{\varphi}$ \gls{rmse} is presented in Figure~\ref{fig:choos:apsipa:rmse_f_snr_db_n}. Starting with the left part of the figure, while the three above-mentioned behaviours can be observed irrespective of $N$ value, increasing $N$ by a factor $m$ has two main effects. First, it shifts the saturation threshold in case of extreme noise---\ie{} for \gls{snrdb} values in the [-50,-20]~dB range---by a factor $10\cdot \log_{10}(m)$ (in dB) to the left. Then, it divides the \gls{rmse} at higher \glspl{snr}---\ie{} for \gls{snrdb} values in the [-20,50]~dB range---by a factor $\sqrt{m}$. Looking at the right part of Figure~\ref{fig:choos:apsipa:rmse_f_snr_db_n}, $\widehat{\varphi}$ \gls{rmse} appears to decrease linearly with increasing $N$ values, while increasing the \gls{snr} shifts the \gls{rmse} lines downwards.
+
+\begin{figure}
+	\centering
+	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/rmse_f_snr_db_n}
+	\caption{The \gls{rmse} on $\varphi$ estimation as a function of \gls{snrdb} and $N$, with $\sigma_p$=1{\degree}.}
+	\label{fig:choos:apsipa:rmse_f_snr_db_n}
+\end{figure}
+
+Of note, the reader should bear in mind that the \gls{snrdb} thresholds given above, as well as the numerical values given below, are of course dependent on $N$ and $A_s$. As a general rule, $A_s$ is considered unitary in all our simulations, and $N$=1000 unless otherwise stated. Still, the same above-described behaviours would be observed with different $N$ and $A_s$ values, only the numerical values stated in our developments would be altered. Of note, $\sigma_p$ values were also deliberately chosen relatively high for the sake of illustration. In practice, modern analogue-to-digital converters can feature phase noises in the [10$^{-2}$--10$^{-3}$]{\degree} range\cite{ad_phase_noise, calosso2019}.
+
+Finally, Figure~\ref{fig:choos:apsipa:rmse_f_sigma_p} depicts the evolution of $\widehat{\varphi}$ \gls{rmse} with $\sigma_p$. Here, the behaviour observed in Figure~\ref{fig:choos:apsipa:rmse_f_snr_db} can be examined from another perspective: at low enough phase noise levels---\ie{} when $\sigma_p$ is below approximately 0.01{\degree}---the \gls{rmse} is solely function of $N$ and the \gls{snr}. However, as soon as $\sigma_p$ increases, it starts to act as a noise floor, and increases the \gls{rmse} progressively. This effect is particularly pronounced at relatively high $N$ and \gls{snr} values, potentially ruining an otherwise excellent accuracy, as can be seen in the left part of the figure for $N=10^5$ and $\text{\gls{snrdb}}=50$~dB.
+
+\begin{figure}
+	\centering
+	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/rmse_f_sigma_p_alt}
+	\caption{The \gls{rmse} on $\varphi$ estimation as a function of $\sigma_p$, for various $N$ and \gls{snr} values.}
+	\label{fig:choos:apsipa:rmse_f_sigma_p}
+\end{figure}
+
+\subsubsection{Estimation Efficiency}
+
+% cf.
+% https://www.gaussianwaves.com/2012/12/cramer-rao-lower-bound-for-phase-estimation/
+% https://www.gaussianwaves.com/2012/11/cramer-rao-lower-bound-for-scalar-parameter-estimation/
+% https://www.gaussianwaves.com/2015/11/interpreting-fft-results-obtaining-magnitude-and-phase-information/
+
+The efficiency of the performed estimation can be found by computing the \gls{crlb} of $\widehat{\varphi}$. The likelihood $\mathcal{L}\left(\widehat{\varphi}|\widetilde{D}_N\right)$ of observing $\widetilde{D}_N$ under a given $\widehat{\varphi}$---hereafter noted $\mathcal{L}$ for the sake of conciseness---is given by
+\begin{equation}
+	\mathcal{L} = \prod_{z=\{x, y\}} \frac{1}{\sqrt{2\cdot \pi \cdot \sigma^2}} \cdot \e^{- \frac{\left(z - \mu_z\right)^2}{2\cdot \sigma^2}}
+\end{equation}
+The log-likelihood is then
+\begin{equation}
+	\log \left(\mathcal{L}\right) = -\log \left(2\cdot \pi \cdot \sigma^2\right) - \sum_{z=\{x, y\}} \frac{\left(z - \mu_z\right)^2}{2\cdot \sigma^2}
+\end{equation}
+and its first and second derivatives are given by
+\begin{equation}
+	\frac{\partial \log \left(\mathcal{L}\right)}{\partial \widehat{\varphi}} = \frac{1}{\sigma^2} \sum_{z=\{x, y\}} \left(z - \mu_z\right) \cdot \frac{\partial \mu_z}{\partial \widehat{\varphi}}
+\end{equation}
+and
+\begin{equation}
+	\frac{\partial^2 \log \left(\mathcal{L}\right)}{\partial \widehat{\varphi}^2} = \frac{1}{\sigma^2} \smashoperator{\sum_{z=\{x, y\}}}\ \left[ \left(z - \mu_z\right) \cdot \frac{\partial^2 \mu_z}{\partial \widehat{\varphi}^2} - \left(\frac{\partial \mu_z}{\partial \widehat{\varphi}}\right)^2 \right]
+\end{equation}
+
+The Fisher information $\mathcal{I} \left(\widehat{\varphi}\right)$ may then be derived as
+\begin{equation}
+	\begin{aligned}
+		\mathcal{I} \left(\widehat{\varphi}\right) &= - \esp \left[ \frac{\partial^2 \log \left(\mathcal{L}\right)}{\partial \widehat{\varphi}^2} \right] = \frac{1}{\sigma^2} \sum_{z=\{x, y\}} \left[ \left(\frac{\partial \mu_z}{\partial \widehat{\varphi}}\right)^2 - \esp \underbrace{\left[z - \mu_z\right]}_{=0} \cdot \frac{\partial^2 \mu_z}{\partial \widehat{\varphi}^2} \right] \\
+		&= \frac{\beta_p^2}{\sigma^2}
+	\end{aligned}
+\end{equation}
+
+Finally leading to
+\begin{equation}
+	\boxed{
+		\text{CRLB} = \frac{1}{\mathcal{I} \left(\widehat{\varphi}\right)} = \frac{\sigma^2}{\beta_p^2}
+	}
+\end{equation}
+
+\begin{figure}
+	\centering
+	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/lbcr_convergence_diff}
+	\caption{Asymptotical efficiency of $\widehat{\varphi}$. $\sigma_p$ was set to 1{\degree}.}
+	\label{fig:choos:apsipa:lbcr_convergence}
+\end{figure}
+
+The convergence of $\widehat{\varphi}$ towards its \gls{crlb} is illustrated in Figure~\ref{fig:choos:apsipa:lbcr_convergence}. $\widehat{\varphi}$ appears to be an asymptotically efficient estimator of $\varphi$ with a fast convergence rate, exhibiting $1-$Efficiency values below $10^{-3}$ for as little as 1000 samples even in the presence of strong noise (\gls{snr}=0~dB).  As a remainder, the efficiency of an unbiased estimator---which is the case for $\widehat{\varphi}$---is defined as\cite[p.~279]{hogg2014}
+\begin{equation}
+	\text{Efficiency} = \frac{\text{CRLB}}{\var{\left(\widehat{\varphi}\right)}} = \frac{\text{CRLB}}{\text{\gls{rmse}}^2}
+\end{equation}
+
+\subsection{Asymptotical Behaviours of the \texorpdfstring{\gls{rmse}}{RMSE}}
+
+\subsubsection{Saturation in Case of Excessive Additive Noise}\label{subsect:choos:apsipa:uniform_sat}
+
+For \gls{snrdb} values below approximately $-30$~dB, the \gls{rmse} appears to be converging towards approximately 100{\degree}---see Figure~\ref{fig:choos:apsipa:rmse_f_snr_db}. This phenomenon corresponds to an extremely noisy case, wherein the estimated $\varphi$ value is no better than a random guess on the $[0;2\cdot \pi[$ interval. In this case, $g_0(\theta)$ converges toward a uniform distribution as \gls{snrdb} decreases, as illustrated in Figure~\ref{fig:choos:apsipa:pdf_g_uniform}.
+
+\begin{figure}
+	\centering
+	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/asympt_unif_pdf}
+	\caption{$g_0(\theta)$ for different \gls{snrdb} values. For increasing \gls{snrdb} values, $g_0(\theta)$ converges towards a uniform distribution. $N$=1000, $\sigma_p$=0.}
+	\label{fig:choos:apsipa:pdf_g_uniform}
+\end{figure}
+
+Indeed, as \gls{snrdb} decreases, $\sigma$ increases and we can make the following approximation
+\begin{equation}
+	\begin{aligned}
+		&g_0(\theta) = \frac{1}{2\cdot \pi} \cdot \underbrace{\e^{-\frac{\beta_p^2}{2 \sigma^2}}}_{\xrightarrow[\sigma \rightarrow + \infty]{} 1} + \overbrace{\underbrace{\frac{\beta_p \cdot \overbrace{\cos(\theta)}^{|...| \leq 1}}{2 \cdot \sqrt{2 \cdot \pi} \cdot \sigma}}_{\xrightarrow[\sigma \rightarrow + \infty]{} 0} \cdot \underbrace{\e^{-\beta_p^2 \cdot \frac{\sin^2(\theta)}{2\cdot \sigma^2}}}_{< 1} \cdot \underbrace{\erfc\bigg(\underbrace{- \beta_p \cdot \frac{\cos(\theta)}{\sigma \cdot \sqrt{2}}}_{\approx 0}\bigg)}_{\xrightarrow[\sigma \rightarrow + \infty]{} 1}}^{\xrightarrow[\sigma \rightarrow + \infty]{} 0} \\
+		& g_0(\theta) \xrightarrow[\sigma \rightarrow + \infty]{} \frac{1}{2 \cdot \pi}
+	\end{aligned}
+\end{equation}
+
+In other words, $g_0(\theta)$ can be approximated by a uniform distribution on the $[-\pi, \pi[$ interval. The Kullback-Leibler divergence between $g_0(\theta)$ and a uniform distribution can also be computed, and is presented in Figure~\ref{fig:choos:apsipa:bhata_dist_uniform}. As expected, the divergence decreases steeply with a decreasing \gls{snrdb}, further confirming the above-mentioned convergence phenomenon.
+
+\begin{figure}
+	\centering
+	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/asympt_unif_divergence}
+	\caption{The Kullback-Leibler divergence between $g_0(\theta)$ and a uniform distribution as a function of \gls{snrdb}. The inset shows the same data on a logarithmic scale. $N$=1000, $\sigma_p$=0.}
+	\label{fig:choos:apsipa:bhata_dist_uniform}
+\end{figure}
+
+Subsequently the \gls{rmse} becomes
+\begin{equation}
+	\text{RMSE} = \sqrt{\int_{-\pi}^{\pi} \theta^2 \cdot 	\frac{1}{2 \cdot \pi} d\theta}\\
+	= \frac{\pi}{\sqrt{3}}
+\end{equation}
+hence the saturation behaviour observed for the \gls{rmse} at high $\sigma_c$ values in Figure~\ref{fig:choos:apsipa:rmse_f_snr_db}. The 100{\degree} plateau value noted above simply comes from the radian to degree conversion ($\pi/\sqrt{3}$~rad$\approx$104{\degree}). That being said, contrary to the linear case given in the next section, this saturation phenomenon is of little practical interest since it corresponds to an extremely noisy case, which only yields random guesses as phase estimation. It was thus only presented here for the sake of completeness.
+
+\subsubsection{Linear Relationship With the \texorpdfstring{\gls{snr}}{SNR}}\label{subseq:choos:apsipa:linear_rel}
+
+The observed linear relationship between the \gls{rmse} and the \gls{snr} can be explained by the fact that, for increasing \gls{snr} values, $g_0(\theta)$ converges towards a normal distribution, as illustrated in Figure~\ref{fig:choos:apsipa:asympt_linear_pdf}.
+
+\begin{figure}
+	\centering
+	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/asympt_phase_noise_pdf}
+	\caption{Normalised probability density functions: $g_0(\theta)$ is plotted with its associated simplified Gaussian model. For \gls{snrdb} above $-10$~dB, $g_0(\theta)$ becomes indistinguishable from its Gaussian approximation. $N$=1000, $\sigma_p$=0.}
+	\label{fig:choos:apsipa:asympt_linear_pdf}
+\end{figure}
+
+Indeed, taking $\varphi=0$ and high \gls{snrdb} values leads to an extremely narrow $g_0(\theta)$ function---as was already noted above in Figure~\ref{fig:choos:apsipa:pdf_theta_phi}---which is non-negligible only for very small $\theta$ deviations from zero. More formally:
+
+\begin{equation}
+	\begin{aligned}
+		&\var (\widetilde{D}_N) \xrightarrow[\text{\gls{snrdb}}\rightarrow + \infty]{} 0\quad(*)\\
+		(*) &\implies \widetilde{D}_N \xrightarrow[\text{\gls{snrdb}}\rightarrow + \infty]{L_2} \esp [ \widetilde{D}_N ]\\
+		(*) &\implies \theta = \arg (\widetilde{D}_N) - \varphi \xrightarrow[\text{\gls{snrdb}}\rightarrow + \infty]{P} 0
+	\end{aligned}
+\end{equation}
+wherein $\xrightarrow[]{L_2}$ and $\xrightarrow[]{P}$ denote convergence in mean square and convergence in probability, respectively. By definition of the latter convergence, $g_0(\theta)$ is thus non-negligible only for very small deviations from zero with a non-null probability. Under these conditions, and in the absence of phase noise, $\beta_p = 1$ and $\sigma$ tends towards zero as \gls{snrdb} tends towards infinity. We can then make the following approximation:
+\begin{equation}\label{eq:choos:apsipa:approx_gaussian}
+	\begin{aligned}
+		g_0(\theta) &= \underbrace{\frac{\e^{-\frac{\beta_p^2}{2 \sigma^2}}}{2\cdot \pi}}_{\approx 0} + \frac{\beta_p}{2 \cdot \sqrt{2 \cdot \pi} \cdot \sigma} \cdot \underbrace{\cos(\theta)}_{\approx 1} \cdot \e^{-\beta_p^2 \cdot \frac{\overbrace{\sin^2(\theta)}^{\approx \theta^2}}{2\cdot \sigma^2}} \cdot \underbrace{\erfc\bigg(\underbrace{- \beta_p \cdot \frac{\overbrace{\cos(\theta)}^{\approx 1}}{\sigma \cdot \sqrt{2}}}_{\ll -1}\bigg)}_{\approx 2}\\
+		&\approx \frac{1}{\sqrt{2 \cdot \pi} \cdot 	\sigma} \cdot \e^{-\frac{\theta^2}{2\cdot \sigma^2}}
+	\end{aligned}
+\end{equation}
+
+Thus, for high enough \gls{snr} values, $g_0(\theta)$ can be reasonably well approximated by a simple normal distribution of null mean, and variance $\sigma^2$. The fast convergence towards this approximation is further illustrated in Figure~\ref{fig:choos:apsipa:asympt_linear_divergence}, wherein the Kullback-Leibler divergence and Bhattacharyya distance between $g_0(\theta)$ and its Gaussian approximation are represented as a function of \gls{snrdb}. It appears that for \gls{snrdb} values above $-10$~dB, this distance becomes virtually null ($\approx 10^{-5}$).
+
+\begin{figure}
+	\centering
+	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/asympt_phase_noise_divergence}
+	\caption{The Kullback-Leibler divergence (KL) and Bhattacharyya distance (Bhat.) between $g_0(\theta)$ and its Gaussian approximation as a function of \gls{snrdb}. The inset shows the same data on a logarithmic scale. $N$=1000, $\sigma_p$=0.}
+	\label{fig:choos:apsipa:asympt_linear_divergence}
+\end{figure}
+
+As a reminder, the Bhattacharya distance quantifies the \emph{closeness} between two distributions. Given two random variables $P$ and $Q$ with probability density function $p(x)$ and $q(x)$ the Bhattacharya distance and Kullback-Leibler divergence are defined as follows\cite{kailath1967}:
+
+\begin{enumerate}[label=\textit{(\roman*)}]
+	\item Bhattacharya distance:
+	\begin{equation}
+		d_{B}(P \| Q) = - \log \left(\int p(x) \cdot q(x) \ dx\right)
+	\end{equation}
+	\item Kullback-Leibler divergence:
+	\begin{equation}
+		d_{KL}(P \| Q) = \int p(x) \cdot \log \left(\frac{p(x)}{q(x)}\right) dx
+	\end{equation}
+\end{enumerate}
+
+One may notice that the division by $q(x)$ in $d_{KL}$ may be problematic in case of numerical applications if $q(x)$ is near zero. Such an issue can be observed in Figure~\ref{fig:choos:apsipa:asympt_linear_divergence} for \gls{snrdb} values above roughly $-8$~dB: $d_{KL}$ cannot be computed even using 64-bits double-precision floats, because the Gaussian probability density function tends towards zero extremely fast as soon as $\theta$ deviates from zero. This is the reason why the Bhattacharya distance was introduced in the first place, so as to better cover the case of high \gls{snrdb} values.
+
+Subsequently the \gls{rmse} becomes
+\begin{equation}\label{eq:choos:apsipa:linear_rmse}
+	\text{RMSE} = \sqrt{\int_{-\pi}^{\pi} \theta^2 \cdot 	\frac{1}{\sqrt{2 \cdot \pi} \cdot 	\sigma} \cdot \e^{-\frac{\theta^2}{2\cdot \sigma^2}} d\theta} = \sigma = \frac{1}{\sqrt{N \cdot \text{\gls{snr}}}}
+\end{equation}
+hence the linear relationship observed in Figure~\ref{fig:choos:apsipa:rmse_f_snr_db_n} between $\log_{10}(\text{RMSE})$ on the one hand, and \gls{snrdb} and $N$ on the other hand. This result is especially interesting for practical applications. Indeed, a \gls{snrdb} above $-10$~dB can easily be reached in practice, ensuring the validity of the above-mentioned Gaussian approximation for $g_0(\theta)$, and the ensuing conclusions on the \gls{rmse}. Of particular interest, if this condition is fulfilled, \textbf{the expected \gls{rmse} on the phase estimation can be directly inferred from $\mathbf{N}$ and the \gls{snr}}, using Equation~\ref{eq:choos:apsipa:linear_rmse}. Still, one should bear in mind that this conclusions holds only if $\beta_p \approx 1$, otherwise the developments presented in the next section should apply.
+
+\subsubsection{Saturation in the Presence of Phase Noise}\label{subsect:choos:apsipa:phase_noise_satu}
+
+When some amount of phase noise is present---\ie{} $\beta_p \in ]0;1[$---and for high enough \gls{snr}, the following approximation can be made, as was done in Equation~\ref{eq:choos:apsipa:approx_gaussian}:
+\begin{equation}
+	g_0(\theta) \approx \frac{\beta_p}{\sqrt{2 \cdot \pi} \cdot 	\sigma} \cdot \e^{-\frac{\beta_p^2 \cdot \theta^2}{2\cdot \sigma^2}}
+\end{equation}
+
+Again, $g_0(\theta)$ can be approximated by a simple normal distribution, but of variance $\sigma^2 / \beta_p^2$, instead of $\sigma^2$ alone in the previous section. The convergence towards a Gaussian is nearly identical with that presented in Section \ref{subseq:choos:apsipa:linear_rel} and thus Figures \ref{fig:choos:apsipa:asympt_linear_pdf} and \ref{fig:choos:apsipa:asympt_linear_divergence} were not reproduced for the sake of conciseness. Similarly to Equation~\ref{eq:choos:apsipa:linear_rmse} comes
+\begin{equation}\label{eq:choos:apsipa:rmse_phase_noise_gene}
+	\text{RMSE} = \frac{\sigma}{\beta_p} = \sqrt{\frac{1}{\beta_p^2 \cdot N} \cdot \left(1 - \beta_p^2 + \frac{1}{\text{\gls{snr}}}\right)}
+\end{equation}
+which, in case of high enough \gls{snr}---\ie{} $1-\beta_p^2 \gg 1/\text{\gls{snr}}$---becomes
+\begin{equation}\label{eq:choos:apsipa:rmse_phase_noise_floor}
+	\text{RMSE} \approx \sqrt{\frac{1}{N}\cdot \left(\frac{1}{\beta_p^2} - 1 \right)}
+\end{equation}
+
+This result is also interesting because it provides a lower limit for the \gls{rmse}, even at exceedingly large \gls{snr} values: \textbf{the \gls{rmse} is ultimately limited by the phase noise, which acts as a noise floor}. This explains the saturations observed on the right part of Figure~\ref{fig:choos:apsipa:rmse_f_snr_db} and \ref{fig:choos:apsipa:rmse_f_snr_db_n}: the lower limits reached by the different curves with non-zero phase noises directly depend on their respective $\sigma_p$ values, following Equation~\ref{eq:choos:apsipa:rmse_phase_noise_floor}. Most interestingly, Equation~\ref{eq:choos:apsipa:rmse_phase_noise_gene} gives a generic expression for the \gls{rmse} at reasonably high \gls{snr} values taking into account the joint influences of: \emph{(i)} the number of points $N$, \emph{(ii)} the amplitude of the phase noise---through $\beta_p$---and \emph{(iii)} that of the additive noise---through the \gls{snr}.
+
+\subsection{Concluding Remarks on Phase Estimation Accuracy}\label{subsect:choos:apsipa:conclusion}
+
+This study presents a thorough analysis of the influence of additive and phase noises on the accuracy of the phase measurement of a known-frequency sinusoidal signal. More specifically, we focused on synchronous detection, a measurement scheme for which the number of collected samples $N$ on the one hand, and the sampling and probing frequency $f_s$ and $f_0$ on the other hand can be chosen so that $f_0 \cdot N / f_s$ is an integer. In this particular case, a closed-form expression of the \gls{pdf} of the phase estimate $\widehat{\varphi}$ could be derived, depending on $N$ and on the levels of additive and phase noises---$\sigma_x$ and $\sigma_p$, respectively. $\widehat{\varphi}$ was also shown to be asymptotically efficient, with a fast convergence towards its \gls{crlb}, even using a limited number of samples in the presence of substantial noise levels.
+
+When using the above-mentioned \gls{pdf} to compute $\widehat{\varphi}$ \gls{rmse}, three main behaviours could be identified: \textit{(i)} in case of excessive noise, the \gls{rmse} saturates towards the random guess situation, \textit{(ii)} as the \gls{snr} increases, the \gls{rmse} decreases linearly with the square roots of the \gls{snr} and N, and \textit{(iii)} as the \gls{snr} further decreases, the \gls{rmse} saturates again, reaching a noise floor caused by phase noise. While \textit{(i)} is of little practical interest, \textit{(ii)} and \textit{(iii)} are of major importance in practical scenarios, since they can tell the experimenter whether lowering the \gls{rmse} should be achieved by taking more samples or by increasing the \gls{snr}---\eg{} by increasing the emission power. Indeed, in case \textit{(iii)}, increasing the \gls{snr} is no use once the phase noise floor is reached, and only taking more samples can yield lower \gls{rmse} values.
+
+In addition to its theoretical significance, this study is thus also of practical value, allowing for informed decision-making when designing a phase-measuring apparatus. In particular, in the context of \gls{fdlr} mentioned in Section~\ref{sect:choos:dye_based:dlr_theory}, a compromise often has to be made between reducing the number of samples and the illumination power---which preserves the involved dyes from photobleaching, and saves power in case of battery-powered devices---and reducing the \gls{rmse} by increasing the two latter parameters---at the expense of power consumption, computing costs, and dye photobleaching. Of particular importance, we recently published a short communication demonstrating a real-world implementation of \gls{fdlr} applied to \gls{co2} sensing\cite{dervieux2024newcas}, whose main outcomes are presented in Section~\ref{subsect:thin_film:experimental:newcas}. In this communication, we validated the theoretical results derived in the present study in the case of a low phase noise and a relatively high \gls{snr}---\ie{} Equation~\ref{eq:choos:apsipa:linear_rmse}.
+
+Finally, one possible limitation of this work resides in its simplified modelling of phase noise. Indeed, phase noise---studied through its influence on the power spectral density of a clock signal in the frequency domain\cite{leeson2016}, or by the distribution of the jitter it induces in the time domain\cite{ong2004}---can result from several phenomena that can be either purely random or partially deterministic\cite[Chap.~2--4]{dadalt2018}. While a thorough review on the origins and statistical properties of phase noise is clearly out of the scope of this thesis, and although some oscillators do exhibit Gaussian phase jitters in practice\cite{lesage1973, nazareth2009, ciarpi2023}, this may not be the case in general\cite{ong2004}. As a result, future research could focus on extending our work to address non-Gaussian and/or non-$i.i.d.$ phase noise.
 
 \section{Conclusion}\label{sect:choos:conclusion}
 

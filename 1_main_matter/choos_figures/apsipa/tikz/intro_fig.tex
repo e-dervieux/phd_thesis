@@ -1,0 +1,173 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=18.4cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usetikzlibrary{spy}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usepackage{pxfonts}
+\usepackage[outline]{contour}
+\usetikzlibrary{arrows.meta} 
+
+\DeclareMathSymbol{\cdot}{\mathord}{symbols}{"01} % shortens space around cdot
+
+\contourlength{2.0pt}
+\thinmuskip=2mu
+\medmuskip=2mu
+\thickmuskip=2mu
+\newcommand{\dashedpattern}{dash pattern=on 4.pt off 4.pt, blue, very thick}
+\newcommand{\dottedpattern}{dash pattern=on 1.2pt off 1.2pt, black, very thick}
+\definecolor{darkgray176}{RGB}{176,176,176}
+\definecolor{darkred}{RGB}{139,0,0}
+\definecolor{lightgray204}{RGB}{204,204,204}
+\definecolor{darkgray140}{RGB}{140,140,140}
+\definecolor{lightred}{RGB}{255,95,95}
+\def\propsymb{$\scriptstyle{\propto}\,$}
+
+\pgfdeclarelayer{fg} % declare foreground layer
+\pgfdeclarelayer{ffg}
+\pgfsetlayers{main,fg, ffg} % set the order of the layers (main is the standard layer)
+
+\makeatletter
+\let\tikz@lib@spy@do@orig\tikz@lib@spy@do % sigh
+\def\tikz@lib@spy@do#1#2#3{% Have to find the location of spyinnode w/o drawing
+	\setbox\pgfutil@tempboxa\hbox{%
+		\node[overlay,spy annotations fg/.code=,spy annotations bg/.code=,
+		alias=tikzspyinnode]#3{};}%
+	\tikz@lib@spy@do@orig{#1}{#2}{#3}}
+\tikzset{
+	spy annotations fg/.code={%
+		\tikz@addoption{%
+			\expandafter\edef\csname pgf@sh@fbg@\tikz@shape\endcsname{%
+				\noexpand\tikz@lib@spy@transformation{\tikz@shape}%
+				\pgfutil@unexpanded{#1}}}},
+	spy annotations bg/.code={%
+		\tikz@addoption{%
+			\expandafter\edef\csname pgf@sh@bbg@\tikz@shape\endcsname{%
+				\noexpand\tikz@lib@spy@transformation{\tikz@shape}%
+				\pgfutil@unexpanded{#1}}}}}
+\def\tikz@lib@spy@transformation#1{% what shape really uses these paths?
+	\expandafter\let\csname pgf@sh@fbg@#1\endcsname\pgfutil@undefined % nesting
+	\expandafter\let\csname pgf@sh@bbg@#1\endcsname\pgfutil@undefined % nesting
+	\pgftransformreset
+	\let\tikz@transform\relax
+	\pgftransformshift{%
+		\expandafter\tikzset\expandafter{\tikz@lib@spy@lens}%
+		\pgftransforminvert
+		\pgfpointdiff                     {\pgfpointanchor{tikzspyonnode}{center}}
+		{\pgfpointtransformed{\pgfpointanchor{tikzspyinnode}{center}}}}%
+	\expandafter\tikzset\expandafter{\tikz@lib@spy@lens}}
+\makeatother
+
+\begin{document}
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}[spy using outlines={circle, magnification=4, size=2.8cm, connect spies, every spy on node/.append style={semithick}}]
+	\begin{scope}
+		\clip (-0.6,-1.3) rectangle (8.9,5.75);
+		
+	\begin{pgfonlayer}{fg}
+	\begin{axis}[
+		tick align=outside,
+		tick pos=left,
+		xlabel={Time},
+		xmin=0, xmax=11.8,
+		ylabel={Amplitude},
+		ymin=-1.2, ymax=1.2,
+		yticklabels={},
+		xticklabels={,$T=\frac{1}{f_s}$,$2\cdot T$,$3\cdot T$,},
+		xtick={0,3,6,9,12},
+		grid=none,
+		axis line style={draw=none},
+		ytick style={draw=none},
+		clip mode=individual,
+		ylabel style={yshift=-8pt},
+		width=10.4cm,
+		height=7cm,
+		]
+		\draw[-{Stealth[length=2mm]}, semithick] (0, 0) -- (11.8, 0); % xaxis
+		% Vertical lines
+		\draw\expandafter[\dashedpattern, xshift=0.6pt] (0, 0) -- (0, -1);
+		\draw\expandafter[\dashedpattern] (3, 0) -- (3, 0.309016994374947);
+		\draw\expandafter[\dashedpattern] (6, 0) -- (6, 0.809016994374947);
+		\draw\expandafter[\dashedpattern] (9, 0) -- (9, -0.809016994374947);
+		\draw\expandafter[\dottedpattern] (3.41917240878894, 0) -- (3.41917240878894, 0.574933360631692);
+		\draw\expandafter[\dottedpattern] (5.58244685170441, 0) -- (5.58244685170441, 0.7675658146934);
+		\draw\expandafter[\dottedpattern] (8.7389659895691, 0) -- (8.7389659895691, -0.70921154445563);
+		% Curves
+		\addplot [thick, blue]
+		table {CSVs/intro_plot_clean.csv};
+		\addplot [thick, black]
+		table {CSVs/intro_plot_noisy.csv};
+		% Marks
+		\addplot [semithick, blue, mark=*, mark size=2, mark options={solid}, only marks, clip marker paths]
+		table {CSVs/intro_plot_clean_mark.csv};
+		\addplot [semithick, black, mark=diamond*, mark size=3, mark options={solid}, only marks]
+		table {CSVs/intro_plot_noisy_mark.csv};
+		% Annotations
+		\draw[{Stealth[length=2mm]}-{Stealth[length=2mm]}, thick, red] (0.1, 0.1) -- (2.4, 0.1);
+		\node[anchor=center, red] at (1.25, 0.2) {\propsymb \large{$\varphi$}};
+		\draw[-{Stealth[length=2mm]}, semithick] (0,-1.2) -- (0,1.2); % yaxis
+		\draw[{Stealth[length=2mm]}-{Stealth[length=2mm]}, thick, red] (4.5,-0.02) -- (4.5, -0.98);
+		\draw (5.05, -0.5) node[anchor=center, red]{\contour{white}{\large{$A_s$}}};
+	\end{axis}
+	\end{pgfonlayer}
+	% Create a separate axis environment for the magnified view (inset)
+	\begin{scope}%[shift={(8.4,0)}]
+		\begin{axis}[
+			tick align=outside,
+			tick pos=left,
+			xlabel={Time},
+			xmin=0, xmax=11.8,
+			ylabel={Amplitude},
+			ymin=-1.2, ymax=1.2,
+			yticklabels={},
+			xticklabels={,$T=\frac{1}{f_s}$,$2\cdot T$,$3\cdot T$,},
+			xtick={0,3,6,9,12},
+			grid=both,
+			axis line style={draw=none},
+			ytick style={draw=none},
+			clip mode=individual,
+			ylabel style={yshift=-8pt},
+			width=10.4cm,
+			height=7cm,
+			spy using outlines={circle, magnification=4, size=2.8cm, connect spies, every spy on node/.append style={thick},
+			spy connection path={\draw[thick] (tikzspyonnode) -- (tikzspyinnode);}
+			}]% ←
+			% HERE GOES NORMAL PLOT
+			% Curves
+			\addplot [thin, blue]
+			table {CSVs/intro_plot_clean.csv};
+			\addplot [thin, black]
+			table {CSVs/intro_plot_noisy.csv};
+			% Marks
+			\addplot [semithick, blue, mark=*, mark size=0.5, mark options={solid}, only marks, clip marker paths]
+			table {CSVs/intro_plot_clean_mark.csv};
+			\addplot [semithick, black, mark=diamond*, mark size=0.75, mark options={solid}, only marks]
+			table {CSVs/intro_plot_noisy_mark.csv};
+			%
+			% BELOW GOES SPY STUFF
+			\pgfplotsextra{% ← !
+				\coordinate (magloc) at (axis cs:9.45,0.7); % where we zoom
+				\spy on (axis cs:5.8,0.81) in node at (magloc) [% where the zoomed area is put
+				spy annotations fg={% spy foreground
+					\draw[{Stealth[length=2mm]}-{Stealth[length=2mm]}, thick, red] (axis cs: 5.58244685170441, 0.795) -- (axis cs: 5.58244685170441, 0.92);
+					\node[anchor=center, red] at (axis cs: 5.47, 0.8575) {\large{$x_n$}};
+					\draw[Stealth-Stealth, red, thick]	(axis cs: 5.62, 0.735) -- (axis cs: 5.96, 0.735);
+					\node[anchor=center, red] at (axis cs: 5.79, 0.70) {\propsymb \large{$p_n$}};
+					% Vertical lines
+					\draw[ultra thick, blue, dash pattern=on 4.pt off 4.pt] (axis cs: 6, 0.670) -- (axis cs: 6, 0.809016994374947);
+					\draw [ultra thick, black, dash pattern=on 1.2pt off 1.2pt] (axis cs: 5.58244685170441, 0.673) -- (axis cs: 5.58244685170441, 0.7675658146934);
+					\draw[black] (axis cs:5.8,0.81) circle (0.35cm);
+				},
+				spy annotations bg={% spy background
+					%
+				},
+				fill=white,
+				];
+			}
+		\end{axis}
+	\end{scope}
+\end{scope}
+\end{tikzpicture}
+\end{document}

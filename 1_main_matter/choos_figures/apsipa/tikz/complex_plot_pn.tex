@@ -1,0 +1,109 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=11.5cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{circledsteps}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usetikzlibrary{calc, fadings, matrix}
+\usepackage[outline]{contour}
+\contournumber{64}% default is 16, star form uses 32
+\contourlength{.12em}% default is 0.03em
+\usetikzlibrary {arrows.meta} 
+\usetikzlibrary{decorations.pathreplacing, calligraphy}
+
+\thinmuskip=2mu
+\medmuskip=2mu
+\thickmuskip=2mu
+\def\myline{very thick}
+\def\phival{60}
+\def\alphap{0.8824969025845955}
+\def\thetaval{40}
+\def\radiusval{0.75}
+\def\outradiusval{2.}
+\def\textmargin{0.4}
+\def\anglemargin{5}
+\def\centerarc[#1](#2)(#3:#4:#5)% Syntax: [draw options] (center) (initial angle:final angle:radius)
+{ \draw[#1] ($(#2)+({#5*cos(#3)},{#5*sin(#3)})$) arc (#3:#4:#5); }
+
+\tikzfading
+[name = viesturs fading,
+inner color = transparent!0,
+outer color = transparent!100]
+
+\begin{document}
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+	\useasboundingbox (-1cm,-1cm) rectangle (9.11cm,5cm);
+	\definecolor{darkgray}{RGB}{100,100,100}
+	% Canvas
+	\node[anchor=south west] at (-1+3.5,-1) {$x = \Re ( \widetilde{D}_N )$};
+	\node[anchor=north west, rotate=90] at (-1,-1+3.52) {$y = \Im ( \widetilde{D}_N )$};
+	\begin{axis}[
+		at={(-1.cm,-1.cm)},
+		width=7.1cm,
+		height=7.1cm,
+		ticks=none,
+		xmin=0,
+		xmax=0.95,
+		ymin=0,
+		ymax=0.95,
+		axis lines=middle,
+		enlarge x limits={abs=0.18},
+		enlarge y limits={abs=0.18},
+		clip marker paths=true,
+		axis line style = very thick,
+		axis on top=true,
+		]
+		% Scatter plot
+		\addplot [only marks, fill=darkgray, draw=darkgray, mark size=0.6pt]
+		table {CSVs/rdn_noise.csv};
+		% Fadings
+		\path[path fading = viesturs fading, inner color = white]({cos(\phival)},{sin(\phival)}) circle(0.1);
+		\path[path fading = viesturs fading, inner color = white]({\alphap*cos(\phival)},{\alphap*sin(\phival)}) circle(0.1);
+		\path[path fading = viesturs fading, inner color = white]({\radiusval*cos(\thetaval)},{\radiusval*sin(\thetaval)}) circle(0.1);
+		% White circles
+		\addplot[only marks, fill=white, draw=white, mark size=3.8pt] coordinates {({cos(\phival)},{sin(\phival)})};
+		\addplot[only marks, fill=white, draw=white, mark size=3.8pt] coordinates {({\alphap*cos(\phival)},{\alphap*sin(\phival)})};
+		\addplot[only marks, fill=white, draw=white, mark size=3.8pt] coordinates {({\radiusval*cos(\thetaval)},{\radiusval*sin(\thetaval)})};
+		% Dotted lines and arcs
+		\addplot[red, dash pattern=on 8pt off 2pt, line width=2pt] coordinates {(0.005,0.005) ({\radiusval*cos(\thetaval)},{\radiusval*sin(\thetaval)})};
+		\addplot[blue, dash pattern=on 2pt off 2pt on 8pt off 2pt, line width=2pt] coordinates {(0.005,0.005) ({cos(\phival)},{sin(\phival)})};
+		\centerarc[red, line width=2pt](0,0)(0:\thetaval:0.48)
+		\centerarc[blue, line width=2pt](0,0)(0:\phival:0.21)
+		% Texts
+		\node[blue, anchor=south west] at (0.19, 0.02) {\Large{$\varphi$}};
+		\node[red, anchor=south west] at (0.45, 0.1) {\Large{$\widehat{\varphi}$}};
+		% Circle marks
+		\addplot[only marks, fill=blue, draw=blue, mark size=3pt] coordinates {({cos(\phival)},{sin(\phival)})};
+		\addplot[only marks, fill=black, draw=black, mark size=3pt] coordinates {({\alphap*cos(\phival)},{\alphap*sin(\phival)})};
+		\addplot[only marks, fill=red, draw=red, mark size=3pt] coordinates {({\radiusval*cos(\thetaval)},{\radiusval*sin(\thetaval)})};
+		\coordinate (legendPosition) at (rel axis cs:1.1,1);
+	\end{axis}
+	\matrix (mytable) [
+	matrix of nodes,
+	draw,
+	nodes in empty cells,
+	anchor=north east,
+	fill=white,
+	fill opacity=1.,
+	inner sep = 3pt,
+	row sep=12pt,
+	column sep=6pt,
+	font = \footnotesize,
+	anchor=north west,
+	nodes={anchor=west, inner sep=-1.5pt},
+	] at (legendPosition) {
+		\draw[fill=darkgray, draw=darkgray](-0.05,0) circle(0.6pt);
+		\draw[fill=darkgray, draw=darkgray](0.05,0) circle(0.6pt);
+		\draw[fill=darkgray, draw=darkgray](0,{0.1*sqrt(3)/2}) circle(0.6pt); & $\mathcal{CN}(\mathbf{E}[\widetilde{D}_N], \mathbf{Var}(\widetilde{D}_N))$\vphantom{\bigg( } \\
+		\draw[fill=black, draw=black](0,1.5pt) circle(3pt); & $\mathbf{E}[\widetilde{D}_N]:\! \begin{pmatrix}\mu_x \\ \mu_y\end{pmatrix}_c,\! \begin{pmatrix}\beta_p \\ \varphi\end{pmatrix}_p$ \\
+		\draw[fill=blue, draw=blue](0,1.5pt) circle(3pt); & $e^{i\cdot \varphi}:\! \begin{pmatrix}\cos \varphi \\ \sin \varphi\end{pmatrix}_c,\! \begin{pmatrix}1 \\ \varphi\end{pmatrix}_p$ \\
+		\draw[fill=red, draw=red](0,1.5pt) circle(3pt); & $\widetilde{D}_N:\! \begin{pmatrix} x = r\cdot \cos \widehat{\varphi} \\ y = r\cdot \sin \widehat{\varphi}\end{pmatrix}_c,\! \begin{pmatrix}r \\ \widehat{\varphi}\end{pmatrix}_p$\\
+	};
+	\node[right] at (mytable-1-2.east) {};
+\end{tikzpicture}
+
+
+\end{document}

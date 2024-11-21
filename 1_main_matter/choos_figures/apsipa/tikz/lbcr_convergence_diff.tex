@@ -1,0 +1,79 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=11.2cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{circledsteps}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usetikzlibrary{fit, matrix}
+\usepackage[outline]{contour}
+\contournumber{64}% default is 16, star form uses 32
+\contourlength{.12em}% default is 0.03em
+\usetikzlibrary {arrows.meta} 
+\usetikzlibrary{decorations.pathreplacing, calligraphy}
+
+\def\myline{very thick}
+
+\begin{document}
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+	
+	\definecolor{darkgray176}{RGB}{176,176,176}
+	\definecolor{darkred}{RGB}{139,0,0}
+	\definecolor{lightgray204}{RGB}{204,204,204}
+	\definecolor{darkgray140}{RGB}{140,140,140}
+	\definecolor{lightred}{RGB}{255,95,95}
+	\definecolor{darkgreen}{RGB}{0,150,0}
+			
+	\begin{loglogaxis}[
+		tick align=outside,
+		tick pos=left,
+		xlabel={$N$},
+		xmin=1e1, xmax=1e3,
+		xtick style={color=black},
+		ylabel={$1 - \mathrm{Efficiency}$},
+		ymin=2e-7, ymax=2e-1,
+		ytick style={color=black},
+		grid=both,
+		]
+		% KEEP this part
+		
+		\addplot [\myline, lightred]
+		table {CSVs/lbcr_convergence_diff_0.csv};
+		\label{plot:line1}
+		%
+		\addplot [\myline, red, densely dotted]
+		table {CSVs/lbcr_convergence_diff_10.csv};
+		\label{plot:line2}
+		%
+		\addplot [\myline, darkred, dash pattern=on 1pt off 3pt on 3pt off 3pt]
+		table {CSVs/lbcr_convergence_diff_20.csv};
+		\label{plot:line3}
+		%
+		\addplot [\myline, black, dashed]
+		table {CSVs/lbcr_convergence_diff_40.csv};
+		\label{plot:line4}
+		\coordinate (legend) at (axis description cs:1,1);
+	\end{loglogaxis}
+	\matrix (table) [
+	draw,
+	matrix of nodes,
+	nodes in empty cells,
+	anchor=north east,
+	fill=white,
+	fill opacity=0.9,
+	inner sep=1.5pt,
+	xshift=+0.2pt,
+	yshift=+0.2pt,
+	] at (legend) {
+		& &\vphantom{A} & \\
+		\ref{plot:line1} & \phantom{1}0~dB & \ref{plot:line3} &20~dB   \\
+		\ref{plot:line2} & 10~dB & \ref{plot:line4} &40~dB   \\
+	};
+	\node[text centered, fit=(table-1-1)(table-1-4)]{SNR$_\text{dB}$};
+	
+\end{tikzpicture}
+
+
+\end{document}

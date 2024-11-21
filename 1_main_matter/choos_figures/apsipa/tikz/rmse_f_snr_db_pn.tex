@@ -1,0 +1,116 @@
+\documentclass[tikz]{standalone}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{width=11.2cm, height=7cm, compat=1.18}
+\usepackage{tikz}
+\usepackage{circledsteps}
+\usepackage{gensymb}
+\usepackage{amsmath}
+\usetikzlibrary{fit, matrix}
+\usepackage[outline]{contour}
+\contournumber{64}% default is 16, star form uses 32
+\contourlength{.12em}% default is 0.03em
+\usetikzlibrary {arrows.meta} 
+\usetikzlibrary{decorations.pathreplacing, calligraphy}
+
+\thinmuskip=2mu
+\medmuskip=2mu
+\thickmuskip=2mu
+\def\myline{very thick}
+
+\begin{document}
+% This file was created with tikzplotlib v0.10.1.
+\begin{tikzpicture}
+	
+	\definecolor{darkgray176}{RGB}{176,176,176}
+	\definecolor{darkred}{RGB}{139,0,0}
+	\definecolor{lightgray204}{RGB}{204,204,204}
+	\definecolor{darkgray140}{RGB}{140,140,140}
+	\definecolor{lightred}{RGB}{255,95,95}
+	\definecolor{darkgreen}{RGB}{0,150,0}
+			
+	\begin{semilogyaxis}[
+		tick align=outside,
+		tick pos=left,
+		xlabel={SNR$_\text{dB}$ (dB)},
+		xmin=-50, xmax=50,
+		xtick style={color=black},
+		ylabel={RMSE ({\degree})},
+		ymin=5e-3, ymax=2e2,
+		ytick style={color=black},
+		grid=both,
+		]
+		% KEEP this part
+		\addplot [\myline, black, dashed]
+		table {CSVs/phase_noise_SNR_pn_1.csv};
+		\label{plot:line1}
+		%
+		\addplot [\myline, darkred, dash pattern=on 1pt off 3pt on 3pt off 3pt]
+		table {CSVs/phase_noise_SNR_pn_5.csv};
+		\label{plot:line2}
+		%
+		\addplot [\myline, red, densely dotted]
+		table {CSVs/phase_noise_SNR_pn_10.csv};
+		\label{plot:line3}
+		%
+		\addplot [\myline, lightred]
+		table {CSVs/phase_noise_SNR_pn_50.csv};
+		\label{plot:line4}
+		%
+		\addplot [\myline, black]
+		table {CSVs/phase_noise_SNR_pn_0.csv};
+		\label{plot:line0}
+		%
+		\coordinate (legend) at (axis description cs:1,1);
+		\node[outer sep=0, align=left, draw, anchor=south west, fill=white, fill opacity=0.9] at (-50, 0.005) {\footnotesize{$N=1000$, $R^2 > 0.9999$}\\ \footnotesize{$\log_{10}(\text{RMSE}) = -5.00\cdot 10^{-2}\cdot \text{SNR}_\text{dB}+0.26$}};
+		
+		\addplot[only marks, mark=x, draw=red, mark size=3] table {
+		-50.0 98.63320466162341
+		-45.0 91.97811985529266
+		-40.0 90.91624774314205
+		-35.0 76.62808055419521
+		-30.0 60.451979931637226
+		-25.0 35.747647181699435
+		-20.0 16.532732870560334
+		-15.0 10.296679006383473
+		-10.0 5.9783700911905955
+		-5.0 3.0597931359845774
+		0.0 1.8188697401218852
+		5.0 0.9725581947729335
+		10.0 0.5732771105037836
+		15.0 0.33860113279999204
+		20.0 0.2118710384818908
+		25.0 0.18956285319782576
+		30.0 0.16532287261457948
+		35.0 0.16415438551072847
+		40.0 0.16430156369358076
+		45.0 0.15136902378633024
+		50.0 0.1616524264389579
+		};
+		\label{plot:marks}
+		
+	\end{semilogyaxis}
+	
+	\matrix (table) [
+	draw,
+	matrix of nodes,
+	nodes in empty cells,
+	anchor=north east,
+	fill=white,
+	fill opacity=0.9,
+	inner sep=1.5pt,
+	xshift=+0.2pt,
+	yshift=+0.2pt,
+	column 4/.style={anchor=base west},
+	] at (legend) {
+		& &\vphantom{A} & & \\
+		\ref{plot:line0} & $0${\degree}\phantom{0.} & \ref{plot:line3} & $1${\degree} & \\
+		\ref{plot:line1} & $0.1${\degree} & \ref{plot:line4} & $5${\degree}\phantom{0.} & \\
+		\ref{plot:line2} & $0.5${\degree} & \ref{plot:marks} & $5${\degree} (sim.) & \\
+	};
+	\node[text centered, fit=(table-1-1)(table-1-5)]{$\sigma_p$};
+	
+\end{tikzpicture}
+
+
+\end{document}
