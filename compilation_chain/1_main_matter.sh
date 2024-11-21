@@ -5,7 +5,7 @@ source $DIR/complib.sh
 
 echo ---- Generating main matter figures ----
 cd 1_main_matter
-for location in choos_figures/review choos_figures/schemes co2hb_figures conclusion_figures intro_figures tcco2_figures thin_film_figures/encasp_pbl thin_film_figures/experimentals thin_film_figures/luminophores thin_film_figures/optoelectronics; do
+for location in choos_figures/review choos_figures/schemes choos_figures/apsipa co2hb_figures conclusion_figures intro_figures tcco2_figures thin_film_figures/encasp_pbl thin_film_figures/experimentals thin_film_figures/luminophores thin_film_figures/optoelectronics; do
 	comptikz $location/tikz
 done
 cd ..
