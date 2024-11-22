@@ -180,11 +180,18 @@
 \newcommand{\mhiddenlink}[2]{\begingroup\hypersetup{hidelinks}\href{#1}{#2}\endgroup}
 
 % tcolobox for book citation
-\newcommand*{\mbookcite}[4]{\begin{center}
-		\begin{minipage}{0.8\linewidth}
+\newcommand*{\mbookcite}[4]{
+\begin{center}
+		\begin{minipage}[b]{0.083\textwidth}
+			\reflectbox{\includegraphics[width=\textwidth]{0_front_matter/front_figures/tentacle.pdf}}\vspace{0.cm}
+		\end{minipage}
+		\begin{minipage}[b]{0.8\textwidth}
 			\enquote{#1}
 			
 			\raggedleft --- #2, \textit{#3} (#4)
+		\end{minipage}
+		\begin{minipage}[b]{0.083\textwidth}
+			\strut\vspace*{-\baselineskip}\newline\includegraphics[width=\textwidth]{0_front_matter/front_figures/tentacle.pdf}\vspace{0.cm}
 		\end{minipage}
 \end{center}}
 
