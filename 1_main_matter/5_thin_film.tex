@@ -73,7 +73,7 @@ As a side note, we tried to synthesise \gls{rudpp}-doped \gls{pan} nanobeads wit
 
 \section{Selecting the Luminophores}\label{sect:thin_film:select_lumino}
 
-To be usable in an \gls{fdlr} sensing scheme, the two luminophores must meet two main criteria: their excitation spectra must overlap, and $\tau_\mathrm{R}$ should be several orders of magnitude higher than $\tau_\mathrm{A\spminus}$. Additionally, the A$^-$ / AH pH-sensitive fluorophore must have a \pKa{} in the 6--8 range, while R should remain as unaffected by external factors as possible. Ideally, both luminophores must exhibit a good photostability, be reasonably cheap, and possibly available off-the-shelf.
+To be usable in an \gls{fdlr} sensing scheme, the two luminophores must meet two main criteria: their excitation spectra must overlap, and $\tau_\mathrm{R}$ should be several orders of magnitude higher than $\tau_\mathrm{A\spminus}$. Additionally, the A$^-$ / AH pH-sensitive fluorophore must have a p$K_A$ in the 6--8 range, while R should remain as unaffected by external factors as possible. Ideally, both luminophores must exhibit a good photostability, be reasonably cheap, and possibly available off-the-shelf.
 
 \subsection{Luminophore Review}
 
@@ -200,7 +200,7 @@ Here, pyrene is greatly advantaged by the fact that it is---one, up to three---o
 		\begin{tabular}{c|c|c|c|c}
 			\multirow{2}{*}{Property} & \multirow{2}{*}{Notation} & \multicolumn{2}{c|}{Value} & \multirow{2}{*}{References} \\ \cline{3-4}
 			& & AH & A$^-$ & \\ \hline \hline
-			Acidity constant & \pKa & \multicolumn{2}{c|}{7.3} & \cite{zhujun1984a, schulman1995, bultzingslowen2002, cajlakovic2006} \\ \hline
+			Acidity constant & p$K_A$ & \multicolumn{2}{c|}{7.3} & \cite{zhujun1984a, schulman1995, bultzingslowen2002, cajlakovic2006} \\ \hline
 			Quantum yield & $\Phi$ & \multicolumn{2}{c|}{$\sim$1} & \cite{schulman1995, tranthi2002, kumar2018} \\ \hline
 			Decay time & $\tau$ & 4.8$\pm$0.5~ns & 5.3$\pm$0.1~ns & \cite{tranthi2002} \\ \hline
 			Absorption peak & $\lambda_\mathrm{abs}$ & $\sim$404~nm & $\sim$460~nm & \cite{zhujun1984a, uttamlal1995, wolfbeis1998, tranthi2002, ge2003, hakonen2008, ge2014} \\ \hline
@@ -215,14 +215,14 @@ Here, pyrene is greatly advantaged by the fact that it is---one, up to three---o
 \begin{equation}\label{eq:thin_film:select_lumino:hpts_mol}
 	\schemestart
 	\chemname[3ex]{\chemfig{*6(-(*6(-(-NaSO_3)=-(-SO_3Na)=-=))-(*6(--=---))-(*6(=-(-OH)=-(-NaSO_3)=-))--=)}}{Protonated (acidic) form AH}
-	\xrightleftharpoons{\pKa = 7.3}
+	\xrightleftharpoons{pK_A = 7.3}
 	\chemname[3ex]{\chemfig{*6(-(*6(-(-NaSO_3)=-(-SO_3Na)=-=))-(*6(--=---))-(*6(=-(-{O^-})=-(-NaSO_3)=-))--=)}}{Anionic (basic) form A$^-$}
 	\+
 	\chemname[3ex]{\ce{H+}}{Proton}
 	\schemestop
 \end{equation}
 
-\textbf{\pKa, the acidity constant of \gls{hpts},} has often been reported to be about 7.3 at 20$\degree$C. However, the latter value is especially true \emph{in water}. When \gls{hpts} is immobilised in a thin polymer film, \pKa{} appears to shift slightly, ending up lying in the 6.55--8.50 range\cite{schulman1995, hakonen2008}. Similarly, if \gls{hpts} is dissolved in room temperature ionic liquids, its \pKa{} may reach values as high as 9.5--11.2\cite{oter2006}. Further considerations on the effect of ionic strength on the \pKa{} of \gls{hpts} can also be found in Valeur \etal{}\cite[p.~414]{valeur2012molecfluo}.
+\textbf{p$K_A$, the acidity constant of \gls{hpts},} has often been reported to be about 7.3 at 20$\degree$C. However, the latter value is especially true \emph{in water}. When \gls{hpts} is immobilised in a thin polymer film, p$K_A$ appears to shift slightly, ending up lying in the 6.55--8.50 range\cite{schulman1995, hakonen2008}. Similarly, if \gls{hpts} is dissolved in room temperature ionic liquids, its p$K_A$ may reach values as high as 9.5--11.2\cite{oter2006}. Further considerations on the effect of ionic strength on the p$K_A$ of \gls{hpts} can also be found in Valeur \etal{}\cite[p.~414]{valeur2012molecfluo}.
 
 \textbf{The quantum yield} of \gls{hpts} is often reported to be high, justifying its use, and only a few publications mention it to be near unity, without being overly precise\cite{schulman1995, tranthi2002, kumar2018}.
 
@@ -496,7 +496,7 @@ Of note, the use of coating rods---\aka{} spiral rods, coating bars, wire(-wound
 
 \subsection{Successful Proof of Concept}\label{subsect:thin_film:experimental:newcas}
 
-A first successful proof of concept was developed and presented at the NEWCAS 2024 conference\cite{dervieux2024newcas} using the afore-presented optical sensing scheme, opto-electronics, screen printing setup, and polymers / solvents / dyes combinations. The main objective of this early prototype was to validate all the components of the resulting \gls{co2}-sensing acquisition chain. Additionally, this was an ideal opportunity to also validate the theoretical considerations on the accuracy of phase measurements developed in Section~\ref{sect:choos:phase_mes}. Indeed, it has been demonstrated that, given that the phase noise of the sampling ADC can be neglected---see Equation~\hl{XX}:
+A first successful proof of concept was developed and presented at the NEWCAS 2024 conference\cite{dervieux2024newcas} using the afore-presented optical sensing scheme, opto-electronics, screen printing setup, and polymers / solvents / dyes combinations. The main objective of this early prototype was to validate all the components of the resulting \gls{co2}-sensing acquisition chain. Additionally, this was an ideal opportunity to also validate the theoretical considerations on the accuracy of phase measurements developed in Section~\ref{sect:choos:phase_mes}. Indeed, it has been demonstrated that, given that the phase noise of the sampling \gls{adc} can be neglected---see Equation~\ref{eq:choos:apsipa:linear_rmse}:
 \begin{equation}\label{eq:thin_film:rmse_phase_noise_gene}
 	\text{RMSE} \approx \frac{1}{\sqrt{N \cdot \text{\gls{snr}}}}
 \end{equation}
@@ -531,7 +531,7 @@ Unfortunately, while Figure~\ref{fig:thin_film:experimental:newcas_results}, Lef
 
 \paragraph{Theoretical Results Validation}\mbox{}\\
 
-Figure~\ref{fig:thin_film:experimental:newcas_results}, Right, presents on a logarithmic scale the experimental validation of former theoretical results describing the decline of the phase measurement RMSE with an increase in $N$ or \gls{snr}---see Section~\ref{sect:choos:phase_mes}\todo{Ajouter ref à l'équation exacte quand l'article de phase sera finalisé.}. In this case, Equation~\ref{eq:thin_film:rmse_phase_noise_gene} becomes:
+Figure~\ref{fig:thin_film:experimental:newcas_results}, Right, presents on a logarithmic scale the experimental validation of former theoretical results describing the decline of the phase measurement RMSE with an increase in $N$ or \gls{snr}---see Section~\ref{subseq:choos:apsipa:linear_rel}. In this case, Equation~\ref{eq:thin_film:rmse_phase_noise_gene} becomes:
 \begin{equation}\label{eq:thin_film:log_first}
 	\log(\text{\gls{rmse}}) = -\frac{1}{2}\cdot \log(N) - \frac{1}{2}\log(\text{\gls{snr}})
 \end{equation}
@@ -585,7 +585,7 @@ However, this second hypothesis does not seem extremely likely given the magnitu
 
 At first glance, the fact that a 5--10\% \gls{rh} increase can more than double the \gls{hpts} fluorescence intensity when the latter is entrapped in \gls{hpmc} thin films---as shown in Figure~\ref{fig:thin_film:experimental:humidity_influence}, Left---may seem devastating for the future of dye-based \gls{co2} sensing as presented in the second half of this doctoral work. However, things may in fact not be as desperate as they appear: as discussed in Section~\ref{sect:tcco2:skin_mes:rh}, occluded skin is likely to be humidity-saturated, meaning a constant 100\% \gls{rh} value. If this holds true, humidity cross-sensitivity will not be an issue in real-world transcutaneous applications. Yet, this cross-sensitivity remains an issue for the in-lab thin film characterisation---and formulation optimisation---processes. Indeed, achieving humidity levels above approximately 95\% proved to be exceedingly difficult in practice: if any single part of the gas piping after the humidification stage---or any part of the enclosure containing the film under test---is below the gas temperature, condensation occurs at the culprit cold spot, thus lowering the humidity content of the gas below 100\%. Of note, while adding heating elements inside the enclosure and a heated sleeve around gas pipes mitigates the issue, it remained unfeasible to reach humidity levels in the 95--100\% range. Alas, this latter range is that of highest humidity cross-sensitivity---Figure~\ref{fig:thin_film:experimental:humidity_influence}, Left. This makes the difficulty of reaching humidity saturation particularly troublesome in practice. \mfrin{}Therefore, eliminating the humidity cross-sensitivity of \gls{hpts} thin films still seems essential, and should be the subject of future research. Additionally, 100\% \gls{rh} does not translate into the same water chemical activity depending on the temperature\cite{huang2018}. Thus, if it is this activity that impacts \gls{hpts} fluorescence and not the \gls{rh} level \textit{per se}, even saturated humidity conditions would be particularly cross-sensitive towards temperature.
 
-Of note, while the above-mentioned difficulty in reaching very high humidity levels holds for the main gas mixing and equilibration setup that was used for the majority of my experiments---\ie{} a modified \hl{[Ref. appareil]} setup which achieves accurate regulation of both humidity and temperature ($\pm$\hl{0.1}{\degree}C\todo{à vérifier}, $\pm$\hl{0.5}\% \gls{rh})---a secondary enclosure was built using means at hand. The latter could not achieve as good temperature and humidity regulation accuracies ($\pm$0.5{\degree}C, $\pm$1.5\% \gls{rh}), but made it possible to reach $\leq$99\% \gls{rh}, at the cost of condensation inside the enclosure. This secondary enclosure was used for the \gls{hpts} photobleaching measurements presented below.
+Of note, while the above-mentioned difficulty in reaching very high humidity levels holds for the main gas mixing and equilibration setup that was used for the majority of my experiments---\ie{} a modified Bell Flow setup\footnote{Unfortunately, due to the age of the setup, no further information is available about this apparatus, since no model name or serial number could be found. It is identified only as a humidity regulation system manufactured by Bell Flow (Japan) in the late 1990s / early 2000s, equipped with an additional temperature regulation system (PR-59, Laird Technologies).} which achieves accurate regulation of both humidity and temperature ($\pm$0.3{\degree}C, $\pm$0.5\% \gls{rh})---a secondary enclosure was built using means at hand. The latter could not achieve as good temperature and humidity regulation accuracies ($\pm$0.5{\degree}C, $\pm$1.5\% \gls{rh}), but made it possible to reach $\leq$99\% \gls{rh}, at the cost of condensation inside the enclosure. This secondary enclosure was used for the \gls{hpts} photobleaching measurements presented below.
 
 \subsection{Photobleaching and Quenching}\label{subsect:thin_film:experimental:pbl}
 

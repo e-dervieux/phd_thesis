@@ -525,47 +525,47 @@ Let us consider a solution of sodium bicarbonate in water, equilibrated with a g
 \newlength{\templength}
 \settowidth{\templength}{$H_3O^+_{(aq)} + HCO^-_{3,(aq)}$}
 \begin{align}
-	\ce{CO_{2,(g)} &<=>[K_1]} \makebox[\templength][l]{\ce{CO_{2,(aq)}},} \quad \begin{cases}
+	\ce{CO_{2,(g)} &<=>[$K$_1]} \makebox[\templength][l]{\ce{CO_{2,(aq)}},} \quad \begin{cases}
 		K_1 = 3.4\cdot 10^{-2} \\
 		pK_1 = 1.5
 	\end{cases}\\
-	\ce{CO_{2,(aq)} + H_2O &<=>[K_2]} \makebox[\templength][l]{\ce{H_2CO_{3,(aq)}},} \quad \begin{cases}
+	\ce{CO_{2,(aq)} + H_2O &<=>[$K$_2]} \makebox[\templength][l]{\ce{H_2CO_{3,(aq)}},} \quad \begin{cases}
 		K_2 = 1.5\cdot 10^{-3} \\
 		pK_2 = 2.8
 	\end{cases}\label{eq:choos:dye_based:chemistry:carbacid} \\
-	\ce{H_2O + H_2CO_{3,(aq)} &<=>[K_3]} \makebox[\templength][l]{\ce{H_3O^+_{(aq)} + HCO^-_{3,(aq)}},} \quad \begin{cases}
+	\ce{H_2O + H_2CO_{3,(aq)} &<=>[$K$_3]} \makebox[\templength][l]{\ce{H_3O^+_{(aq)} + HCO^-_{3,(aq)}},} \quad \begin{cases}
 		K_3 = 4.54\cdot 10^{-7} \\ pK_3 = 6.34
 	\end{cases}\\
-	\ce{H_2O + HCO^-_{3,(aq)} &<=>[K_4]} \makebox[\templength][l]{\ce{H_3O^+_{(aq)} + CO^{2-}_{3,(aq)}},} \quad
+	\ce{H_2O + HCO^-_{3,(aq)} &<=>[$K$_4]} \makebox[\templength][l]{\ce{H_3O^+_{(aq)} + CO^{2-}_{3,(aq)}},} \quad
 	\begin{cases}
 		K_4 = 5.61\cdot 10^{-11} \\ pK_4 = 10.25
 	\end{cases}\\
-	\ce{2 \cdot H_2O &<=>[K_W]} \makebox[\templength][l]{\ce{H_3O^+_{(aq)} + OH^-_{(aq)}},} \quad
+	\ce{2 \cdot H_2O &<=>[$K$_W]} \makebox[\templength][l]{\ce{H_3O^+_{(aq)} + OH^-_{(aq)}},} \quad
 	\begin{cases}
-		K_W = 1.0\cdot 10^{-14} \\ pK_W = 14
+		K_\text{W} = 1.0\cdot 10^{-14} \\ pK_\text{W} = 14
 	\end{cases}\label{eq:choos:dye_based:chemistry:disso_water}
 \end{align}
 
-Typical values for K$_1$--K$_4$ can be found in the literature\cite{macinnes1933, mills2009}. In the following development, all species will be aqueous, unless otherwise specified. Additionally the neutrality of the solution can be written as:
+Typical values for $K_1$--$K_4$ can be found in the literature\cite{macinnes1933, mills2009}. In the following development, all species will be aqueous, unless otherwise specified. Additionally the neutrality of the solution can be written as:
 \begin{equation}
 	\ce{[H_3O^+] + [Na^+] = [HCO^-_3] + 2 \cdot [CO^{2-}_3] + [OH^-]}
 \end{equation}
 which combines with the above-described equilibria, leading to:
 \begin{equation}\label{eq:dye_based:chemistry:neutral_full}
-	\ce{[H_3O^+]^3 + [Na^+]\cdot[H_3O^+]^2 = ([H_3O^+] + 2\cdot K_4)\cdot K_2 \cdot K_3 \cdot  [CO_2] + K_W \cdot [H_3O^+]}
+	\ce{[H_3O^+]^3 + [Na^+]\cdot[H_3O^+]^2 = ([H_3O^+] + 2\cdot $K$_4)\cdot $K$_2 \cdot $K$_3 \cdot  [CO_2] + $K$_W \cdot [H_3O^+]}
 \end{equation}
 
 The latter equation can be simplified under certain hypotheses. In particular, if \textit{(i)} the \pH{} of the solution is near neutral (\pH{} range 6--9), \textit{(ii)} the sodium  ion concentration is above 1~mM---which is often the case\cite{opitz1984, zhujun1984b}---and (iii) \ce{[CO_2]} is above 1~mM---which is typically the case for a physiological \gls{pco2} of 40~mmHg, for instance, see Section~\ref{subsect:co2hb:co2_transport}---the following approximations can be performed on Equation~\ref{eq:dye_based:chemistry:neutral_full}:
 \begin{equation}
-	\underbrace{\ce{[H_3O^+]^3 + [Na^+]\cdot[H_3O^+]^2}- K_W \cdot [H_3O^+]}_{\approx \ce{[Na^+]\cdot [H_3O^+]^2}} = \underbrace{(\ce{[H_3O^+] + 2 \cdot K_4})}_{\approx [H_3O^+]}\cdot \ce{K_2 \cdot K_3 \cdot [CO_2]}
+	\underbrace{\ce{[H_3O^+]^3 + [Na^+]\cdot[H_3O^+]^2}- K_W \cdot [H_3O^+]}_{\approx \ce{[Na^+]\cdot [H_3O^+]^2}} = \underbrace{(\ce{[H_3O^+] + 2 \cdot $K$_4})}_{\approx [H_3O^+]}\cdot \ce{$K$_2 \cdot $K$_3 \cdot [CO_2]}
 \end{equation}
 
-Knowing that \ce{[CO_2] = K_1 \cdot pCO_2 } finally leads to
+Knowing that \ce{[CO_2] = $K$_1 \cdot pCO_2 } finally leads to
 \begin{equation}\label{eq:choos:dye_based:chemistry:pco2_pH_link}
 	\ce{pCO_2 = \frac{[Na^+] \cdot [H_3O^+]}{K_13}} = k \cdot 10^{-\pH}\text{, where }
 	\begin{cases}
-		k = \ce{\frac{[Na^+]}{K_13}}\\
-		\ce{K_{13} = K_1 \cdot K_2 \cdot K_3}
+		k = \ce{\frac{[Na^+]}{$K$_13}}\\
+		K_{13} = K_1 \cdot K_2 \cdot K_3
 	\end{cases}
 \end{equation}
 which gives a direct relationship between a bicarbonate solution's pH, and the \gls{pco2} it is equilibrated with. Although the equations differ, a similar reasoning can be made with trisodium phosphate (Na$_3$PO$_4$) or other similar salts. The general idea is always the same: given that the sensor's medium is permeable to \gls{co2} and contains available water molecules for \gls{co2} hydration, the diffusion of \gls{co2} inside this medium will change its pH. Of note, these derivations are similar to those presented by Jensen \etal{} in the case of the Stow-Severinghaus electrode\cite{jensen1979}.
@@ -574,28 +574,28 @@ which gives a direct relationship between a bicarbonate solution's pH, and the \
 
 Dye-based \gls{co2} sensing involves the use of a dye---\eg{} phenol red, \gls{btb} or \gls{hpts}, to name a few\cite{vurek1983, uttamlal1995, degrandpre1999, lu2008}---which is nothing more than a molecule that can exist in either an acidic (AH) or basic (\ce{A-}) form. Changes in \gls{pco2} levels induce changes in the sensing solution's pH as emphasised in Equation~\ref{eq:choos:dye_based:chemistry:pco2_pH_link}. These latter changes in pH in turn entail changes in the relative proportion of the \ce{A-} and AH species. Since these two species have differing absorbance or luminance properties, optical pH---and thus \gls{pco2}---sensing may thereby be achieved. Chemically speaking, the dye obeys the following equilibrium (typical numerical values for \gls{hpts} were used, see Section~\ref{subsect:thin_film:select_lumino:hpts}):
 \begin{equation}\label{eq:choos:dye_based:chemistry:wet_dye}
-	\ce{AH <=>[K_A] A^- + H_3O^+},\quad \begin{cases}
+	\ce{AH <=>[$K_A$] A^- + H_3O^+},\quad \begin{cases}
 		K_A = 5.0\cdot 10^{-8} \\ pK_A = 7.3
 	\end{cases}
 \end{equation}
 
 The simplified neutrality equation then becomes
 \begin{equation}
-	\ce{[Na^+] = \frac{K_{13} \cdot pCO_2}{[H_3O^+]} + [A^-] }
+	\ce{[Na^+] = \frac{$K$_{13} \cdot pCO_2}{[H_3O^+]} + [A^-] }
 \end{equation}
 
 We also have
 \begin{equation}
-	\ce{[H_3O^+] = K_A \cdot \frac{\mathcal{C}_A - [A^-]}{[A^-]}}
+	\ce{[H_3O^+] = $K_A$ \cdot \frac{\mathcal{C}_A - [A^-]}{[A^-]}}
 \end{equation}
 wherein $\mathcal{C}_A$ is the total dye concentration ($\mathcal{C}_A = \ce{[A^-] + [AH]}$), supposed to be above 1~mM. Leading to
 \begin{equation}\label{eq:choos:dye_based:chemistry:wet_aah_full}
-	\ce{pCO_2 = \frac{K_A}{K_{13}}}\cdot \frac{\left([\text{Na}^+] - [A^-]\right)\cdot\left(\mathcal{C}_A - [A^-]\right)}{[A^-]}
+	\ce{pCO_2 = \frac{$K_A$}{$K$_{13}}}\cdot \frac{\left([\text{Na}^+] - \ce{[A^-]}\right)\cdot\left(\mathcal{C}_A - \ce{[A^-]}\right)}{\ce{[A^-]}}
 \end{equation}
 
-Additionally, if the solution is sufficiently \emph{buffered}---\ie{} if $[\text{Na}^+] \gg \mathcal{C}_\text{A} (\overset{\Delta}{>} [\text{A}^-])$---the latter equation becomes
+Additionally, if the solution is sufficiently \emph{buffered}---\ie{} if $[\text{Na}^+] \gg \mathcal{C}_A (\overset{\Delta}{>} [\text{A}^-])$---the latter equation becomes
 \begin{equation}\label{eq:choos:dye_based:chemistry:wet_aah_buff}
-	\ce{pCO_2} = k \cdot \ce{\frac{\mathcal{C}_A - [A^-]}{[A^-]}} = k \ce{\frac{[AH]}{[A^-]}}, \quad \text{with} \quad k = \ce{\frac{K_A \cdot [Na^+]}{K_{13}}}
+	\ce{pCO_2} = k \cdot \ce{\frac{\mathcal{C}_A - [A^-]}{[A^-]}} = k \ce{\frac{[AH]}{[A^-]}}, \quad \text{with} \quad k = \ce{\frac{$K_A$ \cdot [Na^+]}{$K$_{13}}}
 \end{equation}
 which---even being a crude approximation---allows a facile understanding of the basic working principle of dye-based sensors: having a way to determine either the A$^-$ concentration or the relative quantities of A$^-$ and AH means that the solution's \gls{pco2} can be derived. The fact that the protonated and anionic forms of the dye differ in their absorbance or luminescence properties makes the optical determination of the latter quantities all the more doable, as detailed in Section~\ref{sect:choos:dye_based:optical_schemes}.
 
@@ -604,17 +604,17 @@ which---even being a crude approximation---allows a facile understanding of the 
 
 Dry sensors were introduced to circumvent the difficulty in manufacturing exceedingly thin films of solutions---which prevented wet sensors to reach response times of a few seconds---as well as to tackle the drying-out issue that plagued them\cite{wolfbeis2005, mills2009}. The basic idea behind dry sensors is to replace the aqueous solution by a polymer thin film. However, solely dispersing a pH-sensitive dye inside a polymer matrix would not work because of the mandatory presence of water molecules for reactions \ref{eq:choos:dye_based:chemistry:carbacid}--\ref{eq:choos:dye_based:chemistry:disso_water}. To address this issue, a phase transfer agent is added, whose role is not only to bind with the hydrophilic dye and allow it to dissolve in an organic solvent along with a potentially hydrophobic polymer, but also to bind several water molecules that thus become available for the above-mentioned reactions\cite{mills2009}. To this end, a quaternary ammonium ion is often chosen---such as \gls{toah}, for instance\cite{amao2004}---noted \ce{Q^+AH.$x$H_2O} when bound to the protonated form of the dye, which obeys the following equilibrium, instead of Equation~\ref{eq:choos:dye_based:chemistry:wet_dye}:
 \begin{equation}
-	\ce{Q^+AH.$x$H_2O <=>[K_A] Q^+A^-.$(x-1)$H_2O + H_3O^+}
+	\ce{Q^+AH.$x$H_2O <=>[$K_A$] Q^+A^-.$(x-1)$H_2O + H_3O^+}
 \end{equation}
 
 Considering this latter equation, and under the hypothesis that enough water molecules are available to regard the so-obtained polymer matrix as \emph{aqueous}, a similar reasoning to that of the previous section may lead to an equation very close to Equation~\ref{eq:choos:dye_based:chemistry:wet_aah_full}, replacing [Na$^+$] with [Q$^+$], the total concentration of added phase transfer agent:
 \begin{equation}\label{eq:choos:dye_based:chemistry:dry_aah_unbuff}
-	\ce{pCO_2 = \frac{K_A}{K_{13}}}\cdot \frac{\left(\ce{[Q^+] - [Q^+A^-.$(x-1)$H_2O]}\right)\cdot\left(\ce{\mathcal{C}_A - [Q^+A^-.$(x-1)$H_2O]}\right)}{\ce{[Q^+A^-.$(x-1)$H_2O]}}
+	\ce{pCO_2 = \frac{$K_A$}{$K$_{13}}}\cdot \frac{\left(\ce{[Q^+] - [Q^+A^-.$(x-1)$H_2O]}\right)\cdot\left(\ce{\mathcal{C}_A - [Q^+A^-.$(x-1)$H_2O]}\right)}{\ce{[Q^+A^-.$(x-1)$H_2O]}}
 \end{equation}
 
 Which also simplifies in case of strong buffering into
 \begin{equation}\label{eq:choos:dye_based:chemistry:dry_aah_buff}
-	\ce{pCO_2 = $k$ \cdot \frac{[Q^+AH.$x$H_2O]}{[Q^+A^-.$(x-1)$H_2O]}} , \quad \text{with} \quad k = \ce{\frac{K_A \cdot [Q^+]}{K_{13}}}
+	\ce{pCO_2 = $k$ \cdot \frac{[Q^+AH.$x$H_2O]}{[Q^+A^-.$(x-1)$H_2O]}} , \quad \text{with} \quad k = \ce{\frac{$K_A$ \cdot [Q^+]}{$K$_{13}}}
 \end{equation}
 which is very similar to the equations proposed by Mills, Neurauter, Amao, and others\cite{mills1992, neurauter1999, amao2005b}. Again, even bound to phase transfer agents, the protonated and anionic forms of the dye still differ in their optical properties, enabling a variety of optical sensing schemes to be implemented in order to measure the \gls{pco2} to which the dyed thin film is exposed.
 
@@ -632,13 +632,13 @@ This section will cover the case of a monolayer, transparent sensing film, entra
 
 In the remainder of this section, a simple absorbance sensing scheme will be considered. The corresponding optical setup consists in: \textit{(i)} a mono-chromatic light source---\eg{} \gls{led}---illuminating the thin film with a light intensity $I_\text{ex}$ at wavelength $\lambda$, \textit{(ii)} a transparent absorbing \gls{co2}-sensitive thin film, and \textit{(iii)} a photodetector---\eg{} photodiode---receiving a light intensity $I_\text{mes}$. The latter can then be written as
 \begin{equation}\label{eq:choos:dye_based:chemistry:bl_simple_abs}
-	I_\text{mes}(\lambda) = I_\text{ex}(\lambda) \cdot 10^{-A_\text{Film}} \cdot \mathcal{S}_\text{PD}(\lambda)
+	I_\text{mes}(\lambda) = I_\text{ex}(\lambda) \cdot 10^{-A_\text{film}} \cdot \mathcal{S}_\text{PD}(\lambda)
 \end{equation}
-wherein $\mathcal{S}_\text{PD}(\lambda)$ is the photodiode's sensitivity at wavelength $\lambda$, and $A_\text{Film}$ is the thin film's absorbance, given by
+wherein $\mathcal{S}_\text{PD}(\lambda)$ is the photodiode's sensitivity at wavelength $\lambda$, and $A_\text{film}$ is the thin film's absorbance, given by
 \begin{equation}
-	A_\text{Film} = \left( \alpha \cdot \ce{ \varepsilon_{AH}} + (1-\alpha) \cdot \ce{\varepsilon_{A^-}} \right) \cdot w_\text{Film} \cdot \ce{\mathcal{C}_{A} }
+	A_\text{film} = \left( \alpha \cdot \ce{ \varepsilon_{AH}} + (1-\alpha) \cdot \ce{\varepsilon_{A^-}} \right) \cdot w_\text{film} \cdot \mathcal{C}_A
 \end{equation}
-wherein \ce{\varepsilon_{AH}} and $\ce{\varepsilon_{A^-}}$ are the molar extinction coefficients of the dye in its protonated and anionic states, respectively, $\mathcal{C}_\text{A}$ is the total dye concentration, $w_\text{Film}$ is the film's thickness, and $\alpha$ is the proportion of the dye in its protonated state:
+wherein \ce{\varepsilon_{AH}} and $\ce{\varepsilon_{A^-}}$ are the molar extinction coefficients of the dye in its protonated and anionic states, respectively, $\mathcal{C}_A$ is the total dye concentration, $w_\text{film}$ is the film's thickness, and $\alpha$ is the proportion of the dye in its protonated state:
 \begin{equation}
 	\alpha \triangleq \ce{\frac{[AH]}{[AH] + [A^-]}}
 \end{equation}
@@ -650,9 +650,9 @@ In the case of a wet dye-based sensor---Equation~\ref{eq:choos:dye_based:chemist
 
 Combining Equations~\ref{eq:choos:dye_based:chemistry:bl_simple_abs}--\ref{eq:choos:dye_based:chemistry:pco2_alpha} then leads to
 \begin{equation}
-	\ce{pCO_2} = - k \cdot \frac{\mathcal{L} + w_\text{Film} \cdot \ce{ \mathcal{C}_A \cdot \varepsilon_{A^-}} }{ \mathcal{L} + w_\text{Film} \cdot \ce{ \mathcal{C}_A \cdot \varepsilon_{AH}} }, \quad \text{wherein} \quad \mathcal{L} = \log_{10} \left( \frac{I_\text{mes}}{I_\text{ex}\cdot \mathcal{S}_\text{PD}} \right)
+	\ce{pCO_2} = - k \cdot \frac{\mathcal{L} + w_\text{film} \cdot \mathcal{C}_A \ce{\cdot \varepsilon_{A^-}} }{ \mathcal{L} + w_\text{film} \cdot \mathcal{C}_A \cdot \ce{ \varepsilon_{AH}} }, \quad \text{wherein} \quad \mathcal{L} = \log_{10} \left( \frac{I_\text{mes}}{I_\text{ex}\cdot \mathcal{S}_\text{PD}} \right)
 \end{equation}
-which could theoretically be used to derive a \gls{pco2} from a simple absorbance measurement. The main issue with such a sensing scheme, however, is that while $\ce{\varepsilon_{AH}}$ and $\ce{\varepsilon_{A^-}}$ are known optical constants depending on the chosen dye, $I_\text{ex}$ and $\mathcal{S}_\text{PD}$ can rarely be known accurately. Worse, their value might change during the lifetime of the sensor, and with the temperature of the light source\cite{reynolds1991} or photodetector\cite{ahmad1979}. Worse still, while the swelling of the dyed film may be neglected and $w_\text{Film}$ can be considered as a constant during the lifespan of the sensor, $\mathcal{C}_\text{A}$, on the contrary, is most likely to decrease due to photobleaching---see Section~\ref{subsect:thin_film:encaps:photobleaching}.
+which could theoretically be used to derive a \gls{pco2} from a simple absorbance measurement. The main issue with such a sensing scheme, however, is that while $\ce{\varepsilon_{AH}}$ and $\ce{\varepsilon_{A^-}}$ are known optical constants depending on the chosen dye, $I_\text{ex}$ and $\mathcal{S}_\text{PD}$ can rarely be known accurately. Worse, their value might change during the lifetime of the sensor, and with the temperature of the light source\cite{reynolds1991} or photodetector\cite{ahmad1979}. Worse still, while the swelling of the dyed film may be neglected and $w_\text{film}$ can be considered as a constant during the lifespan of the sensor, $\mathcal{C}_A$, on the contrary, is most likely to decrease due to photobleaching---see Section~\ref{subsect:thin_film:encaps:photobleaching}.
 
 \textbf{Note:} $\mathcal{S}_\text{PD}$ was introduced to keep things simple while still providing the reader with an overview of the unpredictable variabilities induced by the acquisition toolchain in the calculations. In actuality, much more complex modelling than a simple coefficient should be introduced, since one might drive the \gls{led} and read the photodiode's output as voltages---themselves read and written by means of a \gls{dac} / \gls{adc} pair. A whole transfer function should thus be applied in order to model the latter pair, the \gls{led} driver, the \gls{led} itself, the photodiode's sensitivity, and the photodiode's \gls{tia}. This is largely out of the scope of this doctoral work, however, and the reader only needs to know that both the intensity of the \gls{led} and the photodiode's sensitivity may be strongly influenced by temperature or may differ from one part to the next. Further information on this topic and appropriate deign approaches may be found in the work of Bigio and Fantini\cite[Chap.~13]{bigio2016}, or Cenni\cite{cenni2012}.
 
@@ -660,7 +660,7 @@ which could theoretically be used to derive a \gls{pco2} from a simple absorbanc
 
 As a result, no author used the above-mentioned scheme as is. Instead, many of them\cite{opitz1984, zhujun1984b, wolfbeis1988, he1995, marazuela1995, malins1998, wolfbeis1998, chu2008, chu2009, dansby2010, chu2017} implemented some sort of referencing with one or two supplementary $I_\text{mes}$ values taken in pure \gls{n2} and / or pure \gls{co2} atmospheres. For instance, if a first $I_{0}$ measurement is taken at 0\% \gls{co2} in an atmosphere of pure \gls{n2} on the one hand, and a second \emph{blank} light intensity without film $I_{blk}$ is also taken on the other hand, the following quantity may be considered:
 \begin{equation}
-	r = \frac{\log_{10}\left(\frac{I_0}{I_\text{mes}}\right)}{\log_{10}\left(\frac{I_\text{mes}}{I_\text{blk}}\right)} = \frac{A_\text{Film,0} - A_\text{Film}}{A_\text{Film} - \underbrace{A_\text{blk}}_{\triangleq 0}}
+	r = \frac{\log_{10}\left(\frac{I_0}{I_\text{mes}}\right)}{\log_{10}\left(\frac{I_\text{mes}}{I_\text{blk}}\right)} = \frac{A_\text{film,0} - A_\text{film}}{A_\text{film} - \underbrace{A_\text{blk}}_{\triangleq 0}}
 \end{equation}
 
 During $I_{0}$ measurement, \gls{pco2} is null, and thus $\alpha = 0$ leading to
@@ -675,7 +675,7 @@ Under the further hypothesis that $\ce{\varepsilon_{A^-}} \gg \ce{\varepsilon_{A
 
 Thus, the \gls{pco2} may now be derived as
 \begin{equation}
-	pCO_2 = k \cdot \frac{\alpha}{1-\alpha} = k\cdot \frac{\log_{10}\left(\frac{I_0}{I_\text{mes}}\right)}{\log_{10}\left(\frac{I_\text{mes}}{I_\text{blk}}\right)}
+	\text{\gls{pco2}} = k \cdot \frac{\alpha}{1-\alpha} = k\cdot \frac{\log_{10}\left(\frac{I_0}{I_\text{mes}}\right)}{\log_{10}\left(\frac{I_\text{mes}}{I_\text{blk}}\right)}
 \end{equation}
 
 Given that such zero-blank referencing is made frequently enough, the light source intensity and photodetector sensibility does not matter anymore, nor does the dye concentration. The effect of photobleaching is thus also cancelled. However, such referencing supposes that the temperature remains constant throughout the different measurements. Otherwise, it would need to be compensated for using specific calibration methods, since temperature influences both the \gls{led} and photodiodes performance, as reported above. Additionally, temperature may also change the optical properties of the involved dye, a phenomenon known as \emph{thermochromism}---see Day and El-Ayaan for an introduction on this topic\cite{day1963, elayaan2001}.
@@ -684,7 +684,7 @@ Given that such zero-blank referencing is made frequently enough, the light sour
 
 To address the latter limitations, the ratiometric scheme introduces a second wavelength and probes the dye simultaneously at the two (or more) wavelengths $(\lambda_1, \lambda_2)$. This scheme also requires to take blank measurements to be able to compute the value
 \begin{equation}
-	A_{\lambda_i} = - \log_{10}\left( \frac{I_\text{mes}(\lambda_i)}{I_\text{blk}(\lambda_i)}\right) \iff A_{\lambda_i} = \mathcal{C}_\text{A} \cdot \left( \alpha \cdot \varepsilon_{\text{A}^-,\lambda_i} + (1-\alpha) \cdot \varepsilon_{\text{AH},\lambda_i} \right) \text{, }i\in \llbracket 1, 2\rrbracket
+	A_{\lambda_i} = - \log_{10}\left( \frac{I_\text{mes}(\lambda_i)}{I_\text{blk}(\lambda_i)}\right) \iff A_{\lambda_i} = \mathcal{C}_A \cdot \left( \alpha \cdot \varepsilon_{\text{A}^-,\lambda_i} + (1-\alpha) \cdot \varepsilon_{\text{AH},\lambda_i} \right) \text{, }i\in \llbracket 1, 2\rrbracket
 \end{equation}
 yielding an explicit form for $\alpha$
 \begin{equation}
@@ -696,7 +696,7 @@ from which \gls{pco2} can be computed as in the above-described schemes. This ap
 
 Although the above developments concern only absorbance-based sensors, the presented measurement schemes have also been applied successfully to fluorescence- or phosphorescence-based sensors\cite{uttamlal1995, ge2003, ge2014, wang2020}. The reasoning is essentially the same, replacing Equation~\ref{eq:choos:dye_based:chemistry:bl_simple_abs} by
 \begin{equation}
-	I_\text{mes}(\lambda_\text{em}) = I_\text{ex}(\lambda_\text{ex}) \cdot \Phi(\lambda_\text{ex}, \lambda_\text{em}) \cdot 10^{-A_\text{Film}(\lambda_\text{ex})} \cdot \mathcal{S}_\text{PD}(\lambda_\text{em})
+	I_\text{mes}(\lambda_\text{em}) = I_\text{ex}(\lambda_\text{ex}) \cdot \Phi(\lambda_\text{ex}, \lambda_\text{em}) \cdot 10^{-A_\text{film}(\lambda_\text{ex})} \cdot \mathcal{S}_\text{PD}(\lambda_\text{em})
 \end{equation}
 wherein $\lambda_\text{ex}$ and $\lambda_\text{em}$ are the excitation and emission wavelengths, respectively, and $\Phi(\lambda_\text{ex}, \lambda_\text{em})$ is the quantum yield of the used luminophore at the considered wavelengths. The curious reader may additionally refer to the work of Bernard Valeur\cite[p.~338]{valeur2001_chap10} for an elegant demonstration of the same results as those presented above in the case of pH measurements, but using fluorophores instead of solely absorbing dyes.
 
@@ -1007,7 +1007,7 @@ with $f_0$ the frequency of the signal itself, $f_s$ its sampling frequency---al
 	\centering
 	% Script explanatory_figure_phase.py
 	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/intro_fig}
-	\caption[Introductory figure.]{Temporal representation of the problem: the objective is to estimate the phase $\varphi$ of an idealised sinusoidal signal of amplitude $A_s$ (\begin{tikzpicture}\draw[fill=blue, blue] (0,0)  circle(0.7ex);\draw[line width=0.5ex, blue] (-1.5ex, 0) -- (1.5ex, 0); \end{tikzpicture}) from a noisy measurement of the latter (\begin{tikzpicture} \draw[fill=black, black] (-0.5ex,0ex) -- (0ex,0.7ex) -- (0.5ex,0ex) -- (0ex,-0.7ex) -- cycle; \draw[line width=0.5ex, black] (-1.5ex, 0) -- (1.5ex, 0); \end{tikzpicture}). The noise originates from two distinct sources: \textit{(i)} an additive noise $x_n$ which makes the sampled signal depart from its ideal counterpart, and \textit{(ii)} a phase noise $p_n$, which randomly shifts the sampling times ($\vcenter{\hbox{\rule{0.2em}{0.2em}\kern0.2em\rule{0.2em}{0.2em}\kern0.2em\rule{0.2em}{0.2em}}}$) in comparison to an ideal sampling at frequency $f_s$ (\textcolor{blue}{$\vcenter{\hbox{\rule{0.4em}{0.2em}\kern0.4em\rule{0.4em}{0.2em}}}$}). The symbol $\propto$ denotes proportionality, not to be confused with the Greek letter \textit{alpha} ($\alpha$), used later on in this section.}
+	\caption[Temporal representation of a noisy sinusoidal signal.]{Temporal representation of the problem: the objective is to estimate the phase $\varphi$ of an idealised sinusoidal signal of amplitude $A_s$ (\begin{tikzpicture}\draw[fill=blue, blue] (0,0)  circle(0.7ex);\draw[line width=0.5ex, blue] (-1.5ex, 0) -- (1.5ex, 0); \end{tikzpicture}) from a noisy measurement of the latter (\begin{tikzpicture} \draw[fill=black, black] (-0.5ex,0ex) -- (0ex,0.7ex) -- (0.5ex,0ex) -- (0ex,-0.7ex) -- cycle; \draw[line width=0.5ex, black] (-1.5ex, 0) -- (1.5ex, 0); \end{tikzpicture}). The noise originates from two distinct sources: \textit{(i)} an additive noise $x_n$ which makes the sampled signal depart from its ideal counterpart, and \textit{(ii)} a phase noise $p_n$, which randomly shifts the sampling times ($\vcenter{\hbox{\rule{0.2em}{0.2em}\kern0.2em\rule{0.2em}{0.2em}\kern0.2em\rule{0.2em}{0.2em}}}$) in comparison to an ideal sampling at frequency $f_s$ (\textcolor{blue}{$\vcenter{\hbox{\rule{0.4em}{0.2em}\kern0.4em\rule{0.4em}{0.2em}}}$}). The symbol $\propto$ denotes proportionality, not to be confused with the Greek letter \textit{alpha} ($\alpha$), used later on in this section.}
 	\label{fig:choos:apsipa:intro_fig}
 \end{figure}
 
@@ -1330,7 +1330,7 @@ A representation of the estimation of $\varphi$ in the complex plane can be seen
 	\centering
 	% Script explanatory_figure_phase.py
 	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/complex_plot_pn}
-	\caption{A representation of the estimation issue at hand in the complex plane. The $\left(\square\right)_c$ and $\left(\square\right)_p$ subscripts denote Cartesian and polar coordinates, respectively. See the text for further explanations.}
+	\caption[A representation of the estimation issue at hand in the complex plane.]{A representation of the estimation issue at hand in the complex plane. The $\left(\square\right)_c$ and $\left(\square\right)_p$ subscripts denote Cartesian and polar coordinates, respectively. See the text for further explanations.}
 	\label{fig:choos:apsipa:complex_plane_expl}
 \end{figure}
 
@@ -1400,7 +1400,7 @@ $g_\varphi(\theta)$ is represented in Figure~\ref{fig:choos:apsipa:pdf_theta_phi
 \begin{figure}
 	\centering
 	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/pdf_theta_phi_pn}
-	\caption{Normalised representations of $g_\varphi(\theta)$ and of the histogram of simulated $\widehat{\varphi}$ values ($10^6$ draws, $\varphi$=60{\degree}). \textbf{Main picture:} $N=20$, \gls{snrdb}=-10~dB and $\sigma_p=5{\degree}$. The magnifying glass clearly shows how the histogram of simulated $\widehat{\varphi}$ is close to the analytic expression of $g_\varphi(\theta)$. \textbf{Inset:} $N=20$, \gls{snrdb}=0~dB and $\sigma_p=1{\degree}$.}
+	\caption[Normalised representations of $g_\varphi(\theta)$ and of the histogram of simulated $\widehat{\varphi}$ values.]{Normalised representations of $g_\varphi(\theta)$ and of the histogram of simulated $\widehat{\varphi}$ values ($10^6$ draws, $\varphi$=60{\degree}). \textbf{Main picture:} $N=20$, \gls{snrdb}=-10~dB and $\sigma_p=5{\degree}$. The magnifying glass clearly shows how the histogram of simulated $\widehat{\varphi}$ is close to the analytic expression of $g_\varphi(\theta)$. \textbf{Inset:} $N=20$, \gls{snrdb}=0~dB and $\sigma_p=1{\degree}$.}
 	\label{fig:choos:apsipa:pdf_theta_phi}
 \end{figure}
 
@@ -1425,7 +1425,7 @@ with $d \equiv \theta - \varphi \pmod{2\cdot\pi}$, that is
 \begin{figure}
 	\centering
 	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/error_illustration_pn}
-	\caption{Illustration of $err$ on the trigonometric circle: $err$ always represent the minimum angular distance between the true $\varphi$ value and an angle $\theta$.}
+	\caption[Illustration of $err$ on the trigonometric circle.]{Illustration of $err$ on the trigonometric circle: $err$ always represent the minimum angular distance between the true $\varphi$ value and an angle $\theta$.}
 	\label{fig:choos:apsipa:error_illustration}
 \end{figure}
 
@@ -1487,7 +1487,7 @@ While these two expression of the \gls{rmse} obviously yield the same quantity, 
 \begin{figure}
 	\centering
 	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/rmse_f_snr_db_pn}
-	\caption{The \gls{rmse} on $\varphi$ estimation as a function of \gls{snrdb} for various $\sigma_p$ values. In the absence of phase noise---\ie{} the black, continuous line (\rule[.5ex]{1em}{1pt})---a linear regression can be performed for $\text{\gls{snrdb}} \geq -20$~dB, yielding the displayed equation and associated determination coefficient. As indicated, all calculations were performed taking $N$=1000 points. Simulated values were computed using only $10^2$ realisations so that some dispersion is perceivable. Indeed, using $10^6$ realisations as was done in Figure~\ref{fig:choos:apsipa:pdf_theta_phi} led to marks indistinguishable from the plain red line.}
+	\caption[The \gls{rmse} on $\varphi$ estimation as a function of \gls{snrdb} for various $\sigma_p$ values.]{The \gls{rmse} on $\varphi$ estimation as a function of \gls{snrdb} for various $\sigma_p$ values. In the absence of phase noise---\ie{} the black, continuous line (\rule[.5ex]{1em}{1pt})---a linear regression can be performed for $\text{\gls{snrdb}} \geq -20$~dB, yielding the displayed equation and associated determination coefficient. As indicated, all calculations were performed taking $N$=1000 points. Simulated values were computed using only $10^2$ realisations so that some dispersion is perceivable. Indeed, using $10^6$ realisations as was done in Figure~\ref{fig:choos:apsipa:pdf_theta_phi} led to marks indistinguishable from the plain red line.}
 	\label{fig:choos:apsipa:rmse_f_snr_db}
 \end{figure}
 
@@ -1504,7 +1504,7 @@ The influence of $N$ on $\widehat{\varphi}$ \gls{rmse} is presented in Figure~\r
 \begin{figure}
 	\centering
 	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/rmse_f_snr_db_n}
-	\caption{The \gls{rmse} on $\varphi$ estimation as a function of \gls{snrdb} and $N$, with $\sigma_p$=1{\degree}.}
+	\caption[The \gls{rmse} on $\varphi$ estimation as a function of \gls{snrdb} and $N$.]{The \gls{rmse} on $\varphi$ estimation as a function of \gls{snrdb} and $N$, with $\sigma_p$=1{\degree}.}
 	\label{fig:choos:apsipa:rmse_f_snr_db_n}
 \end{figure}
 
@@ -1579,7 +1579,7 @@ For \gls{snrdb} values below approximately $-30$~dB, the \gls{rmse} appears to b
 \begin{figure}
 	\centering
 	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/asympt_unif_pdf}
-	\caption{$g_0(\theta)$ for different \gls{snrdb} values. For increasing \gls{snrdb} values, $g_0(\theta)$ converges towards a uniform distribution. $N$=1000, $\sigma_p$=0.}
+	\caption[$g_0(\theta)$ for different \gls{snrdb} values.]{$g_0(\theta)$ for different \gls{snrdb} values. For increasing \gls{snrdb} values, $g_0(\theta)$ converges towards a uniform distribution. $N$=1000, $\sigma_p$=0.}
 	\label{fig:choos:apsipa:pdf_g_uniform}
 \end{figure}
 
@@ -1596,7 +1596,7 @@ In other words, $g_0(\theta)$ can be approximated by a uniform distribution on t
 \begin{figure}
 	\centering
 	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/asympt_unif_divergence}
-	\caption{The Kullback-Leibler divergence between $g_0(\theta)$ and a uniform distribution as a function of \gls{snrdb}. The inset shows the same data on a logarithmic scale. $N$=1000, $\sigma_p$=0.}
+	\caption[The Kullback-Leibler divergence between $g_0(\theta)$ and a uniform distribution as a function of \gls{snrdb}.]{The Kullback-Leibler divergence between $g_0(\theta)$ and a uniform distribution as a function of \gls{snrdb}. The inset shows the same data on a logarithmic scale. $N$=1000, $\sigma_p$=0.}
 	\label{fig:choos:apsipa:bhata_dist_uniform}
 \end{figure}
 
@@ -1614,7 +1614,7 @@ The observed linear relationship between the \gls{rmse} and the \gls{snr} can be
 \begin{figure}
 	\centering
 	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/asympt_phase_noise_pdf}
-	\caption{Normalised probability density functions: $g_0(\theta)$ is plotted with its associated simplified Gaussian model. For \gls{snrdb} above $-10$~dB, $g_0(\theta)$ becomes indistinguishable from its Gaussian approximation. $N$=1000, $\sigma_p$=0.}
+	\caption[$g_0(\theta)$ and its associated simplified Gaussian model.]{Normalised probability density functions: $g_0(\theta)$ is plotted with its associated simplified Gaussian model. For \gls{snrdb} above $-10$~dB, $g_0(\theta)$ becomes indistinguishable from its Gaussian approximation. $N$=1000, $\sigma_p$=0.}
 	\label{fig:choos:apsipa:asympt_linear_pdf}
 \end{figure}
 
@@ -1640,7 +1640,7 @@ Thus, for high enough \gls{snr} values, $g_0(\theta)$ can be reasonably well app
 \begin{figure}
 	\centering
 	\includegraphics{1_main_matter/choos_figures/apsipa/tikz/out/asympt_phase_noise_divergence}
-	\caption{The Kullback-Leibler divergence (KL) and Bhattacharyya distance (Bhat.) between $g_0(\theta)$ and its Gaussian approximation as a function of \gls{snrdb}. The inset shows the same data on a logarithmic scale. $N$=1000, $\sigma_p$=0.}
+	\caption[The Kullback-Leibler divergence and Bhattacharyya distance between $g_0(\theta)$ and its Gaussian approximation as a function of \gls{snrdb}.]{The Kullback-Leibler divergence (KL) and Bhattacharyya distance (Bhat.) between $g_0(\theta)$ and its Gaussian approximation as a function of \gls{snrdb}. The inset shows the same data on a logarithmic scale. $N$=1000, $\sigma_p$=0.}
 	\label{fig:choos:apsipa:asympt_linear_divergence}
 \end{figure}
 
